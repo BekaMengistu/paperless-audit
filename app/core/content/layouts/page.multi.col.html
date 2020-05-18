@@ -1,0 +1,61 @@
+<script type="text/ng-template" id="_layout.list.html">
+	<div>List</div>
+	<a ng-repeat="item in [1,2,3,4,5,6]" ui-sref="app.core.layout2.item{{$index}}"><div class="box p-a">Item {{item}}</div></a>
+	<a ui-sref="app.core.layout2.list.item1"><div class="box p-a">Item 2</div></a>
+</script>
+<script type="text/ng-template" id="_bmui-view.html">
+	<div ui-view>Ui-View Test</div>
+</script>
+
+<div class="app-layout text-{{app.Manager.UIManager.activeColorTheme.primary}}-hover">
+	<div class="page-header-2 {{app.Manager.UIManager.activeColorTheme.primary}}" style="">
+		<div class="pull-right p-x p-t-sm" ngs-if="template.page.tool">
+			
+			<div ngs-include="template.page.tool">
+				Page tool {{$state.current.data.pageTool}}
+			</div>
+		</div>
+		<div class="p-l-lg p-t" style="color:#FFF;">
+			<h4>
+				<span class="_600">{{$state.current.data.pageTitle}} </span>
+				<span style="font-size:0.7em;" ng-bind-html="$state.current.data.pageSubTitle"></span> 
+				<small class="page-sub-title" style="font-size:0.6em;">{{template.page.subTitles}}</small>
+			</h4>
+			{{$state.current.data}}
+		</div>
+	</div>
+	<div class="app-body-inner-2">
+		<div class="row-col row-col-xs" ngs-if="dataLoaded">
+			<div ng-repeat="col in {sidebar:{width:3,name:'sidebar'},main:{width:9,name:'main'}}" class="col-sm-12 col-md-{{col.width}} section {{!col.header?'no-header':''}} {{col.class}}" >
+				<div class="row-col section-inner {{col.innerClass}}" >
+					<div class="col-header {{col.header.class}}" ngs-if="col.header">
+						<div class="{{col.header.color}}" ng-if="col.header.template" ng-include="col.header.template">
+						</div>
+						<div ng-if="!col.header.template" class="col-header-inner text-md" ng-bind-html="$state.current.data[col.name].title">
+							{{col.name}} head
+							<div class="text-md _300s  p-t-xs p-l" ngs-bind-html="col.header.title">{{$state.current.data[col.name].title}}</div>
+							
+						</div>
+						
+					</div>
+					<div class="row-row {{col.content.class}}">
+						<div class="row-body scrollable p-t-lg">
+							<div class="row-inner">
+								<div>
+									<div class="content-inner {{col.content.color}}" ng-include="$state.current.data[col.name].body">
+										{{col.name}} body
+										<br/>
+										{{$state.current.data[col.name]}}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div ng-if="col.footer" class="p-a-xs b-t text-center {{col.footer.class}}" ngs-include="template.listMenu">
+						Column Menu
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

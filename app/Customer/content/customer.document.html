@@ -1,0 +1,21 @@
+<div class="padding">
+	
+    
+	<div class="debug">{{documentManager.treeManager.tree.length}}</div>
+    
+    <div ng-show="!documentManager.entityDocStatus.documentLoaded" class="box dker p-a">
+    	<h3>Customer Documents</h3>
+    	<div ng-show="documentManager.entityDocStatus.templateLoaded">
+        	<span class="debugs"><strong>Template: </strong> {{documentManager.entityDocStatus.templateInfo.template.data.document_name}} </span><br/>
+            <span class="debugs"><strong>Target: </strong> {{documentManager.entityDocStatus.templateInfo.target.data.document_name}} </span><br/>
+        	<button ng-show="documentManager.entityDocStatus.templateInfo.template && documentManager.entityDocStatus.templateInfo.target" class="btn btn-default primary" ng-click="createDocumentFromTemplate()">Create</button>
+            
+        	<div ng-hide="documentManager.entityDocStatus.templateInfo.template && documentManager.entityDocStatus.templateInfo.target">
+            	Could not locate necessary files for document creation. <br/>
+                No template or target was defined..<br/>
+            </div>    
+        </div>
+    </div>
+    
+    <div ng-if="documentManager.entityDocStatus.documentLoaded" ng-include="'app/Document/content/document.list.detail.html'"></div>
+</div>

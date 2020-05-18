@@ -1,0 +1,26 @@
+<div class="padding" bm-ui-permission="app.crud.app_setting.edit" login-user="app.loginUser">
+    <div class="box">
+        <div class="box-header {{app_settingManager.formData.detail.headerStyle}}">
+            <h2>Audit App Settings</h2>
+            <small>Set value for the audit application</small>
+        </div>
+        <div class="box-tool">
+            <button uib-tooltip="Save" ng-click="saveSettings()"
+                    	class="btn btn-primary btn-sm"><i class="fa fa-floppy-o"></i></button>
+            &nbsp;
+           
+        </div>
+        <div class="box-body ">
+            <form>
+            	<div class="row" ng-repeat="st in auditAppSettingVars">
+                	<div class="col-sm-6">
+                        <div class="md-form-group">
+                            <input class='md-input' ng-model='auditAppSettings[st.name].setting_value' required>
+                            <label>{{st.label}} </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

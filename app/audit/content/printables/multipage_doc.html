@@ -1,0 +1,26 @@
+<div class="min-a4 " >
+    <div ng-show="activeDocument.param.header != 'none'" >
+    	<div ui-include="'app/audit/content/printables/letterhead.html'"></div>
+    </div>
+    <div class="first-content"></div>
+    <table style="width:100%;">
+        <thead>
+            <tr>
+                <td class="dkers">.</td>
+            </tr>
+        </thead>
+        <tr>
+            <td  class="t-a-j l-h-2" style="padding-left:2cm; padding-right:2cm;">
+            	
+                <div ui-include="doc.contentPath"></div>
+            </td>
+        </tr>
+        <tfoot>
+            <tr>
+                <td class="dkers" style="color:#FFE;">.</td>
+            </tr>
+        </tfoot>
+    </table>
+    
+    <div ng-if="activeDocument.param.footer != 'none'"><div  ui-include="'app/audit/content/printables/footer-qr.html'"></div></div>
+</div>

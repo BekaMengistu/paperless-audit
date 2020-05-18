@@ -1,0 +1,66 @@
+<div class="popover left" style="max-width:420px;" tabindex="-1" ngs-show="content">
+    <div class="arrow right b-white right">
+    </div>
+    
+    <h3 class="popover-title" ngs-bind-html="title" ngs-show="title">Configure</h3>
+    <div class="popover-content" style="min-width:400px;">
+        <div class="md-form-group" ng-show="activeDocument.config.copy" >
+            <select class='md-input'   ng-model="printableParams.copy" ng-change="setDocParam(activeDocument)" ng-options="opt for opt in ['Draft','Original']">
+            </select>
+            <label>Copy</label>
+        </div>
+        <div class="md-form-group" ng-show="activeDocument.config.header">
+            <select class='md-input'   ng-model="printableParams.header" ng-options="opt.value as opt.label for opt in headerOptionsLookup">
+            </select>
+            <label>Header</label>
+        </div>
+        <div class="md-form-group" ng-show="activeDocument.config.footer">
+            <select class='md-input'   ng-model="printableParams.footer" ng-options="opt.value as opt.label for opt in headerOptionsLookup">
+            </select>
+            <label>Footer</label>
+        </div>
+        
+                    
+    	<div class="md-form-group" ng-show="activeDocument.config.opinion"  bm-ui-permission="app.audit.can_qualify" login-user="app.loginUser" >
+            <div class="md-input">{{auditManager.currentAudit.engagementInfo.opinion}}</div>            
+            <!--
+                        <select disbaled class='md-input' ng-change="onReportOpinionChange()"  ng-model="auditManager.currentAudit.engagementInfo.opinion" ng-options="opt.value as opt.label for opt in auditOpinionLookup">
+
+                        </select>
+                        -->
+                        <label>Opinion </label>
+                    </div>
+        <div class="md-form-group" ng-show="activeDocument.config.opinion"  bm-ui-permission="app.audit.can_qualify" login-user="app.loginUser" >
+            <div class="md-input">{{auditManager.currentAudit.engagementInfo.audit_standard}}</div>            
+            <label>Audit Standard </label>
+          </div>
+         
+		<div class="md-form-group" ng-show="activeDocument.config.letter_template" >
+            
+            <select class='md-input'   ng-model="activeDocument.param.letter_template" ng-change="onLetterTemplateChange(activeDocument,activeDocument.param.letter_template)"  ng-options="opt.reference as opt.reference for opt in letter_templates">
+            </select>
+            
+            <label>Letter</label>
+        </div>                
+         
+		<div class="md-form-group" ng-show="activeDocument.config.submission_purpose" >
+            <select class='md-input'   ng-model="printableParams.submission_purpose" ng-change="setDocParam(activeDocument)" 
+            	ng-options="opt for opt in ['Audit Engagement','Bid Submission']">
+            </select>
+            <label>Submitted For</label>
+        </div>                
+         <div class="md-form-group" ng-show="activeDocument.config.watermark" >
+            <select class='md-input'   ng-model="printableParams.watermark" ng-change="setDocParam(activeDocument)" 
+            	ng-options="opt.value as opt.label for opt in watermarkOptionsLookup">
+            </select>
+            <label>Watermark Style</label>
+        </div>    
+        <label for="chk_show_page_no">Show Page No </label> <input id="chk_show_page_no" type="checkbox" ng-model="activeDocument.param.showPageNo" />      
+              
+        <div class="form-actions" style="text-align:right;">
+            <button type="button" class="btn btn-primary" ng-click="setDocParam(activeDocument); $hide()"><i class="fa fa-check"></i></button>
+            <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="fa fa-times"></i></button>
+        </div>      
+    </div>
+
+</div>

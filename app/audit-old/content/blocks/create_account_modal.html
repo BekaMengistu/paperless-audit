@@ -1,0 +1,23 @@
+<div id="modal_create_account" class="modal" data-backdrop="true">
+    <div class="modal-dialog modal-lg" ngs-if="adjustment_window_displayed">
+        <div class="modal-content" >
+            <div class="modal-header dker">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <h5 class="modal-title">Create Account</h5>
+            </div>
+            <div class="modal-body" style="height:300px; overflow:scroll;">
+            	<div>
+                <div  ng-include ="'app/audit/content/blocks/client_account_fields.html'" ngs-include-replace>
+</div>
+                </div>
+            </div>
+            <div class="modal-footer dker">
+            	<button class="btn primary p-x-md" ng-disabled="!editedAccount.account_id || !editedAccount.account_description" 
+                	type="submit" ng-click="saveNewAccount()" ><i class="fa fa-floppy-o"></i></button>
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Cancel</button>
+                
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

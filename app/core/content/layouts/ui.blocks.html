@@ -1,0 +1,105 @@
+<script type="text/ng-template" id="_bmpage-header.html">	
+	<div class="page-header-2 {{app.Manager.UIManager.activeColorTheme.primary}}" style="">
+		<div class="pull-right p-x p-t-sm" ngs-if="template.page.tool">
+			<div ng-if="$state.current.data.pageTool" ng-include="$state.current.data.pageTool">
+				Page tool {{$state.current.data.pageTool}}
+			</div>
+		</div>
+		<div class="p-l-lg p-t" style="color:#FFF;">
+			<h4>
+				<span class="_600">{{app.organization.name}} {{$state.current.data.pageTitle}} </span>
+				<span style="font-size:0.7em;" ng-bind-html="$state.current.data.pageSubTitle"></span> 
+				<small class="page-sub-title" style="font-size:0.6em;">{{template.page.subTitles}}</small>
+			</h4>
+			{{$state.current.datas}}
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="_layout.list.html">
+	<div>List</div>
+	<a ui-sref="app.core.layout2"><div class="box p-a">Back</div></a>
+	<div class="p-l">
+		<a ng-repeat="item in [1,2,3,4,5,6]" ui-sref="app.core.layout2.detail({item_id:$index})"><div class="box p-a">Item {{item}}</div></a>
+	</div>
+</script>
+<script type="text/ng-template" id="_bmui-view.html">
+	<div ui-view>Ui-View Test</div>
+</script>
+<script type="text/ng-template" id="_crud.tools.html">
+	<div>
+		<button class="md-btn md-fab m-b-sm  md-mini indigo" ng-click="entityManager.saveItem(entityManager.editedItem)"><i class="material-icons md-16">&#xe161;</i></button>
+		<button class="md-btn md-fab m-b-sm md-mini blue"><i class="material-icons md-20">&#xe145;</i></button>
+		<button class="md-btn md-fab m-b-sm md-mini pink"><i class="material-icons md-16"> &#xe872;</i></button>
+		<button class="md-btn md-fab m-b-sm md-mini pink"><i class="fa fa-arrow-left"></i></button>
+	</div>
+</script>
+<script type="text/ng-template" id="_transaction.tools.html">
+	<button popover-trigger="mouseenter" popover-placement="left" uib-popover="Save Transaction"  ng-disabled="!transactionManager.saveTransaction" ng-click="transactionManager.saveTransaction(transactionManager.editedItem)" class="md-btn md-fab m-b-sm  md-mini info"> 
+		<i class="fa fa-floppy-o"></i> 
+	</button>
+	
+	<button popover-trigger="mouseenter" popover-placement="left" uib-popover="Finalize" ng-disabled="!transactionManager.finaliseTransaction" ng-click="transactionManager.finaliseTransaction(transactionManager.editedItem)" class="md-btn md-fab m-b-sm  md-mini pink">
+	 	<i class="material-icons md-16">&#xe877;</i> 
+	</button>
+		<div class="btn-group dropdown txn-history">
+			<div class="dropdown inline">
+				<button type="button" class="btn btn-circle-40 white" ng-disabled="!(dtoManager.editedItem.parents.length)" data-toggle="dropdown"><i class="fa fa-arrow-left"></i></button>
+				<ul class="dropdown-menu animated pull-right">
+					<li class="dropdown-item" ng-repeat="child in dtoManager.editedItem.parents"> <a class="text-ellipsis" ui-sref='{{dtos[child.type].url}}({ {{dtos[child.type].id}}: {{child.source_id}} })'>{{child.memo}}</a> </li>
+				</ul>
+			</div>
+			<div class="dropdown inline">
+				<button type="button" data-toggle="dropdown" class="btn btn-circle-40 white" ng-disabled="!(dtoManager.editedItem.children.length)"><i class="fa fa-arrow-right"></i></button>
+				<ul class="dropdown-menu animated pull-right">
+					<li class="dropdown-item" ng-repeat="child in dtoManager.editedItem.children"> <a class="text-ellipsis" ui-sref='{{dtos[child.type].url}}({ {{dtos[child.type].id}}: {{child.source_id}} })'>{{child.memo}}</a> </li>
+				</ul>
+			</div>
+		</div>
+</script>
+
+<script type="text/ng-template" id="_sidebar_entity_list.html">
+
+	<a class="list-item pointer non-select" ng-repeat="item in entityManager.items | filter:entityManager.query | orderBy:'transaction_date2'  track by $index"
+			uis-sref="{{entityManager.listEditor.url}}({inventory_movement_id:item.inventory_movement_id})" ng-click="entityManager.navigateToDetail(item)" >
+		
+		<div class="list-body">{{$index}} {{item}}
+			{{item.name}}<small class="block"> {{item.description}}</small>
+		</div>
+	</a>
+</script>
+
+<script type="text/ng-template" id="_transaction_list.html">
+	<a class="list-item pointer non-select" ng-repeat="item in transactionManager.items | filter:entityManager.query | orderBy:'transaction_date2'  track by $index"
+			uis-sref="{{transactionManager.listEditor.url}}({inventory_movement_id:item.inventory_movement_id})" ng-click="transactionManager.navigateToDetail(item)" >
+		
+		<div class="list-body">
+			{{item.memo}}<small class="block"><i class="fa fa-calendar m-r-sm text-muted"></i>{{item.transaction_date|date}}</small>
+		</div>
+	</a>
+</script>
+<script type="text/ng-template" id="_transaction.detail.header.html">
+	<div class="col-title"> <span class="debug"> [{{dtoManager.editedItem.type}}] </span>{{transactionManager.editedItem.memo}} 
+	<i class="text-muted text-sm">{{transactionManager.transactionType}}</i>
+	</div>
+</script>
+
+<script type="text/ng-template" id="_entity.list.query.html">
+	<div class="input-group">
+		<span class="input-group-addon no-border no-bg"><i class="fa fa-search"></i></span>
+		<input type="text" ng-model="entityManager.query" class="form-control no-border no-bg" placeholder="Search">
+		<span class="input-group-btn" style="font-size:20px;">
+            <button class="md-btn md-fab m-b-sm md-mini white" ng-click="entityManager.navigateToDetail(0)"  type="button"><i class="fa fa-plus" ></i></button>
+          </span>
+					
+	</div>
+</script>
+
+<style>
+	
+	.txn-history {height:40px;border-radius:20px;border:solid 2px #FFF; display:inline-block; padding:2px;}
+	.txn-history .btn-circle-40 {
+		width:32px; height:32px; border:none; border-radius:50%; text-align:center;padding:0; color:#333;
+	border-bottom-right-radius:16px !important; border-bottom-left-radius:16px !important;
+	border-top-right-radius:16px !important; border-top-left-radius:16px !important;
+	}
+</style>

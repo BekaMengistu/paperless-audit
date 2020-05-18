@@ -1,0 +1,107 @@
+
+<div class="navside none-print white r box-shadow-z0 m-b hover-top folded nav-dropdown show-text w-xs" layout="column" style="height: 680px;displays:none;" >
+    <div class="nav-stacked nav-active-accent" flex="">
+        <ul class="nav ng-scope" style="margin:0 0;" ui-nav="">
+            <li class="nav-header hidden-folded"> <span class="text-xs text-muted">[Company]</span> </li>
+            <li ui-sref-active="active" ngs-class="{active:$state.includes('app.audit.detail.edit')}"> 
+            	<a ui-sref="app.audit.detail.edit.basic"> 
+                	<span class="nav-caret text-muted"> <i class="fa fa-caret-down"></i> </span> 
+
+                    <span class="nav-icon"><i class="fa fa-edit"> </i> </span> <span class="nav-text">Data Input</span> </a>
+                
+                
+            </li>
+            <li ui-sref-active="active" ng-if="formManager.formSections.length" ng-class="{active:$state.includes('app.audit.detail.edit')}"> 
+            	<a> 
+                	<span class="nav-caret text-muted"> <i class="fa fa-caret-down"></i> </span> 
+                    <i class="nav-label"><b class="label label-sm no-bg">{{formManager.formSections.length}}</b></i> 
+               <span class="nav-icon"><i class="fa fa-newspaper-o"> </i> </span> <span class="nav-text">Forms</span> 
+                </a>
+                
+                <ul class="nav-sub">
+                	<li ng-repeat="section in formManager.formSections">
+                    	<a ui-sref="app.audit.detail.edit.form({form_section_id:section})" ngs-click="formManager.setCurrentSection(section)">
+                        	<span class="nav-text">{{section}}</span></a> 
+                    </li>
+
+                </ul>
+                
+            </li>
+            <li ui-sref-active="active" ng-if="!formManager.formSections.length"> 
+            	<a ng-click="createAuditForm()"> 
+                    <span class="nav-icon"><i class="fa fa-newspaper-o"> </i> </span> <span class="nav-text">Create Form</span> 
+                </a>
+                
+                
+            </li>
+            
+            <li class=""><div class="b-b b m-v-sm"></div></li>
+            <li ui-sref-active="active" bm-ui-permission="app.audit.input_files" login-user="app.loginUser"> 
+            	<a  ui-sref="app.audit.detail.input_files"> 
+                	<span class="nav-icon"> <i class="material-icons md-24">&#xe890;</i></span> 
+                    <span class="nav-text">Input Docs</span> 
+                </a> 
+            </li>
+            
+            <li ui-sref-active="active" bm-ui-permission="app.audit.mapping" login-user="app.loginUser" ng-show="auditManager.currentAudit.clientTB.length"> 
+            	<a  ui-sref="app.audit.detail.mapping" > 
+                	<span class="nav-icon"> <i class="fa fa-th-list"> </i> </span> 
+                    <span class="nav-text">Mapping</span> 
+                </a> 
+            </li>
+            <li ui-sref-active="active" bm-ui-permission="app.audit.substantive" login-user="app.loginUser" ng-hide="!(auditManager.currentAudit.clientTB.length)"> 
+            	<a ui-sref="app.audit.detail.substantive"> 
+                	<span class="nav-icon"> <i class="fa fa-sitemap"> </i> </span> 
+                    <span class="nav-text">Substantive</span> 
+                </a> 
+            </li>
+            <li ui-sref-active="active" ng-show="auditManager.currentAudit.clientTB.length" bm-ui-permission="app.audit.adjustment" login-user="app.loginUser"> 
+            	<a ui-sref="app.audit.detail.adjustments"> 
+                	<span class="nav-icon"> <i class="fa fa-sliders"> </i> </span> 
+                    <span class="nav-text">Adjustments</span> 
+                </a> 
+            </li>
+            <li ui-sref-active="active" ng-show="auditManager.currentAudit.clientTB.length" bm-ui-permission="app.audit.qualification" login-user="app.loginUser"> 
+            	<a ui-sref="app.audit.detail.qualification"> 
+                	<span class="nav-icon"> <i class="fa  fa-list-ul"> </i> </span> 
+                    <span class="nav-text">Qualification</span> 
+                </a> 
+            </li>
+            <li ui-sref-active="active" bm-ui-permission="app.audit.summary" login-user="app.loginUser" ngs-show="auditManager.currentAudit.clientTB.length"> 
+            	<a ui-sref="app.audit.detail.summary"> 
+                	<span class="nav-icon"> <i class="fa fa-globe"> </i> </span> 
+                    <span class="nav-text">Summary</span> 
+                </a> 
+            </li>
+            
+            <li ui-sref-active="active" bm-ui-permission="app.audit.documents" login-user="app.loginUser" ng-shows="auditManager.currentAudit.clientTB.length"> 
+            	<a ui-sref="app.audit.detail.files"> 
+                	<span class="nav-icon"> <i class="fa fa-folder"> </i> </span> 
+                    <span class="nav-text">Documents</span> 
+                </a> 
+            </li>
+            
+            <li ui-sref-active="active"  bm-ui-permission="app.audit.discussion" login-user="app.loginUser"> 
+            	<a ui-sref="app.audit.detail.discussion"> 
+                	<span class="nav-icon"> <i class="fa fa-comments"> </i> </span> 
+                    <span class="nav-text">Discussion</span> 
+                </a> 
+            </li>
+            <li ui-sref-active="active" bm-ui-permission="app.audit.printables" login-user="app.loginUser"> 
+            	<a ui-sref="app.audit.detail.printables"> 
+                	<span class="nav-icon"> <i class="fa fa-print"> </i> </span> 
+                    <span class="nav-text">Printables</span> 
+                </a> 
+            </li>
+            
+            <li ui-sref-active="active" ng-show="auditManager.currentAudit.clientTB.length"> 
+            	<a href ng-click="loadAllData()"> 
+                	<span class="nav-icon"> <i class="fa fa-refresh"> </i> </span> 
+                    <span class="nav-text">Refresh</span> 
+                </a> 
+            </li>
+             
+            
+        </ul>
+    </div>
+</div>

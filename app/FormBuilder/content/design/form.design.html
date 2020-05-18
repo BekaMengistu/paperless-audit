@@ -1,0 +1,41 @@
+<script type="text/ng-template" id="form.design.tools.html">
+    <div class="btn-group dropdown">
+                <button class="md-btn md-fab m-b-sm md-mini green" uib-tooltip="Add Fields" data-toggle="dropdown"><i class="fa fa-plus"></i></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','object')">Object</a>
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','grid')">Table Grid</a>
+                </div>
+    </div>
+
+
+    <a target="formFill"   ui-sref="app.tools.form.fill.list({form_template_id:entityManager.editedItem.form_template_id})" 
+       class="btn md-btn md-fab m-b-sm  md-mini white text-info"
+       uib-tooltip="Form fill"> <i class="fa fa-edit"></i></a>
+
+    &nbsp; &nbsp;
+
+    <span ng-include="'crud.tools.html'" ng-include-replace></span>
+</script>
+
+<div ng-include="'app/core/templates/page.multi.col.html'"></div>
+
+<script type="text/ng-template" id="form.design.detail.header.html">
+	<div class="p-y-xs p-l p-r">
+	<div class="pull-right p-r-md" style="display: none;">
+        <div class="btn-group">
+    
+        
+		  <div class="btn-group dropdown">
+                <button class="btn btn-xs primary" uib-tooltip="Add Fields" data-toggle="dropdown"><i class="fa fa-plus"></i></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','object')">Object</a>
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','grid')">Table Grid</a>
+                </div>
+            </div>
+		<a uib-tooltip="Fill Form" target="formFill"   class="btn white btn-xs" 
+           ui-sref="app.tools.form.fill.list({form_template_id:entityManager.editedItem.form_template_id})"><i class="fa fa-edit"></i></a>
+            </div>
+	</div>
+	<div class="text-md">{{entityManager.editedItem.label}} {{entityManager.editedItem.form_template_id}}</div>	
+	</div>
+</script>

@@ -1,0 +1,27 @@
+<table class="table table-condensed table-striped table-hover m-b-none"  data-filter="#filter_AuditClientTrialbalance" data-page-size="5">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Account</th>
+            <th>Grouping</th>
+            <th class="number">Debit</th>
+            <th class="number">Credit</th>
+            <th class="number">LFP Bal</th>
+						<th>ALY</th>
+            <th>Adj</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in auditManager.currentAudit.clientTB track by $index">
+            <td id="{{item.full_id}}"><small>{{item.full_id}}</small></td>
+						
+            <td>{{item.account_description}}</td>
+            <td >{{relationshipManager.objHash["GK"+item.parent_code].label}}</td>
+            <td class="number">{{item.debit|number:2}}</td>
+            <td class="number">{{item.credit|number:2}}</td>
+            <td class="number">{{item.last_fye_balance|number:2}}</td>
+            <td><span ng-show="(item.adjustedBalace.debit-item.adjustedBalace.credit)==item.adjustedBalace.balance">ALY</span></td>
+						<td style="font-size:.7em;"><a ng-repeat="adj in item.adjustments" href="#{{adj.full_id}}">{{adj.full_id}} &nbsp;</a></td>
+        </tr>
+    </tbody>
+</table>

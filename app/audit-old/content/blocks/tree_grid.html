@@ -1,0 +1,118 @@
+<script type="text/ng-template" id="tree_acct_status.html">
+<span style="font-size:12px;">
+	
+	<input type="checkbox" ng-model="node.data.accountStatus.sampled" ng-change="onAccountStatusChange(node,'sampled')" title="Sampled"/>
+	<input type="checkbox" ng-model="node.data.accountStatus.vouched" ng-change="onAccountStatusChange(node)" title="Vouched"/>
+	<div class="btn-group btn-group-sm dropdown">
+        <a  types="button" class="p-x-x btns btns-sm {{node.data.findingsCount/1?'text-primary':''}}" data-toggle="dropdown">&nbsp;<i class="fa fa-bars"></i>&nbsp;</a>
+        <ul class="dropdown-menu animated info">
+            <li class="dropdown-item" ng-click="onAccountFindingClick(node)"><a href><i class="fa fa-edit"></i> Audit Work</a></li>
+            <li class="dropdown-item" ng-show="node.isAccountParent" ng-click="onCreateNewAccount(node)"><a href><i class="fa fa-plus"></i> Add Account</a></li>
+			
+            <li class="dropdown-item" ng-hide="node.data.objType!='acct'"  ng-click="onAdjustmentClick(node)"><a href><i class="fa fa-sliders"></i> Adjustment</a> </li>
+			<li class="dropdown-item" ng-hide="node.data.objType!='acct'"  ng-click="onRegroupClick(node,$index)"><a href><i class="fa fa-mail-forward"></i> Regroup</a></li>
+			<li class="dropdown-item" ng-hide="node.data.objType!='acct'"  ng-click="onApplySamplingClick(node,$index)"><a href><i class="fa fa-check"></i> Apply Sampling</a></li>
+        </ul>
+		<a  ng-click="onExtraDataClick(node)" class="p-x-x" ng-show="node.extraDataType">
+			&nbsp;<i class="fa  fa-eye"></i>&nbsp;
+		</a>
+    </div>
+	<span style="display:none;" ng-show="node.data.findingsCount" class="label rounded label-md primary">{{node.data.findingsCount}}</span> 
+	
+    <span ng-show="node.data.disclosureNotes.length" class="label rounded label-md danger">{{node.data.disclosureNotes.length}}</span>
+    
+    <span style="displays:none;" ng-show="node.data.workingProcedures.length" class="label rounded label-md info">{{node.data.workingProcedures.length}}</span>
+</span>
+</script>
+
+<script type="text/ng-template" id="tree.html">
+<div classs="row no-gutter" ng-show="((!filter.hide_novalue) || (node.data[balanceType].debit || node.data[balanceType].credit || node.data[balanceType].balance)/1) && (filter.reconsiled=='any' || node.data.accountStatus.reconsiled==filter.reconsiled) && (filter.sampled=='any' || node.data.accountStatus.sampled==filter.sampled)  && (filter.vouched=='any' || node.data.accountStatus.vouched==filter.vouched) " style="padding-left:0;padding-right:0;">
+	<div class="row no-gutter  b-b acct-line node-{{node.data.objType}}">
+		<div class="col-md-1 texts-ellipsis">
+			<div ng-if="!node.data.is_summary"  ng-include ="'tree_acct_status.html'" ng-include-replace></div>
+		</div>
+		
+		<div class="col-md-5 text-ellipsis"  style="padding-left:0;padding-right:0;" ng-dblclick="onAccountFindingClick(node)">
+			<span class="indent-level-{{node.level}}">&nbsp;</span>
+			<a ng-show="node.children.length  || (node.data.txnCount/1)" href ngs-click="filter.expanded[node.id]=!filter.expanded[node.id]" ng-click="toggleChildView(node)"> 
+				<i class="fa fa-angle-{{filter.expanded[node.id]?'down':'right'}}"></i>
+			</a>
+			<a ng-if="node.data.objType=='txn' && !node.data.is_summary" class="text-muted" href ngs-click="toggleChildView(node)"> 
+                <i class="fa  fa-circle-o"></i> </a>
+			<span ng-if="node.data.objType=='txn' && node.data.is_summary"> &nbsp; &nbsp; &nbsp; &nbsp;</span>
+			<span ng-if="!node.data.is_summary">{{node.label}}  <small class='text-sm' ng-show="node.data.objType=='acct'"> [{{node.data.account_id}}]</small></span>
+			<span ng-if="node.data.is_summary" class='text-muted'>{{node.label}}  </span>
+			<span ng-show="node.data.adjustments.length" class="label rounded label-md warn">{{node.data.adjustments.length}}</span>
+			<div ng-if="node.data.objType=='txn' && !node.data.is_summary" ngs-show="node.expanded" class="indent-level-{{node.level+1}} text-muted" style="font-size: 0.8em">
+				<strong>Txn Ref.: </strong>{{node.data.reference}}
+				<strong>Txn Date: </strong>{{node.data.txn_date | date}}
+				
+			</div>
+			
+			
+		</div>
+		<div class="col-md-6">
+			<div calss="row no-gutter">
+				<div class="col-md-3 number">
+					<span ng-if="node.data.objType!='txn'">{{node.data[balanceType].debit | number:2}}</span>
+					<span ng-if="node.data.objType=='txn'">{{node.data.debit | number:2}}</span>
+				</div>
+				<div class="col-md-3 number">
+					<span ng-if="node.data.objType!='txn'">{{node.data[balanceType].credit | number:2}}</span>
+					<span ng-if="node.data.objType=='txn'">{{node.data.credit | number:2}}</span>
+				</div>
+				
+				<div class="col-md-3 number">
+					<span ng-if="node.data.objType!='txn'">{{node.data[balanceType].balance | number:2}}</span>
+					<span ng-if="node.data.objType=='txn'">{{node.data.balance | number:2}}</span>
+				
+				</div>
+                <div class="col-md-3 number">
+					<span ng-if="node.data.objType!='txn'">{{node.data[balanceType].year2_balance | number:2}}</span>
+				
+			         <span class="pull-right" ng-if="!node.data.is_summary"> &nbsp;
+			         <input type="checkbox" ng-model="node.data.accountStatus.reconsiled" 
+                            ng-change="onAccountStatusChange(node)" title="Reconsiled" />
+				    </span>
+				</div>
+                
+			</div>
+		</div>
+	</div>
+    <div ng-if="filter.expanded[node.id]" class="tree-child" style="padding-left:0;padding-right:0;">
+        <div  ng-repeat="node in node.children" styles="font-size:0.95em" ng-include ="'tree.html'" ngs-include-replace>
+        </div>
+    </div>
+</div>
+</script> 
+
+
+<div class="paddingsss p-x-sm">
+    <div class="row no-gutter  b-b tree-header dkers">
+    	<div class="col-md-1">
+            
+        </div>
+        <div class="col-md-5">
+            Description
+        </div>
+        <div class="col-md-6" >
+            <div row no-gutter>
+                <div class="col-md-3 number">
+                    Debit
+                </div>
+                <div class="col-md-3 number">
+                    Credit
+                </div>
+                <div class="col-md-3 number">
+                    Bal-{{auditManager.currentAudit.engagementInfo.lastYearLabel}}
+                </div>
+                <div class="col-md-3 number">
+                    Bal-{{auditManager.currentAudit.engagementInfo.year2Label}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="account-tree" ng-repeat="node in currentTree" data-level={{acctLevel=1}}  ng-include ="'tree.html'">
+    </div>
+</div>
+

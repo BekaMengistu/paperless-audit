@@ -1,0 +1,17 @@
+<div class="row" ng-controller="MessagingController">
+	
+    <div class="col-sm-12" ng-hide="discussionManager.editedDiscussion.discussion_id" >
+		<h4>No Discussion</h4>
+    	Sorry we could not find any discussions. <button class="btn primary" ng-show="messagingOptions.createIfNotFound" ng-click="createDiscussion(messagingOptions)">Create it Now</button>
+	</div>
+
+
+    <div ng-if="messagingOptions.showDiscussionList"  class="col-md-4">
+    	<div ng-include="'app/Messaging/content/discussion.list.html'"></div>
+	</div>
+    <div class="col-md-8">
+	    <div ng-include="'app/Messaging/content/message.list.html'"></div>
+	</div>
+    
+    
+</div>

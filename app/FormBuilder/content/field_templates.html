@@ -1,0 +1,109 @@
+<script type="text/ng-template" id="spacer.html">
+</script>
+<script type="text/ng-template" id="default_fld.html">
+	<div class="md-form-group float-label" ngs-if="fld.data_type!='spacer'">
+		<span data-index="{{value_index=fld.index/1}}" ng-include ="fld.template.field" ng-include-replace></span>
+        <label>{{fld.label}} {{fld.form_field_template_id}}</label>
+	</div>
+</script>
+
+<script type="text/ng-template" id="customer_box.html">
+	<div class="box box-radius-3x  light">{{fld.label}} <span data-index="{{value_index=fld.index/1}}" ng-include ="fld.template.field" ng-include-replace></span></div>
+</script>
+
+<script type="text/ng-template" id="readonly_text.html">
+	<div  class='b-b'><strong>{{fld.value[value_index].value}} </strong></div>
+</script>
+
+
+<script type="text/ng-template" id="default_text.html">
+	<input class='md-input' data-index="{{value_index=fld.index/1}}" ng-blur="onFormValueChange(fld,value_index,container,field_name)" placeholders="{{fld.name}},{{value_index}}" ng-model="fld.value[value_index].value"  ng-required="fld.required/1">
+</script>
+
+<script type="text/ng-template" id="lookup.html">
+	<select ng-if="fld.lookup_id" ng-change="onFormValueChange(fld,value_index)"  class='md-input' data-index="{{value_index=fld.index/1}}" ng-model="fld.value[value_index].value" 
+                        	ng-options="opt.name as opt.description for opt in formManager.customLookups.lookupValues[fld.lookup_id]"></select>
+</script>
+
+
+<script type="text/ng-template" id="checkbox.html">
+	<input type="checkbox" data-index="{{value_index=fld.index/1}}" class='md-input' ng-model="fld.value[value_index].value"  ng-required="fld.required/1">
+</script>
+
+<script type="text/ng-template" id="textarea.html">
+	<textarea  class='md-input' data-index="{{value_index=fld.index/1}}" ng-model="fld.value[value_index].value"  ng-required="fld.required/1"></textarea>
+</script>
+<script type="text/ng-template" id="date.html">
+<input type="text" size="8" class="md-input" 
+                  data-index="{{value_index=fld.index/1}}" ng-model="fld.value[value_index].value"
+                  data-autoclose="0" 
+                  placeholders="Date"
+                  data-icon-left="fa fa-chevron-left" 
+                  data-icon-right="fa fa-chevron-right" 
+                  bs-datepicker>
+</script>
+
+<script type="text/ng-template" id="box.html">
+	<div class="box ba">
+		<div class="box-header dker">
+			
+			<h3>{{fld.label}} {{fld.form_field_template_id}} {{fld.template}}</h3>
+		</div>
+		<div class="box-tool">
+			<button uib-tooltip="Download Excel" class="btn btn-default btn-xs" ng-click="formManager.exportToExcel([fld])"> <i class="fa fa-file-excel-o"></i></button>
+			
+			<button ng-show="fld.repeating/1"  uib-tooltip="Add new" class="btn btn-default btn-xs" ng-click="formManager.createItem(fld)"> <i class="fa fa-plus"></i></button>
+		</div>
+		<div class="box-body">
+			<div class="row" ng-include="fld.template.field"></div>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="object.html">
+	
+	<div ng-repeat="fld in fld.fields" class="col-md-{{fld.width}}" ngs-include ="'default_fld.html'" ng-include ="fld.template.container">
+	</div>
+</script>
+<script type="text/ng-template" id="object-grid.html">
+	<table class='table table-sm'> 
+		<tbody>
+			<tr ng-repeat="val in fld.fields[0].value  track by $index" data-index="{{fld_index=$index}}">
+				<td>
+					<div class="row">
+						<div ng-repeat="fld in fld.fields track by $index" class="col-md-{{fld.width}}" ng-include ="fld.template.container" ngs-include ="'default_fld.html'" data-index="{{fld.index=fld_index}}"></div>
+					</div>
+				</td>
+				<td ng-if="fld.repeating/1" style="width:50px;">
+					<button uib-tooltip="Delete" class="btn btn-danger  btn-xs" ng-click="formManager.deleteItem(fld,fld_index)"> <i class="fa fa-trash-o"></i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</script>
+<script type="text/ng-template" id="grid.html">
+	<table class='table table-sm'> 
+		<thead>
+			<tr>
+				<th>#</th>
+				<th ng-repeat="fld in fld.fields  track by $index" ng-init="field_name=fld.name">{{fld.label}} {{fld.form_field_template_id}}</th>
+				<th ng-if="fld.repeating__">
+					<button  uib-tooltip="Add new" class="btn btn-default btn-xs" ng-click="formManager.createItem(fld)"> <i class="fa fa-plus"></i></button>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="val in fld.fields[0].value  track by $index" data-index="{{val.index=fld_index=$index}}">
+				<td>{{$index+1}}</td>
+				<td ng-repeat="fld in fld.fields  track by $index">
+					<div ng-include ="fld.template.field" data-index="{{fld.index=val.index}}"></div>
+				</td>
+				<td ng-if="fld.repeating">
+					<button ng-show="$index==fld.fields[0].value.length-1"  uib-tooltip="Add new" class="btn btn-success btn-xs" ng-click="formManager.createItem(fld)"> <i class="fa fa-plus"></i></button>
+					
+					<button uib-tooltip="Delete" class="btn btn-danger  btn-xs" ng-click="formManager.deleteItem(fld,fld_index)"> <i class="fa fa-trash-o"></i></button>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</script>

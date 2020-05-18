@@ -1,0 +1,49 @@
+<table class="table table-sm m-b-none table-striped">
+	<thead>
+		<tr>
+            <td class="none-print"></td>
+			<td>REF</td>
+			<td>Audit Procedure</td>
+			<th>Audited Item</th>
+			<th>Disclosure Notes</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in  auditManager.currentAudit.disclosureNotes track by $index" 
+			data-label="{{item.audited_item_label=(relationshipManager.objHash[item.audited_item_type + item.audited_item_id].label)}}"
+            class="hover-shadow hover-target">
+                <td class="none-print">
+                    <button class="hover-show btn btn-info btn-xs" uib-tooltip="Edit" class="btn btn-info  btn-xs" 
+                            ng-click="summaryEditor.editItem(summaryItem.summaryType,item)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+            
+				<td id="DN{{item.audit_management_letter_id}}"><small>DN-{{item.audit_management_letter_id}}</small></td>
+				<td>
+					<a class="none-print text-info" ng-click="scrollTo('AP' + item.audit_procedure_id)">
+						AP-{{item.audit_procedure_id}}
+					</a>
+					<a class="print-only" href="#AP{{item.audit_procedure_id}}">
+						AP-{{item.audit_procedure_id}}
+					</a>
+				</td>
+				<td>
+					<a class="none-print text-info" ng-click="scrollTo(item.audited_item_type + item.audited_item_id)">
+						{{item.audited_item_label}}
+					</a>
+					<a class="print-only" href="#{{item.audited_item_type}}{{item.audited_item_id}}">
+						{{item.audited_item_label}}
+					</a>
+				</td>
+				<td>{{item.disclosure_note}}</td>
+		</tr>
+			
+	</tbody>
+</table>
+<script type="text/ng-template" id="summary.edit.disclosure_note.html">
+    <div class="md-form-group">
+        <textarea class='md-input' ng-model='summaryEditor.item.disclosure_note'></textarea>
+        <label>Disclosure Note</label>
+    </div>
+</script>

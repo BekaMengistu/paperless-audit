@@ -1,0 +1,239 @@
+<div class="printable printable-fs header-every-pages" bm-ui-permission="app.audit.printables.fs" login-user="app.loginUser" ng-if="fsHelper.dataLoaded">
+        <div ng-include="'financial_statement.html'"></div>
+       <!-- <div  ng-include="'page_no.html'" styles="position: fixed;"></div>-->
+        <div class="hide-if-permitted print-watermark" >
+            <div class="diagonal-watermark md-text text-danger" bm-ui-permission="app.audit.printables.fs.print" login-user="app.loginUser"> For Office Use Only </div>
+        </div>
+        <div class="fixed-footer-container" >
+            <div class="page-footer2" ng-include="'api/WebContentService/getContent/letterhead_footer_qr'"></div>
+            <div class="page-number-position">&nbsp;</div>
+            <div  ng-include="'page_no.html'" styles="position: fixed;"></div>
+        </div>
+</div>
+
+<script type="text/ng-template" id="page_no.html">
+    <div ng-repeat="pn in ['C',' ','፩',1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]" class="fs-page-number" style="top:{{297.9*($index) + 284*0}}mm;right:20mm;"><span ng-show="$index">{{pn}}</span>
+    <div ng-show="$index==0" class="qr-hider"></div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="fs_disclosure.html">
+    <div ng-repeat="l in subNote.disclosure">
+        {{l}}
+    </div>
+</script>
+
+<script type="text/ng-template" id="custome_report_grid.html">
+    <div class="none-print hover-show pull-right">
+           <button class="btn btn-sm primary" style="opacity: 0;">Design</button>
+        </div>
+    <table class="table table-condensed" >
+        <tr ng-repeat="row in r.data" class="{{row.style}} hide-row-{{!row.hasValue && !row.showZero}}" >
+            <td ng-repeat="col in row.columns" class="{{col.style}}" ng-include="fsHelper.cellTemplates['cell_'+col.type]">&nbsp;
+                
+            </td>
+        </tr>
+    </table>
+</script>
+
+<script type="text/ng-template" id="fs_cell_other.html">
+    &nbsp;{{col.value}}
+</script>
+<script type="text/ng-template" id="fs_cell_number.html">
+    &nbsp;{{col.value|number:2}}
+</script>
+
+<script type="text/ng-template" id="custome_report.html">
+    
+        <div class="none-print hover-show pull-right">
+            <button class="btn btn-sm primary" bm-ui-permission="app.audit.printables.fs.design" login-user="app.loginUser" ng-click="fsHelper.showReportDesignWindow(r.reportName)">Design</button>
+        </div>
+        
+    <table class="table table-condensed" >
+        <thead>
+        <tr>
+            <th ng-repeat="col in r.columns" 
+                ng-init="col.colDetail=fsHelper.columnDefinitions[col.field]" 
+                class="{{col.colDetail.style}} " >{{col.headerLabel}} {{audit[col.colDetail.header]}} {{col.colDetail.headerLabel}}</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in r.reportRow track by $index" 
+                class="{{row.rowStyle.style}} {{row.reportDefRow.style}} hide-row-{{!row.accountData.hasValue && !row.reportDefRow.showZero}} row-{{$index}}" >
+                <td ng-repeat="col in r.columns" class="{{col.colDetail.style}}" ng-include="col.colDetail.template">
+                </td>
+            </tr>
+        </tbody>
+        
+    </table>
+</script>
+
+<script type="text/ng-template" id="fs_acct_label_value.html">
+<!--
+    {{row.reportDefRow.account}} - {{row.accountData.data.system_name}}<br/>
+    {{row.reportDefRow.report_label}}<br/>
+-->
+    <span ng-show="row.reportDefRow.account==row.accountData.data.system_name && row.reportDefRow.report_label">    
+        {{row.reportDefRow.report_label}}
+    </span>
+    <span ng-hide="row.reportDefRow.account==row.accountData.data.system_name && row.reportDefRow.report_label"> 
+        {{row.accountData.data.report_label}}
+    </span>
+    
+</script>
+
+
+<script type="text/ng-template" id="fs_cell_value.html">
+    <span>{{row.accountData.data[col.colDetail.value]}}</span>
+</script>
+<script type="text/ng-template" id="fs_balance_value.html">
+    {{(row.accountData.data[col.colDetail.value]*row.accountData.data.normal_balance)|number:2}}
+</script>
+
+<script type="text/ng-template" id="fs_note_no.html">
+    <a class="none-print" ng-click="scrollTo('note_' + row.accountData.note.index)">&nbsp;{{row.accountData.note.index}}&nbsp;</a>
+    <a class="print-only" href="#note_{{row.accountData.note.index}}">&nbsp;{{row.accountData.note.index}}&nbsp;</a>
+</script>
+
+<script type="text/ng-template" id="fs_cover.html">
+        <div class="middle-title"> 
+    <table style="width:100%">
+        	<tr>
+            	<td class="text-right p-r" style="width:25%;" rowspan="3">
+                	<img ng-src="files/uploads/{{auditManager.currentAudit.engagementInfo.verification_code}}.png" style="height:90px;"/>
+                </td>
+                <td class="text-2x22 p-l" style="font-size:1.4em;" contenteditable="">{{audit.client_name_cap}}</td>
+            </tr>
+            <tr><td class="text-md22 p-l" style="font-size:1.1em;" contenteditable="">{{p.title}}</td></tr>
+            <tr><td class="text-md22 p-l" styles="font-size:1em;" contenteditable="">{{audit.for_year_caps}}</td></tr>
+            
+        </table>
+        </div>
+        
+</script>
+
+<script type="text/ng-template" id="fs_toc.html">
+        <table class="table table-condensed">
+
+                            <tr ng-repeat="p in fsHelper.allPages" ng-show="p.showInTOC">
+                                <td>
+                                    <a class="none-print" ng-click="scrollTo(p.name)"> {{p.title}} </a>
+                                    <a class="print-only" href="#{{p.name}}"> {{p.title}} </a>
+                                    
+                                </td>
+                                <td> 
+                                    <a class="none-print" ng-click="scrollTo(p.name)">&nbsp; {{p.pageNo}} &nbsp;</a>
+                                    <a class="print-only" href="#{{p.name}}">&nbsp; {{p.pageNo}} &nbsp;</a>
+                                </td>
+                            </tr>
+
+                        </table>
+</script>
+
+
+<script type="text/ng-template" id="fs_note_body.html">
+    <div ng-repeat="note in auditFS.notes track by $index" id="note_{{$index + 1}}" ng-if="note.label" class="fs-note {{note.style}}">
+                            <strong>{{$index + 1}} - {{note.label}}</strong>
+                            <div ng-if="note.customReport" >
+                                <div ng-repeat="r in [note.customReport]" ng-include="'custome_report.html'"></div>
+                            </div>
+                            <div class="text-note  web-content" ng-if="!note.customReport">
+                                <div ng-repeat="txtNote in note.textNote" ng-include="txtNote.templateUrl"></div>
+                                
+                            </div>
+                            <div class="sub-note">
+                                <div ng-repeat="subNote in note.subNotes track by $index" class="{{subNote.style}}">
+                                        <span class="note-index">{{note.index}}.{{lettersArray[$index]}}. </span>
+                                        <div ng-include="subNote.templateUrl"></div>
+                                </div>
+                            </div>
+                            
+                        </div>
+</script>
+
+<script type="text/ng-template" id="fs_report_body.html">
+    <div ng-repeat="fs in [p.report]">
+        <div ng-if="fs.customReport"   ng-repeat="r in [fs.customReport]" class="fs-content" ng-include="fs.templateUrl">
+        
+        </div>
+
+        <div ng-if="!fs.customReport" ng-repeat="r in [fs]"  class="fs-content " ng-include="fs.templateUrl">
+    </div>
+</script>
+<script type="text/ng-template" id="fs_report_title.html">
+    <div class="title">
+        <span class="title1">{{audit.client_name_cap}}</span> <br />
+        <span class="title2">{{p.title}}</span><br />
+        <span class="title3">{{p.subTitle}}</span>
+    </div>
+</script>
+<script type="text/ng-template" id="default_page_title.html">
+    <div class="title">
+        {{p.title}}
+    </div>
+</script>
+<script type="text/ng-template" id="letterhead_title.html">
+    <div class="prints-only letterhead"  styles="position: absolute;right:0;top:0">
+        <img bm-ui-permission="app.printables.letterhead" login-user="app.loginUser" src="files/company_files/ht-letterhead.png" style="width:100%;">
+    </div>
+</script>
+
+<script type="text/ng-template" id="fs_opinion.html">
+<div contenteditable="true">
+	<div class="title">
+		INDEPENDENT AUDITOR’S REPORT ON THE ACCOUNT OF <br/>
+		<span >{{audit.client_name_cap}}</span><br/>
+        <span class="b-b b-grey">{{audit.for_year_caps}}</span><br/><br/>
+	</div>
+    
+	<div ng-include="'api/WebContentService/getContent/opinion-' + auditManager.currentAudit.engagementInfo.opinion + '-' + auditManager.currentAudit.engagementInfo.audit_standard" >
+	</div>
+    
+    
+</div>
+
+</script>
+
+<script type="text/ng-template" id="financial_statement.html">
+    <div class="{{fsHelper.hiddenCols}}">
+        <div class="none-print" style="position: fixed;top:100px;right:100px;">
+            <button class="btn btn-sm primary" bm-ui-permission="app.audit.printables.fs.design" login-user="app.loginUser" ng-click="fsHelper.showReportDesignWindow()">Design</button>
+        </div>
+        <div ng-repeat="section in fsHelper.sections" id="{{section.name}}" class="{{section.style}}">
+            
+            <div ng-if="section.templateUrl" ng-include="section.templateUrl"></div>
+            
+            <div ng-if="!section.templateUrl" ng-repeat="p in section.pages" bm-ui-permission="{{p.permission}}" login-user="app.loginUser" >
+                <div class="page" id="{{p.name}}">
+                    <table class="page-container {{p.style}}">
+                        <thead>
+                            <tr>
+                                <td class="page-header-container" ng-include="p.titleTemplate">
+                                    
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="page-content"> 
+                                    <div class="content" ng-include="p.templateUrl"></div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="page-footer-container fs-page-footers">
+                                    <div class="page-footer2 none-prints" ng-include="'api/WebContentService/getContent/letterhead_footer_qr'"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<div  ng-include ="'app/audit/content/printables/fs/fs_designer_modal.html'" ngs-include-replace>
+        </div>

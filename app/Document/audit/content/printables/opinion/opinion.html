@@ -1,0 +1,10 @@
+<div contenteditable="true">
+	<div style="font-weight:bold; margin-top:2em;">
+		INDEPENDENT AUDITOR’S REPORT ON THE ACCOUNT OF <br/>
+		<span class="b-b b-grey">{{audit.client_name_cap}}</span>
+	</div>
+	<div ui-include="'api/WebContentService/getContent/opinion-' + auditManager.currentAudit.engagementInfo.opinion">
+	</div>
+	<div ui-include="'app/Audit/content/printables/letter-footer.html'" ngs-include-replace>
+	</div>
+</div>

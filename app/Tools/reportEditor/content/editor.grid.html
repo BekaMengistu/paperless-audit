@@ -1,0 +1,71 @@
+<div class="padding">
+    <style>
+        .selected-cell ,.selected-cell textarea {background-color: antiquewhite;font-weight: bold;}
+    </style>
+<div class="pull-right">
+            
+    
+    <button uib-tooltip="Save" ng-click="report_web_contentManager.saveItem(report_web_contentManager.editedItem)"
+                    	class="btn btn-primary btn-sm"><i class="fa fa-floppy-o"></i></button>
+            &nbsp;
+						<a uib-tooltip="To List" ui-sref="{{report_web_contentManager.listEditor.url}}" class="btn btn-default btn-sm"><i class="fa fa-arrow-left"></i></a>
+            &nbsp;  &nbsp;  &nbsp;
+    
+        </div>
+    <h3>Report Editor: <small style="font-size:0.7em;">{{report_web_contentManager.editedItem.reference}}</small></h3>
+    
+<div class="scontent-editor row">
+    
+    <div class="col-md-9">
+        
+        <div class="box">
+        <table class="table table-striped table-0pad">
+        <tr>
+            <td style="width:100px;">&nbsp;</td>
+            <td>Style</td>
+            <td>Show <br/>0Val</td>
+            <td ng-repeat="col in editedReport.data[0].columns track by $index">
+                <button class="btn btn-default btn-xs primary" ng-click="addColumn($index)"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-danger btn-xs " ng-click="deleteColumn($index)"><i class="fa fa-trash-o"></i></button>
+            
+            </td>
+        </tr>
+        <tr ng-repeat="row in editedReport.data track by $index" class="hover-target hover-shadow" ng-init="rowIndex=$index">
+            <td>
+                <button class="btn btn-default btn-sm primary" ng-click="addRow($index)"><i class="fa fa-plus"></i></button>
+                <button class="btn btn-danger btn-sm " ng-click="deleteRow($index)"><i class="fa fa-trash-o"></i></button>
+            
+            </td>
+            <td>
+                <input class="md-input" ng-model="row.style"/><br/>
+            </td>
+            <td><input type="checkbox"  ng-model="row.showZero"/></td>
+            <td ng-repeat="col in row.columns track by $index" class="{{(rowIndex==editInfo.selectedIndex.row && $index==editInfo.selectedIndex.col)?'selected-cell':''}}" ng-click="selectCell(rowIndex,$index,col)"><textarea class="input" ng-model="col.value"></textarea></td>
+        </tr>
+        </table>
+        </div> 
+    </div>
+    <div class="col-md-3">
+        {{editInfo.selectedIndex}}
+        <textarea style="width: 100%; height:200px;" ng-model="editInfo.selectedCell.value">
+        
+        </textarea>
+        <br>
+        Type : <select class='md-input'   ng-model="editInfo.selectedCell.type" ng-options="opt for opt in ['number','other']">
+            </select>
+        
+        style : <input ng-model="editInfo.selectedCell.style"/>
+         <br/>
+        <hr/>
+       {{editedReport}}
+       <!-- 
+        {{editedReport}}
+        <hr/>
+    <div class="b-t">{{report_web_contentManager.editedItem.content}}</div>
+-->
+    </div>
+    
+
+
+</div>
+</div>

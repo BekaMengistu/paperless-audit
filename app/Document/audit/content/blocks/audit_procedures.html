@@ -1,0 +1,44 @@
+<div class="aside" tabindex="-1" role="dialog">
+  <div class="aside-dialog">
+    <div class="aside-content" style="max-width:300px;">
+      <div class="aside-header">
+        <button type="button" class="close" ng-click="$hide()">&times;</button>
+        <h4 class="aside-title">Audit Procedure</h4>
+      </div>
+      <div class="aside-body">
+          <div class="list-group no-radius no-borders">
+          	<!--
+            <a data-toggle="modal" data-target="#chat" data-dismiss="modal" class="list-group-item p-x-md">
+              <img src="assets/images/a1.jpg" class="pull-left w-40 m-r img-circle">
+              <div class="clear">
+                <span class="font-bold block">Jonathan Doe</span>
+                <span class="clear text-ellipsis text-xs">"Hey, What's up"</span>
+              </div>
+            </a>
+            <a data-toggle="modal" data-target="#chat" data-dismiss="modal" class="list-group-item p-x-md">
+              <img src="assets/images/a2.jpg" class="pull-left w-40 m-r img-circle">
+              <div class="clear">
+                <span class="font-bold block">James Pill</span>
+                <span class="clear text-ellipsis text-xs">"Lorem ipsum dolor sit amet onsectetur adipiscing elit"</span>
+              </div>
+            </a>
+            -->
+            <div class="p-x-md m-t p-v-xs">Work</div>
+            <a ng-repeat="ap in selectedAuditProcedures" ng-click="$hide();auditProcedureClick(ap)" class="list-group-item p-x-md">
+                <i class="fa fa-circle text-xs m-r-xs text-{{ap.done?'success':'muted'}}"></i>
+                
+                
+                <span class="font-bold">{{ap.objectives}}</span>
+                <span class="clear text-ellipsis text-xs">{{ap.description}}</span>
+            </a>
+          </div>
+
+
+      </div>
+      <div class="aside-footer">
+        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="$hide()">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>

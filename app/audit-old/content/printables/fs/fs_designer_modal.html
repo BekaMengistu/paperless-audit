@@ -1,0 +1,165 @@
+<div class="modal fade fs-designer" id="modal_fs_design" data-backdrop="false">
+<div class="right w-xxl white b-l" style="width:550px;">
+    <div class="row-col ng-scope">
+    <a data-dismiss="modal" class="pull-right text-muted text-lg p-a-sm m-r-sm">×</a>
+    <div class="dker">
+        <div class="p-a b-b dker">
+      <span class="h5">Design Financial Statements</span>
+        <small>{{fsHelper.designedReportId}}</small>
+            </div>
+    </div>
+    <div class="row-row">
+      <div class="row-body">
+        <div class="row-inner">
+        	            
+        	<div class="p-x-sm">
+            	<div class="row">
+                    <div class="col-md-6 p-b">
+                        <div class="md-form-group">
+                            <select class='md-input' ng-model="fsHelper.designedReportId" ng-change="fsHelper.onDesignReportIdChange(fsHelper.designedReportId)"  ng-options="opt.reference as opt.reference for opt in fsHelper.customReportsData">
+                            </select>
+                            <label>Report</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div ng-show="fsHelper.designedReport" class="p-t-sm">
+                    <div class="pull-right">
+                        <button class="btn primary btn-xs" ng-click="fsHelper.designedReport.jsonData.columns.push({})">
+                                    <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <h6 class="b-b p-b">Columns</h6>
+                    <table class="table table-striped" >
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Type</th>
+                            <th>Label</th>
+                            <th>Preview</th>
+                        </tr>
+                        <tr ng-repeat="col in fsHelper.designedReport.jsonData.columns" class="hover-target hover-shadow">
+                            <td>
+                                <span class="hover-show">
+                                <button class="btn danger btn-xs" ng-click="fsHelper.designedReport.jsonData.columns.splice($index,1)">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                                <!--
+                                <button class="btn primary btn-sx" ng-click="fsHelper.designedReport.jsonData.columns.push({})">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                -->
+                                    </span>
+                            </td>
+                            <td>
+                                <select class='md-input' ng-model="col.field" ng-change="col.colDetail=fsHelper.columnDefinitions[col.field]" ng-options="opt.name as opt.name for opt in fsHelper.columnDefinitionsArray">
+                                </select>
+                            </td>
+                            <td>
+                                <input class="md-input" ng-model="col.headerLabel"/>
+                            </td>
+                            <td>
+                                {{col.headerLabel}} {{audit[fsHelper.columnDefinitions[col.field].header]}}
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="p-t">
+                    <div class="pull-right">
+                        <button class="btn primary btn-xs" ng-click="fsHelper.designedReport.jsonData.rows.push({})">
+                                    <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                    <h6 class="b-b p-b">Rows</h6>
+                    <table class="table table-striped" >
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Account</th>
+                            <th>Label</th>
+                            <th>Style</th>
+                        </tr>
+                        <tr ng-repeat="row in fsHelper.designedReport.jsonData.rows" class="hover-target hover-shadow">
+                            <td>
+                                <span class="hover-show">
+                                    <button class="btn danger btn-xs" ng-click="fsHelper.designedReport.jsonData.rows.splice($index,1)">
+                                    <i class="fa fa-trash-o"></i>
+                                    </button>
+                                </span>
+                            </td>
+                            <td class="{{row.style}}"><input class="md-input"  ng-model="row.account"/></td>
+                            <td><input class="md-input"  ng-model="row.report_label"/></td>
+                            <td><input class="md-input"  ng-model="row.style"/></td>
+                        </tr>
+                    </table>
+                    </div>
+                </div>
+                
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="p-a b-t dker text-right">
+    	   
+
+      <a href="" class="text-info" ng-click="fsHelper.saveCustomReport(fsHelper.designedReport)"><i class="fa fa-fw fa-save"></i> Save</a> &nbsp; &nbsp;
+      <a href="" data-dismiss="modal" class="text-muted m-h"><i class="fa fa-fw fa-times" ></i> Cancel</a>
+      <!---->
+    </div>
+  </div>
+  </div>
+</div>
+<!--
+<div id="modal_fs_design" class="modal" data-backdrop="true">
+    <div class="modal-dialog modal-lg" style="max-width:90%;width:90%;">
+        <div class="modal-content">
+            <div class="modal-header dker">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <h5 class="modal-title">Design Financial Statements</h5>
+            </div>
+            <div class="modal-body" style="max-height:400px; overflow:scroll; min-height: 200px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="md-form-group">
+                            <select class='md-input' ng-model="fsHelper.designedReportId" ng-change="fsHelper.onDesignReportIdChange(fsHelper.designedReportId)"  ng-options="opt.reference as opt.reference for opt in fsHelper.customReportsData">
+                            </select>
+                            <label>Report</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                <table class="table table-condensed" ng-show="fsHelper.designedReport" >
+                    <tr>
+                        <td ng-repeat="col in fsHelper.designedReport.jsonData.columns" 
+                            ng-init="colDetail=fsHelper.columnDefinitions[col.field]" >
+                            <div class="md-form-group">
+                            <select class='md-input' ng-model="col.field" ng-options="opt.name as opt.name for opt in fsHelper.columnDefinitionsArray">
+                            </select>
+                            </div>
+                            {{fsHelper.columnDefinitions[col.field].headerLabel}} {{audit[fsHelper.columnDefinitions[col.field].header]}}
+                        </td>
+                        <td>
+                        <button class="btn primary btn-sm" ng-click="fsHelper.designedReport.jsonData.columns.push({})">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        </td>    
+                    </tr>
+                    <th></th>
+                    <tr ng-repeat="row in fsHelper.designedReport.jsonData.rows" class="{{row.style}}">
+                        <td>{{row.account}}</td>
+                        <td ng-repeat="col in fsHelper.designedReport.jsonData.columns" ng-show="$index>0">&nbsp;
+                        </td>
+                    </tr>
+
+                </table>
+                </div>
+            </div>
+            
+            <div class="modal-footer dker">
+                <button class="btn primary p-x-md" type="submit" ng-click="addAdjustment()"><i class="fa fa-plus"></i></button>
+                <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+-->

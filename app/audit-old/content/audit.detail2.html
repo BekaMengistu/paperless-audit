@@ -1,0 +1,592 @@
+<style>
+.account-tree {
+	font-size: 1.2em;
+}
+.account-tree .level-1 {
+	font-size: .95em;
+}
+.account-tree .level-1 .first-col {
+	padding-left: 10px;
+}
+.account-tree .level-2 {
+	font-size: .95em;
+}
+.account-tree .level-2 .first-col {
+	padding-left: 20px;
+}
+.account-tree .level-3 {
+	font-size: .95em;
+}
+.account-tree .level-3 .first-col {
+	padding-left: 30px;
+}
+.editor-table .viewer {
+	display: none;
+}
+.viewer-table .editor, .viewer-table input {
+	display: none;
+}
+.select-small .form-control {
+	padding: 3px 3px 3px 3px !important;
+}
+.select-small .span, .select-small button {
+	overflow: hidden;
+}
+.number {
+	text-align: right;
+}
+.account-tree .number {
+	font-size: 0.9em;
+}
+.tree-header {
+	font-weight: bold;
+	position: relative;
+	font-size: 1.3em;
+	line-height: 2em;
+}
+.tree-header .header-item {
+}
+.account-tree {
+}
+.account-tree .acct-item {
+	position: relative;
+	border-bottom: solid 1px #DDD;
+	min-height: 30px;
+	line-height: 30px;
+}
+.account-tree .acct-line {
+	line-height: 2em;
+}
+.account-tree .acct-line:hover {
+	background-color: #F4F4F4;
+}
+.acct-item .account-name {
+	width: 350px;
+	backgrounds-color: #FFA;
+	border-right: solid 1px #FF8;
+}
+.acct-item .acct-flds {
+	position: absolute;
+	right: 0;
+	left: 350px;
+	height: 100%;
+	top: 1px;
+	background-color: #EEE;
+}
+</style>
+<div class="row box-shadow-z1">
+	<div class="col-md-1">
+		<div ng-include="'app/audit/content/audit.sidemenu.html'">
+		</div>
+	</div>
+	<div class="col-md-11" data-title="{{state.current.data.subTitle=app.subTitle}}">
+		<div  ui-view>
+		</div>
+	</div>
+</div>
+<div ng-include="'app/audit/content/blocks/create_account_modal.html'">
+</div>
+<script type="text/ng-template" id="extra_substantive/bank_statement/view.html">
+	<table class="table table-bordered  table-sm">
+		<thead>
+		<tr>
+				<th rowspan="2">Account</th>
+				<th rowspan="2">Bank Name</th>
+				<th colspan="4" class="text-center">Balance</th>
+				<th colspan="2" class="text-center">Outstanding</th>
+				<th rowspan="2">Unadjusted Diff</th>
+			</tr>
+			<tr>
+				<th>Before Adj</th>
+				<th>After Adj</th>
+				<th>Net Adj.</th>
+				<th>Bank Stmt.</th>
+				<th>Cheques</th>
+				<th>Deposits</th>
+			</tr>
+		</thead>
+		<tr ng-repeat="acc in treeManager.treeHash['item'+auditFinding.account_id].children" ng-init="normal_balance=treeManager.treeHash['item'+auditFinding.account_id].data.normal_balance; extraData=auditFinding.extra_data.stmt['a'+acc.id]">
+			<td class="text-muted">{{acc.label}} {{acc.id}} </td>
+			<td>{{auditFinding.extra_data.stmt['a'+acc.id].bank_name}}</td>
+			
+			<td class="text-muted">{{acc.data.netBalance=(acc.data.balance.debit-acc.data.balance.credit)*normal_balance | number:2}}</td>
+			
+			<td>{{acc.data.netAdjustedBalance=(acc.data.adjustedBalace.debit-acc.data.adjustedBalace.credit)*normal_balance | number:2}}</td>
+			<td>{{acc.data.netAdjustedBalance-acc.data.netBalance}}</td>
+			<td>{{(extraData.balance=extraData.balance?extraData.balance:0) | number:2}}</td>
+			<td>{{(extraData.out_chk=extraData.out_chk?extraData.out_chk:0) | number:2}}</td>
+			<td>{{(extraData.out_dep=extraData.out_dep?extraData.out_dep:0) | number:2}}</td>
+			
+			<td>{{-1*(acc.data.netAdjustedBalance-auditFinding.extra_data.stmt['a'+acc.id].balance
+					+ auditFinding.extra_data.stmt['a'+acc.id].out_chk*1
+					-auditFinding.extra_data.stmt['a'+acc.id].out_dep) | number:2}} </td>
+		</tr>
+		
+	</table>
+</script> 
+
+<script type="text/ng-template" id="extra_substantive/bank_statement/input.html">
+<div class="p-x">
+	<table class="table table-bordered table-sm grid-editor">
+		<thead>
+			<tr>
+				<th rowspan="2">Account</th>
+				<th rowspan="2">Bank Name</th>
+				<th colspan="3" class="text-center">Balance</th>
+				<th colspan="2" class="text-center">Outstanding</th>
+				<th rowspan="2" class="number">Difference</th>
+			</tr>
+			<tr>
+				<th class="number">Unadjusted</th>
+				<th class="number">Adjusted</th>
+				<th class="number">Statement</th>
+				<th class="number">Cheques</th>
+				<th class="number">Deposits</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="acc in selectedNode.children">
+				<td class="text-muted"> {{acc.label}} {{acc.id}} </td>
+				<td>
+					<select class='grid-input' placeholder="Select Bank" ng-model="selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].bank_name" 
+                 ng-options="opt.description as opt.name for opt in customLookups.Banks">
+					</select>
+				</td>
+				<td class="text-muted number">{{(acc.data.ledgerBalance) | number:2}}</td>
+				<td class="text-muted number">{{(acc.data.adjustedLedgerBalance) | number:2}}</td>
+				
+				<td>
+					<input class="grid-input number input-xs" ng-blur="extraSubstativeDataManager.doCalculation()" ng-model="selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].balance" />
+				</td>
+				<td>
+					<input class="grid-input number input-xs" ng-blur="extraSubstativeDataManager.doCalculation()" ng-model="selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].out_chk" />
+				</td>
+				<td>
+					<input class="grid-input number input-xs" ng-blur="extraSubstativeDataManager.doCalculation()" ng-model="selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].out_dep" />
+				</td>
+	
+				<td class="text-muted number">
+				 {{-1*(acc.data.adjustedLedgerBalance-selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].balance
+					+ selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].out_chk*1
+					-selectedFindingData.auditFinding.extra_data.stmt['a'+acc.id].out_dep) | number:2}} </td>
+				
+			</tr>
+			<tr>
+				<td class="text-muted" colspan="2"><strong>Total {{selectedNode.label}} </strong></td>
+				<td class="text-muted number">{{(selectedNode.data.ledgerBalance) | number:2}}</td>
+				<td class="text-muted number">{{(selectedNode.data.adjustedLedgerBalance) | number:2}}</td>
+				
+				<td class="b-b b-success number">{{selectedFindingData.auditFinding.extra_data.total | number:2}}</td>
+				<td class="b-b b-success number">{{selectedFindingData.auditFinding.extra_data.total_chk | number:2}}</td>
+				<td class="b-b b-success number">{{selectedFindingData.auditFinding.extra_data.total_dep | number:2}}</td>
+				
+				<td class="b-b number"> {{-1*(selectedNode.data.adjustedLedgerBalance-selectedFindingData.auditFinding.extra_data.total 
+					+ selectedFindingData.auditFinding.extra_data.total_chk*1
+					-selectedFindingData.auditFinding.extra_data.total_dep) | number:2}} </td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+      
+	  
+</script> 
+
+<script type="text/ng-template" id="extra_substantive/income_summary/view2.html">
+	 <div class="p-x-lg p-b-sm" ng-repeat="acc in [treeManager.treeHash['item'+auditFinding.account_id]]">
+		<div class="p-a-sm m-b-sm dker">
+		<table class="table table-sm grid-editor">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Ledger Balance</th>
+					<th>Comparative Income</th>
+					<th>Deffered</th>
+					<th>Accrued</th>
+					<th>Difference.</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Cash Register</td>
+					<td>{{auditFinding.extra_data.sales.total|number:2}}</td>
+					<td>{{(acc.data.netBalance= (acc.data.adjustedBalance.debit-acc.data.adjustedBalance.credit))|number:2}}</td>
+					<td>{{(acc.data.netAdjustedBalance= (acc.data.adjustedBalace.debit-acc.data.adjustedBalace.credit))|number:2}}</td>
+					<td>{{(acc.data.netAdjustedBalance-auditFinding.extra_data.sales.total)|number:2}}</td>				
+				</tr>
+				<tr>
+					<td>Declared Income</td>
+					<td>{{auditFinding.extra_data.declared_total|number:2}}</td>
+					<td>{{(acc.data.netBalance)|number:2}}</td>
+					<td>{{(acc.data.netAdjustedBalance)|number:2}}</td>
+					<td>{{(acc.data.netAdjustedBalance-auditFinding.extra_data.declared_total)|number:2}}</td>				
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <div class="box m-b-sm">
+        <div class="box-header p-a-sm dker">
+            <h3>Cash Register</h3>
+			<div class="box-tool"style="top:8px;"><strong>Total: </strong>{{auditFinding.extra_data.sales.total|number:2}}</div>
+        </div>
+        <div class="box-body p-b-xs teals-50">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.cash_reg" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Cash Reg.</label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.manual" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Manual Sales</label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+            </div>
+            <div class="col-sm-2">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.refund" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Refund</label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.deffered" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Deffered</label>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.accrued" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Accrued</label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="box  m-b-sm">
+        <div class="box-header p-a-sm dker">
+			<div class="row">
+				<div class="col-sm-12">
+            		<h3> &nbsp; &nbsp; Declared Income</h3>
+				</div>
+				
+			</div>
+        </div>
+		<div class="box-tool" style="top:8px;"><strong>Total: </strong>{{auditFinding.extra_data.declared_total|number:2}}</a></div>
+        <div class="box-body p-b-xs teals-50">
+        <div class="row">
+            <div ng-repeat="m in month_names" class="col-sm-3">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.declared_income[$index]" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>{{m}}</label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>   	
+</script> 
+
+<script type="text/ng-template" id="extra_substantive/income_summary/view.html">
+	 <div class="p-x-lg p-b-sm" ng-repeat="acc in [treeManager.treeHash['item'+auditFinding.account_id]]">
+		<div class="p-a-sm m-b-sm dker">
+		<table class="table table-sm grid-editor">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Ledger Balance</th>
+					<th>Comparative Income</th>
+					<th>Deffered</th>
+					<th>Accrued</th>
+					<th>Expected</th>
+					<th>Difference.</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Cash Register</td>
+					<td data-nb="{{acc.data.netBalance= acc.data.adjustedBalace.credit-acc.data.adjustedBalace.debit}}">{{acc.data.netBalance|number:2}}</td>
+					<td>{{auditFinding.extra_data.sales.total|number:2}}</td>
+					<td>{{(auditFinding.extra_data.sales.deffered)|number:2}}</td>
+					<td>{{(auditFinding.extra_data.sales.accrued)|number:2}}</td>
+					<td>{{expected=(auditFinding.extra_data.sales.total*1 +auditFinding.extra_data.sales.deffered*1+auditFinding.extra_data.sales.accrued*1)|number:2}}
+					<td>{{(acc.data.netBalance-expected)|number:2}}</td>
+				</tr>
+				<tr>
+					<td>Declared Income</td>
+					<td>{{acc.data.netBalance|number:2}}</td>
+					<td>{{auditFinding.extra_data.declared_total|number:2}}</td>
+					<td>{{(auditFinding.extra_data.sales.deffered)|number:2}}</td>
+					<td>{{(auditFinding.extra_data.sales.accrued)|number:2}}</td>
+					<td>{{expected2=(auditFinding.extra_data.declared_total*1 +auditFinding.extra_data.sales.deffered*1+auditFinding.extra_data.sales.accrued*1)|number:2}}
+					<td>{{(acc.data.netBalance-expected2)|number:2}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+    <div class="box m-b-sm">
+        <div class="box-header p-a-sm dker">
+            <h3>Cash Register</h3>
+			<div class="box-tool"style="top:8px;"><strong>Total: </strong>{{auditFinding.extra_data.sales.total|number:2}}</div>
+        </div>
+        <div class="box-body p-b-xs teals-50">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.cash_reg" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Cash Reg.</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.manual" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Manual Sales</label>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.sales.refund" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>Refund</label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="box  m-b-sm">
+        <div class="box-header p-a-sm dker">
+			<div class="row">
+				<div class="col-sm-12">
+            		<h3> &nbsp; &nbsp; Declared Income</h3>
+				</div>
+				
+			</div>
+        </div>
+		<div class="box-tool" style="top:8px;"><strong>Total: </strong>{{auditFinding.extra_data.declared_total|number:2}}</a></div>
+        <div class="box-body p-b-xs teals-50">
+        <div class="row">
+            <div ng-repeat="m in month_names" class="col-sm-3">
+                <div class="md-form-group">
+                    <input class='md-input' ng-model="auditFinding.extra_data.declared_income[$index]" ng-blur="extraSubstativeDataManager.doCalculation()">
+                    <label>{{m}}</label>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>   	
+</script>
+<script type="text/ng-template" id="extra_substantive/income_summary/input.html">
+
+
+<div class="p-x p-l-md">
+	<div class="row">
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.deffered_beg" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Customers Advance (begining)</label>
+			</div>
+		</div>
+		<div class="col-md-1">
+		</div>
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.deffered_end" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Customers Advance (ending)</label>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+		
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.deffered" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Customers Advance  (net)</label>
+			</div>
+		</div>
+				
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.accrued_beg" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Accrued Income (begining)</label>
+			</div>
+		</div>
+	 	<div class="col-md-1">
+		</div>
+
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.accrued_end" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Accrued Income (ending)</label>
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	
+		<div class="col-md-3">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.accrued" ng-blur="extraSubstativeDataManager.doCalculation()">
+				<label>Accrued Income (net)</label>
+			</div>
+		</div>
+				
+	</div>	
+	
+	
+	<div class="row">
+		<div class="col-sm-3">
+		<div class="box m-b-sm">
+		<div class="box-header p-a-sm blue-50">
+			<h2 class="_300">Sales</h2>
+				<small> <strong>Total: </strong>{{selectedFindingData.auditFinding.extra_data.sales.total|number:2}}</small>
+		</div>
+		<div class="box-body p-x-sm p-b-xs teals-50">
+	
+					<div class="md-form-group">
+						<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.cash_reg" ng-blur="extraSubstativeDataManager.doCalculation()">
+						<label>Cash Reg.</label>
+					</div>
+					<div class="md-form-group">
+						<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.manual" ng-blur="extraSubstativeDataManager.doCalculation()">
+						<label>Manual Sales</label>
+					</div>
+					<div class="md-form-group">
+						<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.sales.refund" ng-blur="extraSubstativeDataManager.doCalculation()">
+						<label>Refund</label>
+					</div>
+	
+		</div>
+	</div>
+		</div>
+		<div class="col-sm-9">
+			<div class="p-l-md">
+			<div class="box  m-b-sm">
+		<div class="box-header p-a-sm blue-50">
+			
+					<h2 class="_300">Declared Income</h2>
+					<small> <strong>Total: </strong>{{selectedFindingData.auditFinding.extra_data.declared_total|number:2}}</small>
+			</div>
+		
+		<div class="box-body p-b-xs teals-50">
+			<div class="row">
+				<div ng-repeat="m in month_names" class="col-md-3">
+					<div class="md-form-group">
+						<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.declared_income[$index]" ng-blur="extraSubstativeDataManager.doCalculation()">
+						<label>{{m}}</label>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+			</div>
+		</div>
+	</div>
+	<div class="p-xs-sm m-b-sm blue-50">
+		<table class="table table-sm grid-editor">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Ledger Balance</th>
+					<th>Comparative Income</th>
+					
+					<th>Deffered (net)</th>
+					<th>Accrued (net)</th>
+					<th>Expected</th>
+					<th>Difference.</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th>Cash Register</th>
+					<td>{{selectedNode.data.ledgerBalance|number:2}}</td>
+					<td>{{selectedFindingData.auditFinding.extra_data.sales.total|number:2}}</td>
+					
+					<td>{{selectedFindingData.auditFinding.extra_data.sales.deffered|number:2}}</td>
+					<td>{{selectedFindingData.auditFinding.extra_data.sales.accrued|number:2}}</td>
+					<td>{{expected=(selectedFindingData.auditFinding.extra_data.sales.total*1 +selectedFindingData.auditFinding.extra_data.sales.deffered*1+selectedFindingData.auditFinding.extra_data.sales.accrued*1)|number:2}}</td>
+					<td>{{(selectedNode.data.ledgerBalance-selectedFindingData.auditFinding.extra_data.sales.total
+						-selectedFindingData.auditFinding.extra_data.sales.deffered-selectedFindingData.auditFinding.extra_data.sales.accrued/1)|number:2}}</td>
+				</tr>
+				<tr>
+					<th>Declared Income</th>
+					<td>{{selectedNode.data.ledgerBalance|number:2}}</td>
+					<td>{{selectedFindingData.auditFinding.extra_data.declared_total|number:2}}</td>
+					
+					<td>{{selectedFindingData.auditFinding.extra_data.sales.deffered|number:2}}</td>
+					<td>{{selectedFindingData.auditFinding.extra_data.sales.accrued|number:2}}</td>
+					<td>{{expected=(selectedFindingData.auditFinding.extra_data.declared_total*1 +selectedFindingData.auditFinding.extra_data.sales.deffered*1+selectedFindingData.auditFinding.extra_data.sales.accrued*1)|number:2}}</td>
+					<td>{{(selectedNode.data.ledgerBalance-selectedFindingData.auditFinding.extra_data.declared_total-selectedFindingData.auditFinding.extra_data.sales.deffered-selectedFindingData.auditFinding.extra_data.sales.accrued/1)|number:2}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+	<br/>
+</div>
+ 	
+</script> 
+
+<script type="text/ng-template" id="extra_substantive/comparison/input.html">
+
+<div class="p-x">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.compared_against">
+				<label>Compared Against</label>
+			</div>
+			<div class="md-form-group">
+				<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.comparative_figure">
+				<label>Comparative Figure</label>
+			</div>
+		</div>
+		<div class="col-md-8">
+		</div>
+	</div>
+	<div class="m-x box p-x-md p-t-sm dker">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="md-form-group">
+					<input class='md-input' value="{{selectedNode.data.ledgerBalance | number:2}}" disabled="true">
+					<label>Ledger Balance</label>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="md-form-group">
+					<input class='md-input' ng-model="selectedFindingData.auditFinding.extra_data.comparative_figure">
+					<label>Comparative Figure</label>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="md-form-group">
+					<input class='md-input' value="{{(selectedNode.data.ledgerBalance-selectedFindingData.auditFinding.extra_data.comparative_figure) | number:2}}" disabled="true">
+					<label>Difference</label>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+</script> 
+
+<script type="text/ng-template" id="extra_substantive/comparison/view.html">
+<table class="table">
+		<tr>
+			<th>Ledger Balance</th>
+			<th>Compared Against</th>
+			<th>Comparative Figure</th>
+			<th>Difference</th>
+		</tr>
+		<tr ng-repeat="acc in [treeManager.treeHash['item'+auditFinding.account_id]]">
+			<td>{{(acc.data.balance.debit-acc.data.balance.credit)*acc.data.normal_balance | number:2}}</td>
+			<td>{{auditFinding.extra_data.compared_against}}</td>
+			<td>{{auditFinding.extra_data.comparative_figure | number:2}}</td>
+			<td>{{((acc.data.balance.debit-acc.data.balance.credit)*acc.data.normal_balance-auditFinding.extra_data.comparative_figure) | number:2}}</td>
+		</tr>
+</table>
+</script>
+
+

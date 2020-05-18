@@ -1,0 +1,26 @@
+<div>
+<h5 class="center-title m-b"><span class="b-b p-a-xs b-grey">Networth Certificate</span></h5>
+
+<strong>Certificate Date: </strong> {{auditManager.currentAudit.schedules_date|date}} <br/>
+<strong>Submitted to ECX by: </strong> Habtamu Tesfaye Certified Audit Firm
+
+<h5 class="center-title m-y"><span class="b-b p-a-xs b-grey">CERTIFICATE</span></h5>
+
+<p>
+This is to certify that that the Net Worth of {{auditManager.currentAudit.engagementOutput.client_name_cap}}, as extracted from the most recent audited financial statements and calculated according to the Member Networth Calculation Format (attached), audited by us {{audit.sfp_date}}, and subject to the opinion expressed therein is Birr <span class="editable" contenteditable="true"> {{audit.form.summary.net_worth|number}} </span>.
+It is further certified that the computation of Net Worth, based on the most recent audited financial statements is true and correct to the best of our knowledge.
+</p>
+
+<div ui-include="'app/Audit/content/printables/letter-footer.html'"></div>
+
+<div class="text-right">
+Independent Auditor’s Registration Number: - IO - 059 <br/>
+Date of registration: 26 June 2013   
+</div> 
+
+<br/>
+<div>
+CC:  <span class="caps">{{auditManager.currentAudit.customer.customer_name}}</span><br/>
+        <span class="editable" contenteditable="true">Addis Ababa</span>
+</div>
+</div>

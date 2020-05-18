@@ -1,0 +1,26 @@
+<div id="modal_regroup" class="modal" data-backdrop="true" bm-ui-permission="app.audit.regroup" login-user="app.loginUser" bm-app="app" >
+    <form>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                    <h5 class="modal-title">Regroup</h5>
+                </div>
+                <div class="modal-body p-lg">
+                    <div class="md-form-group">
+                        <label>{{editedAccountGrouping.account_id}} {{editedAccountGrouping.account_description}} </label>
+                        <ui-select ng-model="editedAccountGrouping.parentGrouping" theme="bootstrap" style="width:250px;" ng-change="groupingMapChanged(item)">
+                            <ui-select-match class="ui-select-match" placeholder="Select from the list...">{{$select.selected.grouping_name}}</ui-select-match>
+                            <ui-select-choices class="ui-select-choices" repeat="gp in auditManager.currentAudit.validMappingKeys | filter: $select.search"> <span ng-bind-html="gp.grouping_name | highlight: $select.search"></span> <small ng-bind-html="item.email | highlight: $select.search"></small> </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn primary p-x-md" type="submit" ng-click="saveGrouping()">Save</button>
+                    <button type="button" class="btn dark-white p-x-md" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </form>
+</div>

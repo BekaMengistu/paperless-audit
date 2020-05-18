@@ -1,0 +1,29 @@
+
+<div class="app-body-inner" style="top:58px;">
+	<div class="row-col row-col-xs" ngs-if="dataLoaded">
+		<div class="col-sm-4 col-md-3 lightw bg b-r-s">
+			<div class="row-col">
+				<div class="p-a-xs b-b">
+					<div class="input-group">
+						<span class="input-group-addon no-border no-bg"><i class="fa fa-search"></i></span>
+						<input type="text" ng-model="query" class="form-control no-border no-bg" placeholder="Search">
+					</div>
+				</div>
+				<div class="row-row">
+					<div class="row-body scrollable hover">
+						<div class="row-inner" ng-include="template.list">
+							<div class="list-group inset" uis-view="bm_list" ngs-include="template.list">
+								{{template.list}}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="p-a-xs b-t text-center" ng-include="template.listMenu">
+					{{template.listMenu}}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-9 " ui-view ngs-include="template.detail">
+		</div>
+	</div>
+</div>

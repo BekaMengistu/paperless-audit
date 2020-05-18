@@ -1,0 +1,27 @@
+<div ng-if="documentManager.editedDocument"  bm-ui-permission="app.document.edit" login-user="app.loginUser" class="editors">
+    <div class="box">
+        <div class="box-header {{documentManager.formData.detail.headerStyle}}">
+            <h2>{{documentManager.editedDocument.document_name}}</h2>
+            <small>{{documentManager.editedDocument.description}}</small>
+        </div>
+        <div class="box-tool">
+            <button uib-tooltip="Edit" ng-show="documentManager.canEdit && !documentManager.editedDocument.editing" ng-click="documentManager.editedDocument.editing=true" class="btn btn-default btn-sm"><i class="fa fa-edit"></i></button>
+            &nbsp;
+
+            <button uib-tooltip="Save" ng-show="documentManager.canEdit && documentManager.editedDocument.editing" ng-click="documentManager.saveItem(documentManager.editedDocument)" class="btn btn-primary btn-sm"><i class="fa fa-floppy-o"></i></button>
+            &nbsp;
+
+            <button uib-tooltip="Cancel" ng-show="documentManager.canEdit && documentManager.editedDocument.editing" ng-click="documentManager.editedDocument.editing=false" class="btn btn-danger btn-sm"><i class="fa fa-times"></i></button>
+            &nbsp;
+        	
+        </div>
+        <div class="box-bodys ">
+        	<div ng-include="'app/Document/content/DocumentEdit.html'"></div>
+            <div ng-include="'app/Document/content/DocumentPreview.html'"></div>
+            
+            
+        </div>
+    </div>
+</div>
+
+

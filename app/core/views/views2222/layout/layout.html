@@ -1,0 +1,80 @@
+
+  <div ng-show="!app.loginUser.user_type">
+  			 
+            <div ui-include="'apps/bootstrap/views/signin.html'">
+                
+            </div>
+    	</div>
+   
+ 
+  
+  <!-- aside -->
+  <div id="aside" class="app-aside modal fade folded md show-text nav-dropdown" ng-class="{'folded': app.setting.folded}" ng-show="app.loginUser.user_type">
+  	<!-- fluid app aside -->
+    <div class="left navside dark dk" layout="column">
+  	  <div class="navbar no-radius">
+        <div ui-include="'apps/bootstrap/views/blocks/navbar.brand.html'"></div>
+      </div>
+      <div flex class="hide-scroll">
+          <nav class="scroll nav-active-{{app.setting.theme.primary}}">
+            <div ui-include="'apps/appNavigation.php'"></div>
+          </nav>
+      </div>
+      <div flex-no-shrink class="b-t">
+        <div ui-include="'apps/bootstrap/views/blocks/aside.top.0.html'"></div>
+      </div>
+    </div>
+  </div>
+  <!-- / -->
+  
+  <!-- content -->
+  <div id="content" class="app-content box-shadow-z0" role="main">
+    <div class="app-header white box-shadow" ng-show="app.loginUser.user_type">
+        <div ui-include="'apps/bootstrap/views/blocks/header.html'"></div>
+    </div>
+    <div class="app-footer" ng-class="{'hide': $state.current.data.hideFooter}" ng-show="app.loginUser.user_type">
+      <div ui-include="'apps/bootstrap/views/blocks/footer.html'"></div>
+    </div>
+     <div class="app-body" >
+        <div ui-view classs="app-body" id="view">
+        </div>
+    </div>
+  </div>
+  <!-- /content -->
+
+<div ng-show="app.loginUser.user_type">
+  <!-- theme switcher -->
+  <div id="switcher">
+    <div ui-include="'apps/bootstrap/views/blocks/switcher.html'"></div>
+  </div>
+  <!-- / -->
+
+<!-- Message Viewer -->
+  <div id="messages">
+    <div ui-include="'apps/bootstrap/messaging/messageListModal.php'"></div>
+  </div>
+  <!-- / -->
+<!-- Documents Viewer -->
+  <div id="documents">
+    <div ui-include="'apps/bootstrap/documents/documentsListModal.php'"></div>
+  </div>
+   <div id="documents">
+    <div uis-include="'apps/bootstrap/tasks/popover-task-create.php'"></div>
+  </div>
+  <!-- Documents Viewer -->
+  <div id="uploads">
+    <div ui-include="'apps/bootstrap/documents/uploadList.php'"></div>
+  </div>
+  <!-- / -->
+    <div style="position:fixed;z-index:1000;right:200px;bottom:0px;">
+	
+	<div style="text-align:center">
+    	<span class="label info pos-rlt m-r-xs"><b class="arrow bottom b-info pull-in"></b>{{uploadManager.uploader.queue.length }}</span>
+    		<br/>
+			<a  ng-click="uploadManager.showUploads()" class="md-btn md-fab m-b-sm white " style="font-size:1.4em;"><i class="fa fa-cloud-upload"></i></a>
+	</div>
+    
+</div>
+
+</div>
+ 

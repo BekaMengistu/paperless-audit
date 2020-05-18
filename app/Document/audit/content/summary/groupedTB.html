@@ -1,0 +1,28 @@
+
+<table style="width:100%;" classs="print-table" class="table table-condensed table-striped table-hover m-b-none"  datas-filter="#filter_AuditClientTrialbalance" datas-page-size="5">
+	<thead>
+		<tr>
+			<th rowspan="2">REF</th>
+			<th  class="print-w-500">Account</th>
+			<th>&nbsp;</th>
+			<th  class="number">Unadjusted (cr/dr)</th>
+			<th class="number">Adjusted (cr/dr)</th>
+			<th class="number">LFP (cr/dr)</th>
+			<th class="dker text-center">Adj</th>
+			<th class="text-center">Adj-Prior</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in heirarchyTable track by $index" 
+			class="{{item.data.objType=='acct'?'_300':''}}" ng-if="item.data.adjustedBalace.debit-item.data.adjustedBalace.credit">
+				<td id="{{item.data.full_id}}"><small style="font-size:0.6em;">{{item.data.full_id}}</small></td>
+				<td style="width:500px !important;"><span class="indent-level-{{item.indent}}"></span> {{item.label}} </td>
+				<td><span ng-show="(item.data.adjustedBalace.debit-item.data.adjustedBalace.credit)==item.data.adjustedBalace.balance">ALY</span></td>
+				<td class="number">{{(item.data.debit - item.data.credit)| number:2}}</td>
+				<td class="number">{{(item.data.adjustedBalace.debit-item.data.adjustedBalace.credit) | number:2}}</td>
+				<td class="number">{{item.data.adjustedBalace.balance|number:2}}</td>
+				<td  class="number dker">{{(item.data.adjDebit-item.data.adjCredit) | number:2}}</td>
+				<td  class="number">{{(item.data.adjPDebit-item.data.adjPCredit) | number:2}}</td>
+		</tr>
+	</tbody>
+</table>

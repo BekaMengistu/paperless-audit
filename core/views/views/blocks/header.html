@@ -1,0 +1,37 @@
+<!-- -->
+<div class="navbar">
+    <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up">
+      <i class="fa fa-bars"></i>
+    </a>
+
+    <div class="navbar-item pull-left h5"  >
+    	<span ng-bind="$state.current.data.title" id="pageTitle"></span>
+        <span style="font-size:0.7em; opacity:0.8; font-style:italic;" ng-bind="$state.current.data.subTitle"></span>
+    </div>
+
+    <ul class="nav navbar-nav pull-right" style="padding-right: 20px;">
+      
+      
+      <li class="nav-item dropdown">
+        <a class="nav-link clear" href data-toggle="dropdown">
+          <span class="avatar w-32">
+            <img ng-src="files/uploads/{{app.loginUser.profile_picture}}"  alt="...">
+            <i class="on b-white bottom"></i>
+          </span>
+        </a>
+        <div ui-include="'core/views/blocks/dropdown.user.html'"></div>
+        
+      </li>
+      <li class="nav-item hidden-md-up">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapse">
+          <i class="fa fa-ellipsis-v"></i>
+        </a>
+      </li>
+    </ul>
+
+    <div class="collapse navbar-toggleable-sm" id="collapse" ui-include="'app/dbReplication/content/replication.toolbar.php'">
+    	
+          
+      
+    </div>
+</div>

@@ -1,0 +1,125 @@
+<style>
+	.layout-1col .page-sub-title {display:block;}
+</style>
+
+<script type="text/ng-template" id="content-2col.html">
+<div class="row-col row-col-xs" ngs-if="dataLoaded">
+		<div class="col-sm-12 col-md-{{template.list.width}} lightw bg b-r-s" ng-if="template.list.width">
+			<div class="row-col">
+				
+				<div class="row-row">
+					<div class="row-body scrollable hover">
+						<div class="row-inner hide-scroll" ng-if="template.list.content">
+							list Content
+							<div ng-include="template.list.content">1</div>
+						</div>	
+					</div>
+				</div>
+				<div class="p-a-xs b-t text-center" ngs-include="template.listMenu">
+					{template.listMenu}
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-12 col-md-{{template.detail.width}}" ng-if="template.detail.width">
+			<div class="row-col">
+				
+				<div class="row-row">
+					<div class="row-body scrollable hover">
+						<div class="row-inner" ng-if="template.detail.content">
+							detail Contetnt
+							<div ng-include="template.detail.content"></div>
+						</div>	
+					</div>
+				</div>
+				<div class="p-a-xs b-t text-center" ngs-include="template.listMenu">
+					{template.listMenu}
+				</div>
+			</div>
+		</div>
+		
+	</div>
+
+</script>
+
+<script type="text/ng-template" id="content-long.html">
+	<div class="p-a " style="height:700px;">
+								<div class="box m-t-lg p-a">
+									1
+								</div>
+								<div class="box m-t-lg p-a">
+									2
+								</div>
+								
+							</div>
+</script>
+
+<script type="text/ng-template" id="content-1col.html">
+	<div class="row-col row-col-xs" ngs-if="dataLoaded">
+		<div class="col-sm-12 col-md-12 lightw bg b-r-s">
+			<div class="row-col">
+				
+				<div class="row-row">
+					<div class="row-body scrollable hover">
+						<div class="row-inner " ng-include="template.detail">
+								
+								
+						</div>
+					</div>
+				</div>
+				<div class="p-a-xs b-t text-center" ngs-include="template.listMenu">
+					List Menu
+				</div>
+			</div>
+		</div>
+
+	</div>
+</script>
+
+<script type="text/ng-template" id="page-header-2.html">
+<div class="{{app.setting.headerNav.header2.bg}} b-t-accent b-t p-a">
+	<div class="pull-right" ng-if="template.page.tool">
+		<div ng-include="template.page.tool"></div>
+		
+	</div>
+	<div class="p-l-lg">
+		<h4 class="m-b-0 _300 ng-binding">{{template.page.title}}
+		<small class="page-sub-title" style="font-size:0.6em;">Your <strong>Comprehensive</strong> tool to manage your organization.</small>
+		</h4>
+			
+	</div>
+</div>
+
+	
+</script>
+
+<script type="text/ng-template" id="layout-1col.html">
+<div class="layout-1col">
+<div ng-include="'page-header-2.html'" class="box-shadow"></div>
+
+<div class="app-body-inner" style="top:148px;" ng-include="'content-1col.html'"></div>
+</div>
+</script>
+
+<script type="text/ng-template" id="layout-2col.html">
+<div>
+	<div class="box-shadow">
+	<div ng-include="'page-header-2.html'"></div>
+	<div class="row no-gutter ">
+		<div class="col-md-{{template.list.width}} {{app.setting.headerNav.header2.bg}} p-a " ng-if="template.list.width">
+			List Menu
+		</div>
+		<div class="col-md-{{template.detail.width}} light p-a " ng-if="template.detail.width">
+			<div classs="white">
+				Detail Title
+			</div>
+		</div>
+	</div>
+	</div>
+	<div class="app-body-inner" style="top:167px;" ng-include="'content-2col.html'">
+	</div>
+</div>
+
+</script>
+<div ngs-if="template.layout">
+<div  ng-include="template.layout"></div>
+</div>

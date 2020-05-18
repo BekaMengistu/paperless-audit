@@ -1,0 +1,55 @@
+<table class="table table-sm m-b-none table-striped" >
+    <thead>
+        <tr>
+            <td class="none-print"></td>
+            <td>REF</td>
+            <th >Audit Procedure</th>
+            <th >Audited Item</th>
+            <th >Management Letter Points</th>
+            <th>Management Respones</th>
+        </tr>
+    </thead>
+	<tbody>
+		<tr ng-repeat="item in  auditManager.currentAudit.managementLetters track by $index" 
+			data-label="{{item.audited_item_label=(relationshipManager.objHash[item.audited_item_type + item.audited_item_id].label)}}"
+             class="hover-shadow hover-target">
+            
+            <td class="none-print">
+                    <button class="hover-show btn btn-info btn-xs" uib-tooltip="Edit" class="btn btn-info  btn-xs" 
+                            ng-click="summaryEditor.editItem(summaryItem.summaryType,item)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+            
+				<td id="ML{{item.audit_management_letter_id}}"><small>ML-{{item.audit_management_letter_id}}</small></td>
+				<td>
+					<a class="none-print text-info" ng-click="scrollTo('AP' + item.audit_procedure_id)">
+						AP-{{item.audit_procedure_id}}
+					</a>
+					<a class="print-only" href="#AP{{item.audit_procedure_id}}">
+						AP-{{item.audit_procedure_id}}
+					</a>
+				</td>
+				<td>
+					<a class="none-print text-info" ng-click="scrollTo(item.audited_item_type + item.audited_item_id)">
+						{{item.audited_item_label}}
+					</a>
+					<a class="print-only" href="#{{item.audited_item_type}}{{item.audited_item_id}}">
+						{{item.audited_item_label}}
+					</a>
+				</td>
+				<td>{{item.content}}</td>
+				<td>{{item.response}}</td>
+		</tr>
+	</tbody>		
+</table>
+<script type="text/ng-template" id="summary.edit.management_letter.html">
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.content'/>
+        <label>Letter Content</label>
+    </div>
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.response'/>
+        <label>Managment Response</label>
+    </div>
+</script>

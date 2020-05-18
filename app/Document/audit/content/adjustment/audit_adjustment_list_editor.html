@@ -1,0 +1,96 @@
+{{auditManager.currentAudit.clientTBHashs}}
+<div class="table-responsive">
+		<table class="table m-b-none table-condensed">
+        <thead>
+          <tr>
+            <td style="width:120px;" rowspan="2"></td> 
+    		<th rowspan="2" style="width:200px;">Account Id</th>
+            <th colspan="2" class="number">Current Period</th>
+            <th colspan="2" class="number dker">Prior Period</th><th rowspan="2" style="width:400px;">Justification</th>    
+    	</tr>
+          <tr>
+    		<th class="number">Debit</th><th class="number">Credit</th>
+            <th class="number dker">Debit</th><th class="number dker">Credit</th>    
+    	</tr>
+        
+    </thead>
+        <tbody>
+        
+    
+    <tr ng-repeat="item in auditManager.currentAudit.adjustments track by $index" class="{{$index==editedAdjustmentIndex?'editor':'viewer'}}-table hover-target hover-shadow">
+    	
+ 		
+        <td >
+        	<span class="hovers-show">
+        	<span class="hover-show viewer" ng-show="editedAdjustmentIndex<0">
+         	<button uib-tooltip="Edit" class="btn btn-info btn-xs"ng-click="editAdjustment($index)">
+                	<i class="fa fa-pencil"></i>
+            </button>
+        	
+            <button uib-tooltip="Delete" class="btn btn-danger  btn-xs" ng-click="deleteAdjustment(item.audit_adjustment_id)">
+            		<i class="fa fa-trash-o"></i>
+            </button>
+
+            <button uib-tooltip="Repeat On Current" class="btn black  btn-xs" ng-click="repeatAdjustmentOnCurrent(item)">
+            		<i class="fa  fa-history"></i>
+            </button>
+            
+            </span>
+            <span class="editor">
+         	<button uib-tooltip="Save" class="btn btn-info btn-xs"ng-click="saveAdjustment($index)">
+                	<i class="fa fa-check"></i>
+            </button>
+        	
+            <button uib-tooltip="Cancel" class="btn btn-danger  btn-xs" ng-click="cancelEditAdjustment($index)">
+            		<i class="fa fa-times"></i>
+            </button>
+            </span>
+            </span>
+        </td>
+
+        <td>
+       	<span class="viewer">{{item.account_id}}-{{auditManager.currentAudit.clientTBHash[item.account_id].account_description}}</span>
+        <!--<input class='md-input'  ng-model="item.account_id" />-->
+        <div class="editor"  >
+                                    <ui-select ng-model="item.account" theme="bootstrap" reset-search-input="false"
+ style="width:250px;">
+                                        <ui-select-match class="ui-select-match" placeholder="{{$select.selected.account_description}}">
+                                        	<small>{{$select.selected.account_id}}</small> - {{$select.selected.account_description}}
+                                        </ui-select-match>
+                                        <ui-select-choices class="ui-select-choices" repeat="gp in auditManager.currentAudit.clientTB | filter: $select.search"> 
+                                        	<small ng-bind-html="gp.account_id | highlight: $select.search"></small> - 
+                                        	<span ng-bind-html="gp.account_description | highlight: $select.search"></span>
+                                            </ui-select-choices>
+                                    </ui-select>
+                                    
+                                </div>
+        
+        </td>
+        <td class="number"><span class="viewer">{{item.debit | number:2}}</span><input class='md-input number' ng-model='item.debit'/></td>
+        <td class="number"><span class="viewer">{{item.credit | number:2}}</span><input class='md-input number' ng-model='item.credit'/></td>
+       
+        <td class="number dker"><span class="viewer">{{item.prior_debit | number:2}}</span><input class='md-input number' ng-model='item.prior_debit'/></td>
+        <td class="number dker"><span class="viewer">{{item.priod_credit | number:2}}</span><input class='md-input number' ng-model='item.priod_credit'  /></td>
+       
+        <td><span class="viewer text-ellipsis">{{item.justification}}</span>
+								
+				<input class='md-input' ng-model='item.justification'  bs-typeahead bs-options="opt.value as opt.value for opt in autocomplete.justifications(item.justification)"/></td>        
+        
+    </tr>
+    <tr>
+    	<td colspan="2">Total</td>
+        <td class="number text-{{adjustmentTotals.debit==adjustmentTotals.credit?'info':'warning'}}">{{adjustmentTotals.debit | number:2}}</td>
+        <td class="number text-{{adjustmentTotals.debit==adjustmentTotals.credit?'info':'warning'}}">{{adjustmentTotals.credit | number:2}}</td>
+        <td class="number dker text-{{adjustmentTotals.prior_debit==adjustmentTotals.priod_credit?'info':'warning'}}">{{adjustmentTotals.prior_debit | number:2}}</td>
+        <td class="number dker text-{{adjustmentTotals.prior_debit==adjustmentTotals.priod_credit?'info':'warning'}}">{{adjustmentTotals.priod_credit | number:2}}</td>
+    </tr>
+     <tr>
+    	<td colspan="2">Balance</td>
+        <td colspan="2" class="text-right">{{(adjustmentTotals.debit- adjustmentTotals.credit) | number:2}}</td>
+		<td colspan="2" class="text-right">{{(adjustmentTotals.prior_debit- adjustmentTotals.priod_credit) | number:2}}</td>
+    </tr>
+    
+    </tbody>
+            
+</table>
+</div>

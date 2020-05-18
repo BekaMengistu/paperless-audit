@@ -1,0 +1,112 @@
+<style>
+    .list-title {padding:1em; padding-bottom: 0; font-size: 1.2em; font-weight: bold;}
+</style>
+<script type="text/ng-template" id="detail-view.html">
+	<div ui-view>Test</div>
+</script>
+<script type="text/ng-template" id="crud.items.list.html">
+	<div class="list-title">Items</div>
+	<a class="list-item pointer non-select" ng-repeat="item in entityManager.items | filter:entityManager.query  track by $index"
+			uis-sref="{{transactionManager.listEditor.url}}({inventory_movement_id:item.inventory_movement_id})" ng-click="entityManager.navigateToDetail(item)" >
+		
+		<div class="list-body">
+			{{item.label}}<small class="block">{{item.description}}</small>
+		</div>
+	</a>
+	
+</script>
+
+<script type="text/ng-template" id="default-list-header.html">
+	<div class="input-group">
+		<span class="input-group-addon no-border no-bg text-white"><i class="fa fa-search"></i></span>
+		<input type="text" ng-model="entityManager.query" class="form-control no-border b-b b-white no-bg text-white" placeholder="Search">
+		<span class="input-group-btn" style="font-size:20px;">
+            <button class="md-btn md-fab m-b-sm md-mini white" ng-click="entityManager.navigateToDetail(0)"  type="button"><i class="fa fa-plus" ></i></button>
+          </span>
+					
+	</div>
+</script>
+<script type="text/ng-template" id="default-detail-header.html">
+	Detail
+</script>
+<script type="text/ng-template" id="crud.tools.html">
+
+    <button class="md-btn md-fab m-b-sm  md-mini indigo" popover-trigger="mouseenter" popover-placement="left" uib-popover="Save" ng-click="entityManager.saveItem(entityManager.editedItem)">
+      <i class="material-icons md-16">&#xe161;</i>
+    </button>
+
+    <button class="md-btn md-fab m-b-sm md-mini pink" popover-trigger="mouseenter" popover-placement="left" uib-popover="Delete">
+      <i class="material-icons md-16"> &#xe872;</i>
+    </button>
+
+    <button class="md-btn md-fab m-b-sm md-mini white text-info" popover-trigger="mouseenter" popover-placement="left" uib-popover="Back To List">
+     <i class="fa fa-arrow-left"></i>
+    </button>
+</script>
+<script type="text/ng-template" id="crud.tools2.html">
+<div class="btn-group ">
+	<button popover-trigger="mouseenter" popover-placement="left" uib-popover="Back To List" ng-click="entityManager.goToList()" class="btn warn btn-sm"><i class="fa fa-arrow-left"></i></button>
+
+	<button popover-trigger="mouseenter" popover-placement="left" uib-popover="Save" ng-click="entityManager.saveItem(entityManager.editedItem)" class="btn btn-info btn-sm"><i class="fa fa-floppy-o"></i></button>
+	
+	<div class="btn-group dropdown">
+		<button type="button" class="btn btn-sm btn-info" data-toggle="dropdown" aria-expanded="false"> <i class="fa fa-wand"></i> <span class="caret"></span> </button>
+		<ul class="dropdown-menu animated pull-right">
+			<li class="dropdown-item ng-scope"> <a>Action 1</a> </li>
+			<li class="dropdown-item ng-scope"> <a>Action 1</a> </li>
+			<li class="dropdown-item ng-scope"> <a>Action 1</a> </li>
+		</ul>
+	</div>
+</div>
+</script>
+
+
+<div class="app-layout text-{{app.Manager.UIManager.activeColorTheme.primary}}-hover">
+	<div class="page-header-2 {{app.Manager.UIManager.activeColorTheme.primary}}" style="">
+		<div class="pull-right p-x p-t-sm" ngs-if="template.page.tool">
+			
+			<div ng-include="template.page.tool">
+			</div>
+		</div>
+		<div class="p-l-lg p-t" style="color:#FFF;">
+			<h4><span class="_600">{{app.organization.name}} </span><span style="font-size:0.7em;" ng-bind-html="template.page.title"></span> <small class="page-sub-title" style="font-size:0.6em;">{{template.page.subTitles}}</small></h4>
+		</div>
+	</div>
+	<div class="app-body-inner-2">
+		<div class="row-col row-col-xs" ngs-if="dataLoaded">
+			<div ng-repeat="col in template.columns" class="col-sm-12 col-md-{{col.width}} section {{!col.header?'no-header':''}} {{col.class}}" >
+				<div class="row-col section-inner {{col.innerClass}}" >
+					<div class="col-header {{col.header.class}}" ng-if="col.header">
+						<div class="{{col.header.color}}" ng-if="col.header.template" ng-include="col.header.template">
+						</div>
+						<div ng-if="!col.header.template" class="col-header-inner">
+							<div class="text-md _300s  p-t-xs p-l" ng-bind-html="col.header.title"></div>
+							
+						</div>
+						
+					</div>
+					<div class="row-row {{col.content.class}}">
+						<div class="row-body scrollable p-t-lg">
+							<div class="row-inner">
+								<div>
+									<div class="content-inner {{col.content.color}}" ng-include="col.content.template">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div ng-if="col.footer" class="p-a-xs b-t text-center {{col.footer.class}}" ngs-include="template.listMenu">
+						Column Menu
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+

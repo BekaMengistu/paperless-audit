@@ -1,0 +1,16 @@
+
+<div class="p-a-sm">
+	<div class="row no-gutter">
+		<div class="col-sm-3" ng-hide='form_value_id'>
+			<div class="text-md p-as _300">
+				Form Templates
+			</div>
+			<div class="list-group">
+				<a class="list-group-item" ui-sref="app.formbuilder.design({form_template_id:0})">New</a> <a ng-repeat="item in formManager.FormTemplate.items" ui-sref="app.formbuilder.design({form_template_id:item.form_template_id})"  class="list-group-item {{form_template_id==item.form_template_id?'dker':''}}"> <strong>{{item.label}}</strong><br/>
+				<span class="text-muted">{{item.description}}</span> </a>
+			</div>
+		</div>
+		<div class="col-md-9 p-x p-l-md " ng-include="'app/FormBuilder/content/form.design.detail.html'">
+		</div>
+	</div>
+</div>

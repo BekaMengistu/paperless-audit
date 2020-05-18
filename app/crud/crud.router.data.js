@@ -1,0 +1,1 @@
+addRoutesToApp({'app.crud': { url: '/crud' ,data : { title: 'Database'} ,template: '<div ui-view></div>' ,resolve: [] }});

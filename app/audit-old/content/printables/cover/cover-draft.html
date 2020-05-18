@@ -1,0 +1,51 @@
+
+    <div class="nav-active-border b-info">
+    	<div class="pull-right p-t p-r none-print">
+        	<button uib-tooltip="Print" class="btn primary btn-sm">
+                	<i class="fa fa-print"></i>
+            </button> &nbsp;
+        	
+            <a class="btn btn-default btn-sm" uib-tooltip="Back to List" ui-sref="app.customer.list" 
+            	bm-ui-permission="app.customer.viewlist" login-user="app.loginUser" bm-app="app">
+            	<i class="fa fa-arrow-left"></i>
+            </a>
+           
+             &nbsp;
+              &nbsp;  &nbsp;  &nbsp;
+        </div>
+        <ul class="nav nav-md p-l none-print">
+            <li class="nav-item inline"> 
+            	<a class="nav-link active" data-toggle="tab" data-target="#tab_cover"> 
+                	<span class="text-md">Cover</span>
+                </a> 
+            </li>
+            <li class="nav-item inline"> 
+            	<a class="nav-link" data-toggle="tab" data-target="#tab_qualification"> 
+                	<span class="text-md">Qalification</span>
+                </a> 
+            </li>
+            
+            
+        </ul>
+        
+        <div class="b-t p-t  bs-info clear tab-content print-container">
+        	<div class="tab-pane active" id="tab_cover">
+            	<div class="printable-doc a4" style="">
+                <div class="m-t p-a deep-purple-400">
+                	<h2>Habtamu Tesfaye </h2>
+                </div>
+            	<h2>Cover Page</h2>
+                	<div class="padding">
+                    	<div ui-include="'assets/images/logo.svg'"></div>
+                        
+                	</div>
+                </div>
+            </div>
+            <div class="tab-pane" id="tab_qualification">
+            	<h2>Qalification Page</h2>
+            </div>
+		</div>
+    </div>
+
+
+

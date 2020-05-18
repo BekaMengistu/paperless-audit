@@ -1,0 +1,143 @@
+<div  ng-include ="'app/FormBuilder/content/aside_field_edit.html'"></div>
+
+<script type="text/ng-template" id="default_value_editor.html">
+	<input class='md-input' id='txtdefault_value' ng-model='editedFormFieldTemplate.default_value' required>
+	<label>Initial Value</label>
+</script>
+<script type="text/ng-template" id="lookup_value_editor.html">
+		<select class='md-input' ng-model="editedFormFieldTemplate.default_value" 
+				ng-options="opt.value as opt.label for opt in app.Manager.LookupManager.lookups[editedFormFieldTemplate.lookup_id]"></select>
+
+	<label>Initial Value</label>
+</script>
+
+<script type="text/ng-template" id="boolean_value_editor.html">
+	<label class="md-switch" ng-init="editedFormFieldTemplate.default_valueBool=(editedFormFieldTemplate.default_value*1)?true:false">
+			<input type="checkbox" ng-model="editedFormFieldTemplate.default_valueBool"  
+					ng-change="editedFormFieldTemplate.default_value=editedFormFieldTemplate.default_valueBool?1:0" 
+					ngs-value="(editedFormFieldTemplate.default_value*1)?true:false">
+			<i class="primary"></i> Initial Value 
+	</label>
+</script>
+
+
+<script type="text/ng-template" id="spacer.html">
+	<div class="md-form-group" style="opacity:0;">
+			<input class='md-input ng-not-empty' readonly ="true" ng-value="fld.data.default_value"/>
+        <label>{{fld.data.label}} {{fld.data.form_field_template_id}}</label>
+	</div>
+<div ng-include ="'field_tools.html'"></div>
+</script>
+<script type="text/ng-template" id="boolean_fld.html">
+		<div class="md-form-group float-label">
+			<label class="md-switch">
+					<input type="checkbox"/>
+					<i class="primary"></i> {{fld.label}}
+			</label>
+		</div>
+		<div ng-include ="'field_tools.html'"></div>
+</script>
+
+<script type="text/ng-template" id="default_fld.html">
+		<div class="md-form-group float-label">
+		<input class='md-input ng-not-empty' readonly ="true" ng-value="fld.data.default_value"/>
+		
+        <label>{{fld.data.label}} <!--{{fld.parentId}} | {{fld.data.form_field_template_id}}--></label>
+	</div>
+	<div ng-include ="'field_tools.html'"></div>
+</script>
+
+<script type="text/ng-template" id="field_tools.html">
+		<div class="tools" ng-dblclick="editFieldTemplate(fld)">
+			<div class="mover-buttons">
+			<a class="resizer text-muted" ng-click="fld.data.width=fld.data.width*1-1">&nbsp;<i class="fa fa-step-backward"></i>&nbsp;</a>
+			<a class="resizer text-muted" ng-click="fld.data.width=fld.data.width*1+1">&nbsp;<i class="fa fa-step-forward"></i>&nbsp;</a>
+			</div>
+		<div class="pull-right">
+			<ul class="nav">
+            <li class="nav-item inline dropdown">
+              <a class="nav-link" data-toggle="dropdown">
+                &nbsp; <i class="fa fa-ellipsis-v"></i> &nbsp;
+              </a>
+              <div class="dropdown-menu pull-right">
+                <a class="dropdown-item" href="" ng-click="editFieldTemplate(fld)"><i class="fa fa-edit"></i> &nbsp; Edit</a>
+                <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.deleteFieldTemplate(fld,$index)"><i class="fa fa-trash-o"></i> &nbsp; Delete</a>
+              </div>
+            </li>
+					</ul>
+		</div>
+		</div>
+</script>
+<script type="text/ng-template" id="box.tool.html">
+<ul class="nav">
+            <li class="nav-item inline dropdown">
+              <a class="nav-link" data-toggle="dropdown">
+                &nbsp; <i class="fa fa-bars fas-ellipsis-v"></i> &nbsp;
+              </a>
+              <div class="dropdown-menu pull-right">
+                <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate(fld,'text')"><i class="fa fa-plus"></i> &nbsp; Add</a>
+                <a class="dropdown-item" href="" ng-click="editFieldTemplate(fld)"><i class="fa fa-edit"></i> &nbsp; Edit</a>
+                <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.deleteFieldTemplate(fld,$index)"><i class="fa fa-trash-o"></i> &nbsp; Delete</a>
+              </div>
+            </li>
+          </ul>
+</script>
+
+<script type="text/ng-template" id="box.html">
+	<div class="box m-b-xs">
+		<div class="box-header dker non-select {{containerClass}}" ng-dblclick="editFieldTemplate(fld)">
+			<h3>
+			<a class="resizer text-muted" ng-click="fld.data.width=fld.data.width*1-1">&nbsp;<i class="fa fa-step-backward"></i>&nbsp;</a>
+			<a class="resizer text-muted" ng-click="fld.data.width=fld.data.width*1+1">&nbsp;<i class="fa fa-step-forward"></i>&nbsp;</a>
+			
+			<a ng-if="fld.children.length" ng-click="toggleExpanded(fld.data.name)" class="text-muted">
+				<i class="fa fa-angle-{{formBuilderSetting.expandedField==fld.data.name?'down':'right'}}"> </i> &nbsp;
+			</a> {{fld.data.label}} <!--{{fld.data.form_field_template_id}}--></h3>
+		</div>
+		<div class="box-tool" ng-include ="'box.tool.html'">
+          
+    </div>
+		<div class="box-tool" style="margin-right:40px;" ng-include ="'box.tool2.html'">
+          
+    </div>
+		<div class="box-body p-t-xs" ng-if="formBuilderSetting.expandedField==fld.data.name">
+			<div class="row" ng-include="fld.data.template.field"></div>
+		</div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="object.html">
+	<div html-sortable="field_sortable_option" ng-model="fld.children" ng-if="sortableFields=='childFields'">
+		<div ng-repeat="fld in fld.children" class="col-md-{{fld.data.width}} form-fields"  ng-init="rowIndex=0" ng-include ="fld.data.template.container">
+		</div>
+	</div>
+	
+</script>
+
+<script type="text/ng-template" id="object-grid.html">
+	<div ng-include ="'object.html'"></div>
+</script>
+<script type="text/ng-template" id="grid.html">
+	<table class='table table-sm'> 
+		<thead>
+			<tr html-sortable="field_sortable_option" ng-model="fld.children" ng-if="sortableFields=='childFields'">
+				<th class="form-fields" ng-repeat="fld in fld.children  track by $index" ng-init="field_name=fld.data.name" 
+                    style="width:{{(fld.data.width/12*100)|number}}%;">{{fld.data.label}}
+				<div ng-include ="'field_tools.html'"></div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				
+				<td ng-repeat="fld in fld.children  track by $index">
+					<input class='md-input' readonly="true" ng-value="fld.data.default_value"/>
+				</td>
+				
+			</tr>
+		</tbody>
+	</table>
+</script>
+
+<div ng-repeat="v in app.Manager.HooksManager.hooks" ng-include="v"></div>
+	

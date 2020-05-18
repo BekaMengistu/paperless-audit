@@ -1,0 +1,27 @@
+<script type="text/ng-template" id="imagePreview">
+	<img ng-src="{{'files/uploads/' + documentManager.editedDocument.document_path}}"/>
+</script>
+<script type="text/ng-template" id="iframePreview">
+	<iframe widths="900" styles="width:100%; height:100%;" heights="400" ng-src="{{'files/uploads/' + documentManager.editedDocument.document_path}}" ></iframe>
+</script>
+<script type="text/ng-template" id="downloadPreview">
+</script>
+<script type="text/ng-template" id="uploadPreview">
+	
+</script>
+
+<script type="text/ng-template" id="nodePreview">
+	<div  ng-repeat="node in node.children" class="node-children p-a white box-shadows">
+		{{node.label}}
+	</div>
+</script>
+
+
+<div ng-if="documentManager.editedDocument">
+	<a ng-if="documentManager.editedDocument.document_path" target="_document" class="text-primary _600" href="{{'files/uploads/' + documentManager.editedDocument.document_path}}">Download 
+	{{documentManager.editedDocument.document_path}}</a>
+    <div ng-repeat="node in [documentManager.selectedNode]" ng-include ="'nodePreview'"></div>
+    
+    <div ng-include ="documentManager.editedDocument.previewTemplate" ngs-include-replace></div>
+    
+</div> 

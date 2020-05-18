@@ -1,0 +1,60 @@
+<style type="text/css" media="print">
+			div.page {page-break-after:always;}
+			.single-page {page-break-inside:avoid;}
+		</style>
+<div ng-include="'app/audit/content/summary/summary.editor.html'"></div>	
+<div class="p-a-sm audit-summary">
+	<div class="row p-r p-b-sm none-print" style="display: none;">
+		<div class="pull-right">
+			<a href="{{exportInfo.filePath}}" ng-show="exportInfo.exportDone">Download the file &nbsp;</a>
+			<button class="btn white"  ng-click="exportToExcel(formManager.fields)"> <i class="fa fa-file-excel-o"></i> AWP</button>
+			<button bm-ui-permission="app.audit.fs" login-user="app.loginUser"  class="btn white"  ng-click="exportToExcel(formManager.fields,companyTypesHash['item'+auditManager.currentAudit.engagementInfo.company_type].report_template)"> <i class="fa fa-file-excel-o"></i> FS</button>
+            <button class="btn white" ng-click="summaryEditor.editItem('Edite Type','Edited Item')">Edit</button>
+		</div>
+        
+	</div>
+	<div class="paddings print-container" style="backgrounds-color:#FDFDFD; widths:210mm;">
+		<div class="prints-only" style="position:fixed; top:0; left:0; right:0; height:80px; padding:0.5em; font-size:1.5em; display:none;">
+		</div>
+		<table classs="table" style="width:100%;">
+			<thead>
+				<tr>
+					<th style="borders:none !important; heights:100px; font-size:1.2em; " class="dkers p-b _300">
+						<div style="border-bottom:solid 1px #555;" class="p-a print-onlys">
+							&nbsp; {{auditManager.currentAudit.auditName}} <i style="font-size:0.8em;"> Audit Working Papers</i>
+						</div>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td style="position:relative">
+						<div ng-repeat="summaryItem in summaryItems" style="position:relative" class="box m-b-sm box-expanded-{{s.expanded}} page2 single-page">
+							<div class="box-header light-blue-50">
+								<h2 class="_300">{{$index+1}}. {{summaryItem.label}}</h2>
+								<small></small>
+								<div class="box-tool none-print">
+									<a classs="btn btn-sm btn-default" ng-click="summaryItem.expanded=!summaryItem.expanded"> <i class="fa fa-{{summaryItem.expanded?'minus':'plus'}}"></i> </a>
+								</div>
+							</div>
+							<div class="box-body p-y-xs print-show">
+								<div class="table-responsives "  ng-include ="summaryItem.templateUrl">
+									{{summaryItem.templateUrl}}
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th style="borders:none !important; height:80p; ">
+						<div style="margin-top:1em;background-color:#FFF; border-top:solid 1px #333;" class="_300 print-onlys p-a text-right">
+							Habtamu Tesfaye Certified Audit Firm &nbsp; &nbsp; <small><i>{{appSettings.time|date}} &nbsp;</i></small>
+						</div>
+					</th>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>

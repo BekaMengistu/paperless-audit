@@ -1,0 +1,28 @@
+<div class="navbar navbar-sm top-nav">
+		<a data-toggle="collapse" data-target="#navbar-4" class="navbar-item pull-right hidden-md-up m-a-0 m-l">
+			<i class="material-icons">&#xe5d2;</i>
+		</a>
+		<div ng-include="'app/core/views/blocks/navbar.brand.html'"></div>
+
+		<!-- nabar right -->
+		<ul class="nav navbar-nav pull-right" ngs-include="'app/core/views/blocks/header-right.html'">
+				<li class="nav-item"></li>
+				
+				<li class="nav-item dropdown"> 
+					<a class="nav-link clear" href data-toggle="dropdown"> 
+						<span class="avatar w-32"> <img ng-src="files/uploads/{{app.loginUser.profile_picture}}"  alt="..."> <i class="on b-white bottom"></i> </span> 
+					</a>
+					<div ui-include="'app/core/views/blocks/dropdown.user.html'">
+					</div>
+				</li>
+		</ul>
+		<!-- / navbar right -->
+
+		<!-- navbar collapse -->
+		<div class="collapse navbar-toggleable-sm" id="navbar-4" data-pjax>
+			<!-- link and dropdown -->
+			<div ui-include="'appNavigation2.php'"> </div>
+			<!-- / link and dropdown -->
+		</div>
+		<!-- / navbar collapse -->
+</div>

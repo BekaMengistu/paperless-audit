@@ -1,0 +1,26 @@
+<div>
+    <div ui-include="'app/Audit/content/printables/letterhead.html'"></div>
+    <div ng-if="printableParams.copy=='Draft'"> <div ui-include="'app/Audit/content/printables/draft.html'"></div></div>
+	
+    <div style="position:absolute;top:45%; margin-top:-60px; left:0;width:100%;min-height:110px; padding-top:5px;padding-bottom:5px; border-bottom:solid 1px #4C2B51;border-top:solid 1px #4C2B51" class="">
+    	
+        <table style="width:100%">
+        	<tr>
+            	<td class="text-right p-r" style="width:25%;" rowspan="3">
+                	<img ng-src="files/uploads/{{auditManager.currentAudit.engagementInfo.verification_code}}.png" style="height:90px;"/>
+                </td>
+                <td class="text-2x22 p-l" style="font-size:1.4em;" contenteditable="">{{audit.client_name_cap}}</td>
+            </tr>
+            <tr><td class="text-md22 p-l" style="font-size:1.2em;" contenteditable="">{{activeDocument.title}}</td></tr>
+            <tr><td class="text-md22 p-l" styles="font-size:1em;" contenteditable="">{{audit.for_year_caps}}</td></tr>
+            
+        </table>
+        
+        
+    </div>
+    <div style="position:absolute;top:65%;right:20mm; text-align:right;" contenteditable="">
+    	{{audit.schedules_date}}<br/>
+        Addis Ababa, Ethiopia
+    </div>
+    <div ui-include="'app/Audit/content/printables/footer.html'"></div>
+</div>

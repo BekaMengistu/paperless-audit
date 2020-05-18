@@ -1,0 +1,33 @@
+<div class="popover popover-right" style="max-width:320px;" tabindex="-1" ngs-show="content">
+    <div class="popover-arrow">
+    </div>
+    <h3 class="popover-title" ng-bind-html="title" ng-show="title"></h3>
+    <div class="popover-content" style="min-width:300px;">
+        <form ui-jp="" >
+            <div class="row row-sm">
+                <div class="col-lg-12">
+                    <div class="md-form-group  floats-label" style="padding: 18px 0 14px 0;">
+                        <input class='md-input' id='txtname' ng-model='editedAppPermission.name' required>
+                            <label>Name</label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="md-form-group floats-label" style="padding: 18px 0 14px 0;">
+                        <input class='md-input' id='txtdescription' ng-model='editedAppPermission.description'>
+                        <label>Description</label>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="md-form-group floats-label" style="padding: 18px 0 14px 0;">
+                        <input class='md-input' id='txtparent' ng-model='editedAppPermission.parent'>
+                        <label>Parent</label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="fa fa-times"></i></button>
+                <button type="button" class="btn btn-primary" ng-click="savePermission(editedAppPermission);$hide()"><i class="fa fa-check"></i></button>
+            </div>
+        </form>
+    </div>
+</div>

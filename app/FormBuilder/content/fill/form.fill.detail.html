@@ -1,0 +1,38 @@
+<div class="p-a" ngs-show="form_value_id">
+	<div ngs-include="'app/FormBuilder/content/field_templates2.html'">
+	</div>
+	<div class="md-form-group">
+		<input class='md-input' id='txtdefault_value' ng-model='valueManager.editedItem.description' required>
+		<label>Description</label>
+	</div>
+	<div class="row">
+		<div ng-repeat=" fld in customForm.manager.FormTemplate.fields" class="col-md-{{fld.data.width}}">
+			<div ng-include="fld.data.template.container">
+			</div>
+		</div>
+	</div>
+	<div class="debug">
+		<table class="table table-sm">
+			<tr>
+				<th>Field</th>
+				<th>Form Value</th>
+				<th>Field Value Id</th>
+				<th>Value</th>
+			</tr>
+			<tr ng-repeat="item in valueManager.editedItem.fieldValuesHash track by $index">
+				<td>{{item.form_field_template_id}}
+					{{templateManager.fieldsHash["item"+item.form_field_template_id].label}} </td>
+				<td>{{item.form_value_id}}</td>
+				<td>{{item.form_field_value_id}}</td>
+				<td>{{item.field_value[0].value}}</td>
+			</tr>
+		</table>
+		<div class="box p-a-sm m-b-xs" ng-repeat=" item in customForm.manager.FormTemplate.fields">
+			{{item.label}}
+		</div>
+		<div ng-repeat=" item in customForm.manager.FormTemplate.editedItem.form_field_templates" >
+			<strong>{{item.label}}</strong> <span class="text-muted">{{item.name}} [{{item.data_type}}]</span> <br/>
+			{{item.template}}
+		</div>
+	</div>
+</div>

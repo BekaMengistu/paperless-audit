@@ -1,0 +1,61 @@
+<style>
+.finding-editor textarea {
+	width: 100%;
+	height: 270px;
+	borders-top: none;
+}
+.orange-active .active {
+	color: rgba(255, 255, 255, 0.87) !important;
+	background-color: #ff9800 !important;
+}
+.primary-active .active {
+	color: rgba(255, 255, 255, 0.87) !important;
+	background-color: #0cc2aa !important;
+}
+.finding-editor img,.finding-editor iframe {height:300px;}
+</style>
+<div id="audit_finding" class="modal" data-backdrop="true">
+	<form>
+    <div class="modal-dialog modal-lg" style="max-width:90%;width:90%;" >
+        <div class="modal-content">
+            <div class="modal-header dker">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <h5 class="modal-title _300">Audit Findings <small class="" style="font-size:0.7em;">{{selectedFindingData.account.label}}</small></h5>
+                <small>{{selectedFindingData.procedure.description}}</small>
+            </div>
+            <div class="finding-editor" style="height:500px; overflow:scroll;">
+                <div class="nav-active-border ">
+                    <div class="nav nav-tab nav-md">
+                        <a class="nav-link b-primary" ng-click="activeUpperTab='tab_work'" ng-class="{'active':(activeUpperTab=='tab_work' || !activeUpperTab)}" href>Audit Work </a> 
+                        <a class="nav-link b-info" ng-click="activeUpperTab='tab_doc'" ng-class="{'active':activeUpperTab=='tab_doc'}"  href> Documents </a> 
+                        <a class="nav-link b-warn" ng-click="activeUpperTab='tab_mgtl'" ng-class="{'active':activeUpperTab=='tab_mgtl'}"  href> Reportable Points </a>
+
+                        <a style="display:none;" ng-show="selectedFindingData.procedure.extra_data" class="nav-link b-accent" ng-click="activeUpperTab='tab_extra'" ng-class="{'active':activeUpperTab=='tab_extra'}"  href> {{extraSubstantiveData[selectedFindingData.procedure.extra_data].label}} </a>
+                        
+                    </div>
+                </div>
+                <div class="tab-content" >
+                	
+                    <div class="tab-pane animated fadeIn text-muted b-t b-t-primary p-t" ng-class="{'active':(activeUpperTab=='tab_work' || !activeUpperTab)}"  id="tab_work">
+                        <div ng-include="'app/audit/content/blocks/audit_work.html'"></div>
+                    </div>
+                    <div class="tab-pane animated fadeIn  text-muted b-t b-t-info p-t" ng-class="{'active':activeUpperTab=='tab_doc'}" id="tab_doc">
+                        <div class="p-x-md">
+                            <div ng-include="'app/audit/content/audit.document.list.detail.html'">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane animated fadeIn  text-muted b-t b-t-warn p-t" ng-class="{'active':activeUpperTab=='tab_mgtl'}" id="tab_mgtl">
+                        <div ng-include="'app/audit/content/blocks/audit_mgt_ltr.html'"></div>
+                    </div>
+                    
+                    <div style="display:none;" ngs-if="selectedFindingData.procedure.extra_data" class="tab-pane animated fadeIn  text-muted b-t b-t-accent p-t" ng-class="{'active':activeUpperTab=='tab_extra'}" id="tab_extra">
+                        <div ng-if="selectedFindingData.procedure.extra_data"  ng-include="extraSubstantiveData[selectedFindingData.procedure.extra_data].template"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    </form>
+</div>

@@ -1,0 +1,61 @@
+<style>
+    c {
+        color: #F06030;
+    }
+
+</style>
+<div id="auditListEdit" class="modal" data-backdrop="true" bm-ui-permission="app.audit.create" login-user="app.loginUser" bm-app="app">
+    <form>
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header dker">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h5 class="modal-title">New Audit Engagment</h5>
+                </div>
+                <div class="modal-body p-lg">
+
+                    <div class="row row-sm p-x-lg">
+
+                        <div class="md-form-group">
+                            <label>Customer</label>
+                            <ui-select ng-model="auditManager.editedAuditEngagement.customer" ng-change="onAuditParamChange(auditManager.editedAuditEngagement)" theme="bootstrap">
+                                <ui-select-match class="ui-select-match" placeholder="Select Customer...">{{$select.selected.customer_name}}</ui-select-match>
+                                <ui-select-choices class="ui-select-choices" repeat="item in companysLookup | filter: $select.search">
+                                    <span ng-bind-html="item.customer_name | highlight: $select.search"></span>
+                                    <small ng-bind-html="item.email | highlight: $select.search"></small>
+                                </ui-select-choices>
+                            </ui-select>
+
+
+                        </div>
+                        <div class="md-form-group">
+                            <input type="text" size="8" class="md-input" ng-change="onAuditParamChange(auditManager.editedAuditEngagement)" ng-model="auditManager.editedAuditEngagement.closing_date" data-autoclose="0" placeholder="Date" data-icon-left="fa fa-chevron-left" data-icon-right="fa fa-chevron-right" bs-datepicker>
+                            <label>Closing Date</label>
+                        </div>
+                        <div class="md-form-group">
+                            <label>Audit Standard</label>
+                            <select class='md-input' placeholder="Select Value" ng-model="auditManager.editedAuditEngagement.audit_standard" ng-options="opt.description as opt.name for opt in customLookups.audit_standard"></select>
+                        </div>
+
+                        <!--  {{auditManager.editedAuditEngagement.formated_closing_date}} <br/>{{auditManager.editedAuditEngagement.closing_date|date}} | {{auditManager.editedAuditEngagement.closing_date}}
+                       
+                        {{auditManager.editedAuditEngagement.customer.company_type}}<br/>
+                        {{auditManager.editedAuditEngagement.company_type}}-->
+                    </div>
+                    <div style="height:60px;">
+                        <div class="alert alert-danger" ng-show="createMessage">{{createMessage}}</div>
+                    </div>
+
+                </div>
+                <div class="modal-footer dker">
+                    <button class="btn primary" ng-disabled="!auditManager.editedAuditEngagement.customer || !canCreate" type="submit" ng-click="saveNewItem(auditManager.editedAuditEngagement)"><i class="fa fa-floppy-o"></i></button>
+                    <button type="button" class="btn danger" data-dismiss="modal"><i class="fa fa-times"></i></button>
+
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </form>
+</div>

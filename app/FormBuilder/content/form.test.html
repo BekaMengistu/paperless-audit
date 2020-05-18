@@ -1,0 +1,64 @@
+<div class="p-a-sm">
+	<div class="row">
+			<div class="col-sm-2">
+					Form Templates
+					<div ng-repeat="item in customForm.manager.FormTemplate.items" 
+							class="p-a-sm b-t {{customForm.manager.FormTemplate.editedItem.form_template_id==item.form_template_id?'dker':''}}" 
+							ng-click="customForm.manager.FormTemplate.loadDetail(item.form_template_id)">
+							<strong>{{item.label}}</strong><br/>
+							<span class="text-muted">{{item.description}}</span>
+					</div>
+			</div>
+			<div class="col-sm-2">
+					Form Values <button class="btn btn-success btn-xs" ng-click="customForm.manager.FormTemplate.readFormValues">Load Values</button>
+					<br/>
+					<div class="box p-a m-b-xs" ng-click="valueManager.loadNew()">New</div>
+					<div ng-repeat=" item in customForm.manager.FormTemplate.editedItem.formValues"
+							ng-click="customForm.manager.FormValue.loadDetail(item.form_value_id)"  
+							class="p-a-sm b-t {{customForm.manager.FormValue.editedItem.form_value_id==item.form_value_id?'dker':''}}">
+							<strong>Form: {{item.description}} {{item.form_value_id}}</strong>
+					</div>
+			</div>
+			<div class="col-sm-8">
+					<div ng-include="'app/FormBuilder/content/field_templates2.html'"></div>
+					
+					<strong> Form Detail :</strong> {{customForm.manager.FormTemplate.editedItem.label}}  
+					
+					<button class="btn btn-default btn-xs" ng-click="valueManager.setFieldValues()" >Load Value</button>
+					<button class="btn btn-default btn-xs" ng-click="valueManager.saveItem(valueManager.editedItem)" >Save</button>
+					<br/>
+					{{customForm.valueObject}}
+					<div class="md-form-group">
+										<input class='md-input' id='txtdefault_value' ng-model='valueManager.editedItem.description' required>
+										<label>Description</label>
+									</div>
+									
+					<div ng-repeat=" fld in customForm.manager.FormTemplate.fields">
+							<div ng-include="fld.data.template.container"></div>
+					</div>
+					
+					
+					<table class="table table-sm">
+						<tr><th>Field</th><th>Form Value</th><th>Field Value Id</th><th>Value</th></tr>
+						<tr ng-repeat="item in valueManager.editedItem.fieldValuesHash track by $index">
+							<td>{{item.form_field_template_id}}
+									{{templateManager.fieldsHash["item"+item.form_field_template_id].label}}
+							</td>
+							<td>{{item.form_value_id}}</td>
+							<td>{{item.form_field_value_id}}</td>
+							<td>{{item.field_value[0].value}}</td>
+						</tr>
+					</table>
+					
+					<div class="box p-a-sm m-b-xs" ng-repeat=" item in customForm.manager.FormTemplate.fields">
+							{{item.label}}
+					</div>
+					<div ng-repeat=" item in customForm.manager.FormTemplate.editedItem.form_field_templates" >
+							<strong>{{item.label}}</strong> <span class="text-muted">{{item.name}} [{{item.data_type}}]</span>
+							<br/>{{item.template}}</div>
+					</div>
+					<!--{{customForm.manager.FormTemplate.editedItem}}-->
+			</div>
+			
+	</div>
+</div>

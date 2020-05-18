@@ -1,0 +1,6 @@
+<div class="row grids-layout">
+    <div ng-repeat="fld in formManager.currentSection.fields  track by $index" ng-init="container=fld" class="col-md-{{fld.width}}">
+			{{object_name}} 
+        <div ng-include="fld.template.container"></div>
+    </div>
+</div>

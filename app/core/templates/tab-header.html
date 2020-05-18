@@ -1,0 +1,8 @@
+<ul class="nav nav-md p-l">
+            <li class="nav-item inline" ng-repeat="item in tabs | orderBy:'order' " bm-ui-permission="app.customer.edit_detail" login-user="app.loginUser"> 
+            	<a class="nav-link" ui-sref-active="active" ui-sref="{{item.sref}}"> 
+                	<span class="text-md">{{item.label}}</span> <small ng-show="item.notess" class="block text-muted hidden-xs">{{item.note}}</small> 
+                </a> 
+            </li>
+            
+        </ul>

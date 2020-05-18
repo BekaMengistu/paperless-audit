@@ -1,0 +1,10 @@
+ Forms and values <br/>
+<div class="list-item pointer non-select" ng-repeat="item in templateManager.items | filter:entityManager.query  track by $index">
+	<a  ui-sref="{{valueManager.listEditor.url}}({form_template_id:item.form_template_id})" href="">
+		{{item.label}} <small class="block">{{item.description}}</small>
+	<a>
+	<div ngs-if="item.formValues.length" class="p-l">
+		<a class="list-item pointer non-select" ng-repeat="fv in item.formValues | filter:entityManager.query  track by $index"
+			ui-sref="{{valueManager.detailEditor.url}}({form_template_id:item.form_template_id,form_value_id:fv.form_value_id})" ngs-click="valueManager.navigateToDetail(fv)" > {{fv.description}} </a>
+	</div>
+</div>

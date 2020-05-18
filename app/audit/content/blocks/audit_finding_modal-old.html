@@ -1,0 +1,71 @@
+<style>
+.finding-editor textarea {
+	width: 100%;
+	height: 200px;
+	borders-top: none;
+}
+.orange-active .active {
+	color: rgba(255, 255, 255, 0.87) !important;
+	background-color: #ff9800 !important;
+}
+.primary-active .active {
+	color: rgba(255, 255, 255, 0.87) !important;
+	background-color: #0cc2aa !important;
+}
+</style>
+<div id="audit_finding" class="modal" data-backdrop="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+                <h5 class="modal-title">Audit Findings <small style="font-size:0.8em;">[ {{selectedFindingData.account.label}} ]
+                    {{selectedFindingData.account.entity_type}} {{selectedFindingData.account.id}} </small></h5>
+                <small>{{selectedFindingData.procedure.description}}</small>
+            </div>
+            <div class="modal-body p-lg finding-editor">
+                <div class="navs-active-primary">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item primary-active"> <a class="nav-link active" href data-toggle="tab" data-target="#tab1">Work Done</a> </li>
+                        <li class="nav-item primary-active"> <a class="nav-link" href data-toggle="tab" data-target="#tab2">Comment</a> </li>
+                        <li class="nav-item primary-active"> <a class="nav-link" href data-toggle="tab" data-target="#tab3">Issues</a> </li>
+                        <li class="nav-item primary-active"> <a class="nav-link" href data-toggle="tab" data-target="#tab4">Review Notes</a> </li>
+                        <li class="nav-item orange-active" ng-show="selectedFindingData.auditFinding.audit_finding_id"> <a class="nav-link" href data-toggle="tab" data-target="#tab5">Management Letters</a> </li>
+                        <li class="nav-item orange-active" ng-show="selectedFindingData.managementLetter.audit_management_letter_id"> <a class="nav-link" href data-toggle="tab" data-target="#tab6">Management Response</a> </li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane animated fadeIn active text-muted" id="tab1">
+                        <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.work_done"></textarea>
+                    </div>
+                    <div class="tab-pane animated fadeIn text-muted" id="tab2">
+                        <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.notes"></textarea>
+                    </div>
+                    <div class="tab-pane animated fadeIn text-muted" id="tab3">
+                        <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.issues"></textarea>
+                    </div>
+                    <div class="tab-pane animated fadeIn text-muted" id="tab4">
+                        <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.review_notes"></textarea>
+                    </div>
+                    <div class="tab-pane animated fadeIn text-muted" id="tab5">
+                        <textarea class="b-a b-warn" ng-model="selectedFindingData.managementLetter.content"></textarea>
+                        <p>
+                            <label class="md-switch">
+                                <input type="checkbox" ng-model="selectedFindingData.managementLetter.qualification_pointBool">
+                                <i class="danger"></i> Qualification Point </label>
+                                [{{selectedFindingData.managementLetter.qualification_point}}]
+                        </p>
+                    </div>
+                    <div class="tab-pane animated fadeIn text-muted" id="tab6">
+                        <textarea class="b-a b-warn" ng-model="selectedFindingData.managementLetter.response"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <i ng-show="statusBusy" class="fa fa-spin  fa-circle-o-notch"></i>
+                <button type="button" class="btn primary p-x-md" ng-click="saveFinding(selectedFindingData.auditFinding)">Save Finding</button>
+                <button type="button" class="btn warn p-x-md" ng-click="saveLetter(selectedFindingData.managementLetter)">Save Letter</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+</div>

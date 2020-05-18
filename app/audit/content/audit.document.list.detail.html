@@ -1,0 +1,122 @@
+<div>
+    <div class="row doc-{{documentManager.viewType}}">
+        <div class="col-md-4">
+            <div ng-hide="documentManager.treeManager.tree.length" class="m-t">
+                <div class="alert alert-danger alert-dismissible">
+                    No Documents were found
+                </div>
+                <div style="display:none;">
+                    Document Template: {{auditAppSettings.audit_document_template.setting_value}} <br />
+                    Target Folder: {{auditAppSettings.file_target_folder.setting_value}}
+                </div>
+                <div ng-show="auditAppSettings.audit_document_template.setting_value && auditAppSettings.file_target_folder.setting_value">
+                    <button class="btn btn-default" ng-click="createAuditDocument()">Create Document</button>
+                </div>
+                <div ng-hide="auditAppSettings.audit_document_template.setting_value && auditAppSettings.file_target_folder.setting_value">
+                    Setup Template and Target Paths <a target="window1" class="text-info" ui-sref="app.audit.setup.setting"> Here</a>
+                </div>
+            </div>
+            <div ng-include="documentTemplate.list">
+            </div>
+            <div class="p-a m-t">
+                You can also view <a class="text-info" ui-sref="app.customer.detail.documents({customer_id:auditManager.currentAudit.customer.customer_id})">client documents.</a>
+            </div>
+        </div>
+        <div class="col-md-8 document-detail">
+
+            <div class="padding" ng-if="documentManager.editedDocument" bm-ui-permission="{{documentManager.editedDocument.permission}}" login-user="app.loginUser">
+
+
+                    <div ng-repeat="doc in inputDocsList" class="box r-3x b-a b-accent"  ng-show="doc.name==documentManager.editedDocument.system_name">
+                        <div class="box-bodys ">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="p-a">
+                                    <strong>{{doc.docNode.label}}</strong>
+
+                                    <span ng-if="!doc.docNode.data.document_path"><br/>No file uploaded. Please upload on the list.</span>
+
+                                    <span ng-if="doc.importParam"><br/>Database contains <strong>{{doc.recordLen}}</strong> records.</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7"  ng-if="doc.docNode.data.document_path && doc.importParam">
+                                <div class="p-a r-3x b-l b-accent">
+                                    
+                                    <div class="help">Use this form to import records from your documents.</div>
+                                    <hr/>
+                                    <div ng-if="doc.importParam.config_template" ng-include="doc.importParam.config_template"></div>
+                                    <div style="text-align: right">
+                                        <button ng-click="importFile(doc)" class="btn btn-md btn-{{!doc.recordLen?'primary':'default'}}">
+                                            Import
+                                        </button>
+                                    </div>
+                                    <span ng-show="doc.message"><br/>{{doc.message}} : </span>
+                                </div>
+                            </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+
+                <div bm-ui-permission="app.audit.fs" login-user="app.loginUser" ng-show="documentManager.selectedNode.data.system_name=='output'">
+
+
+                    <button class="btn btn-default" ng-click="insertQRCode(documentManager.selectedNode)">Insert QR Code </button> &nbsp;
+                    <button class="btn btn-default" ng-click="publishReportToRemote()">Publish on Remote</button> &nbsp; &nbsp;
+                    <a class="text-info" href="{{auditAppSettings.verification_site.setting_value}}?requestCode={{auditManager.currentAudit.engagementInfo.verification_code}}">Verify FS</a><br />
+                    
+                    <div ng-if="insertQRCodeMessage">
+                        <h4>Insert QR</h4>
+                        <div ng-hide="insertQRCodeMessage.canInsert">
+                        {{insertQRCodeMessage.message}}
+                        
+                        </div>
+                        <div ng-show="insertQRCodeMessage.canInsert">
+                            <span ng-show="insertQRCodeMessage.serverResponse.success">Done</span>
+                            <span ng-show="insertQRCodeMessage.serverResponse && !insertQRCodeMessage.serverResponse.success">Failed</span>
+                            
+                            
+                        
+                        </div>
+                    </div>
+                    <div ng-if="publishFSMessage">
+                        <h4>Publish</h4>
+                        {{publishFSMessage}}
+                    </div>
+                </div>
+                <div ng-show="documentManager.editedDocument.system_name=='output_qrcode'">
+                    <button class="btn btn-default" ng-click="generateQRCode(documentManager.editedDocument)">Generate QR Code</button>
+                </div>
+                <div ng-show="documentManager.editedDocument.system_name=='output_fs'">
+                    <button class="btn btn-default" ng-click="generateFSToDoc(documentManager.editedDocument,true)">Generate FS</button>
+                </div>
+                <div ng-show="documentManager.editedDocument.system_name=='output_awp'">
+                    <button class="btn btn-default" ng-click="generateFSToDoc(documentManager.editedDocument,false)">Generate AWP</button>
+                </div>
+
+            </div>
+
+            <div ng-include="documentTemplate.detail" class="">
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/ng-template" id="import_config_tb.html">
+        <div class="checkbox">
+          <label class="ui-check ui-check-md">
+            <input type="checkbox" ng-model="doc.importParam.config_options.overwrite">
+            <i class="dark-white"></i>
+            Overwrite existing data
+          </label>
+        </div>
+        <div class="checkbox">
+          <label class="ui-check ui-check-md">
+            <input type="checkbox" ng-model="doc.importParam.config_options.import_default_accounts">
+            <i class="dark-white"></i>
+            Import Default Accounts
+          </label>
+        </div>
+
+
+    </script>
+</div>

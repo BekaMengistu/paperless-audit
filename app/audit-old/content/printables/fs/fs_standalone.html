@@ -1,0 +1,278 @@
+<style>
+.printable {
+        font-family: "arial";
+        line-heights: 2.5em;
+        text-align: justify
+    }
+</style>
+
+<div class="printable header-every-page" bm-ui-permission="app.audit.printables.fs" login-user="app.loginUser">
+    <div ngs-if="auditDetailLoaded">
+        <div class="fixed-header">
+            <img ng-src="files/uploads/{{audit.verification_code}}.png" style="height:90px;"/>
+        </div>
+        <div ng-include="'financial_statement.html'"></div>
+    </div>
+    
+</div>
+
+<script type="text/ng-template" id="default_fs_disclosure.html">
+    <div ng-repeat="dn in auditManager.currentAudit.disclosureNotes" class="disclosure-note">
+        {{dn.disclosure_note}}
+    </div>
+</script>
+
+<script type="text/ng-template" id="default_fs_note.html">
+<table class="table table-condensed" >
+	<tr>
+        <td>&nbsp;</td>
+        <td class="number">{{audit.closing_date}}</td>
+        <td class="number">{{audit.comparative_date}}</td>
+        <td class="number">{{audit.comparative_date2}}</td>
+    </tr>
+	<tr classs="acct-level-{{r.level}} acct-{{r.style}}" ng-repeat="r in note.reportables track by $index" ng-show="r.style!='total'">
+		<td><div class="acct-label r.data.system_name" ng-show="r.label">{{r.label}}</div>
+        </td>
+		
+		<td class="number">&nbsp;
+            <span ng-if="r.data">{{(r.data.adjustedBalace.year0_balance * r.data.normal_balance)| number:2}}</span>
+        </td>
+		<td class="number">&nbsp;
+            <span ng-if="r.data">{{(r.data.adjustedBalace.year1_balance * r.data.normal_balance)| number:2}}</span>
+        </td>
+        <td class="number">{{(r.data.adjustedBalace.year2_balance * r.data.normal_balance)| number:2}}</td>
+	</tr>
+    <tr class="acct-level-1 total">
+        <td>{{note.node.data.report_label}}</td>
+        <td class="number">{{(note.node.data.adjustedBalace.year0_balance * note.node.data.normal_balance)| number:2}}</td>
+        <td class="number">{{(note.node.data.adjustedBalace.year1_balance * note.node.data.normal_balance)| number:2}}</td>
+        <td class="number">{{(note.node.data.adjustedBalace.year2_balance * note.node.data.normal_balance)| number:2}}</td>
+    </tr>
+</table>
+</script>
+<script type="text/ng-template" id="default_fs_note_tree.html">
+<table class="table table-condensed" >
+	<tr>
+        <td>&nbsp;</td>
+        <td class="number">{{audit.closing_date}}</td>
+        <td class="number">{{audit.comparative_date}}</td>
+        <td class="number">{{audit.comparative_date2}}</td>
+    </tr>
+	<tr class="acct-level-{{r.level}} acct-{{r.style}}" ng-repeat="r in note.reportables track by $index">
+		<td>
+            <div class="acct-label" ng-show="r.label">{{r.label}}</div>
+        </td>
+		
+		<td class="number">&nbsp;
+            <span ng-if="r.data">{{(r.data.adjustedBalace.year0_balance * r.data.normal_balance)| number:2}}</span>
+        </td>
+		<td class="number">&nbsp;
+            <span ng-if="r.data">{{(r.data.adjustedBalace.year1_balance * r.data.normal_balance)| number:2}}</span>
+        </td>
+        <td class="number">{{(r.data.adjustedBalace.year2_balance * r.data.normal_balance)| number:2}}</td>
+	</tr>
+</table>
+</script>
+
+<script type="text/ng-template" id="custome_report.html">
+    <div class="custom-report">
+    <table class="table table-condensed" >
+        <tr>
+            <th ng-repeat="col in r.columns" 
+                ng-init="col.colDetail=fsHelper.columnDefinitions[col.field]" 
+                class="{{col.colDetail.style}}" >{{col.headerLabel}} {{audit[col.colDetail.header]}}</th>
+        </tr>
+        <tr ng-repeat="row in r.rows" ng-init="row.accountData=audit.accounts[row.account]" class="{{row.style}}">
+            <td ng-repeat="col in r.columns" class="{{col.colDetail.style}}" ng-include="col.colDetail.template">
+                
+                <!--<span ng-show="row[col.colDetail.value]">{{row[col.colDetail.value]}}</span>
+                <span ng-hide="row[col.colDetail.value]">{{row.accountData.data[col.colDetail.value]}}</span>
+-->
+            </td>
+        </tr>
+        
+    </table>
+        </div>
+</script>
+<script type="text/ng-template" id="fs_cell_value.html">
+    <span ng-show="row[col.colDetail.value]">{{row[col.colDetail.value]}}</span>
+    <span ng-hide="row[col.colDetail.value]">{{row.accountData.data[col.colDetail.value]}}</span>
+</script>
+<script type="text/ng-template" id="fs_balance_value.html">
+    {{(row.accountData.data[col.colDetail.value])|number:2}}
+</script>
+
+<script type="text/ng-template" id="default_fs_note_ppe.html">
+    <table class="table table-condensed" >
+        <tr>
+            <td>&nbsp;</td>
+            <td class="number">Balance <br/>{{audit.comparative_date2}}</td>
+            <td class="number">Additions <br/>(Disposals)</td>
+            <td class="number">Balance <br/>{{audit.comparative_date}}</td>
+            <td class="number">Additions <br/>(Disposals)</td>
+            <td class="number">Balance <br/>{{audit.closing_date}}</td>
+        </tr>
+        <tr class="acct-level-{{r.level}} acct-{{r.style}}" ng-repeat="r in note.reportables track by $index">
+            <td>
+                <div class="acct-label" ng-show="r.label">{{r.label}}</div>
+            </td>
+
+            <td class="number">
+                {{(r.data.adjustedBalace.year2_balance * r.data.normal_balance)| number:2}}
+            </td>
+            <td class="number">
+                {{(r.data.adjustedBalace.difference1 * r.data.normal_balance)| number:2}}
+            </td>
+            
+            <td class="number">&nbsp;
+                <span ng-if="r.data">{{(r.data.adjustedBalace.year1_balance * r.data.normal_balance)| number:2}}</span>
+            </td>
+            <td class="number">
+                {{(r.data.adjustedBalace.difference0 * r.data.normal_balance)| number:2}}
+            </td>
+            <td class="number">&nbsp;
+                <span ng-if="r.data">{{(r.data.adjustedBalace.year0_balance * r.data.normal_balance)| number:2}}</span>
+            </td>
+        </tr>
+    </table>
+</script>
+
+
+
+
+
+<script type="text/ng-template" id="default_fs_report.html">
+    <table class="table table-condensed" >
+        <tr>
+            <td>&nbsp;</td>
+            <td>∆ Notes</td>
+            <td class="number">{{audit.closing_date}}</td>
+            <td class="number">{{audit.comparative_date}}</td>
+            <td class="number">{{audit.comparative_date2}}</td>
+
+        </tr>
+        <tr class="acct-level-{{r.level}} acct-{{r.style}} {{r.data.system_name}}" ng-repeat="r in fs.reportables">
+            <td><div class="acct-label">
+                  {{r.label}}
+                </div></td>
+            <td>
+                <a class="none-print" ng-click="scrollTo('note_' + r.note.index)">&nbsp;{{r.note.index}}&nbsp;</a>
+                <a class="print-only" href="#note_{{r.note.index}}">&nbsp;{{r.note.index}}&nbsp;</a>
+               
+                <span ng-show="r.data.disclosureNotes.length" class="label rounded label-md gray">{{r.data.disclosureNotes.length}}</span>
+    </td>
+            <td class="number">&nbsp;
+                <span ng-if="r.showBalance"> {{(r.data.adjustedBalace.year0_balance * r.data.normal_balance)| number:2}}</span>
+            </td>
+            <td class="number">
+                &nbsp;<span ng-if="r.showBalance">{{ (r.data.adjustedBalace.year1_balance * r.data.normal_balance)| number:2}}</span>
+            </td>
+            <td class="number">
+                &nbsp;<span ng-if="r.showBalance">{{ (r.data.adjustedBalace.year2_balance * r.data.normal_balance)| number:2}}</span>
+            </td>
+        </tr>
+    </table>
+
+</script>
+
+<script type="text/ng-template" id="fs_toc.html">
+    <div class="toc">
+        <table class="table">
+            
+            <tr ng-repeat="fs in auditFS.reports" >
+                <td>
+                    <a class="non-print" ng-click="scrollTo('report_' + fs.name)">{{fs.title}}&nbsp;</a>
+                </td>
+                <td> {{$index+1}}
+                <div ng-bind-html="fs.calculated"></div>
+                </td>
+            </tr>
+            
+        </table>
+        
+    </div>
+</script>
+
+<script type="text/ng-template" id="financial_statement.html">
+<div ngs-controller="AuditFSController" class="financial-statement">
+    <div class="non-print" style="position: fixed;top:100px;right:100px;">
+        <button class="btn btn-sm primary" ng-click="fsHelper.showReportDesignWindow()">Design</button>
+    </div>
+    
+    <div ng-repeat="fs in auditFS.reports" id="report_{{fs.name}}" ngs-if="$index<2" class="page">
+        <table class="page-container">
+            <thead class="page-header2">
+                <tr>
+                    <td class="page-gutter">
+                        <div class="title page-title">
+                            {{audit.client_name_cap}}<br />
+                            <span ng-bind-html="fs.title"></span><br />
+                            <div ng-bind-html="fs.subTitle" class="sub-title"></div>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="page-content" id="fs_report_{{$index}}"> <br />
+                        <div class="fs-content" ng-include="fs.templateUrl">
+                        </div>
+                        
+                    </td>
+                </tr>
+            </tbody>
+            
+        </table>
+    </div>
+    <div class="fs-notes new-page page " style="displays: none;">
+        <table class="page-container">
+            <thead class="page-header2">
+                <tr>
+                    <td class="page-gutter">
+                        <div class="title m-b-sm page-title">
+                            {{audit.client_name_cap}} <br />
+                            NOTES TO THE FINANACIAL STATEMENTS<br />
+                            <span class="sub-title">{{audit.for_year_caps}}</span>
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="page-content fs-notes" id="fs_notes">
+                        <div ng-repeat="note in auditFS.notes track by $index" id="note_{{$index + 1}}" ng-if="note.label" class="fs-note">
+                            <strong>{{$index + 1}} - {{note.label}}</strong>
+                            <div ng-if="note.customReport" >
+                                <!--{{note.customReport}}-->
+                                <div ng-repeat="r in [note.customReport]" ng-include="'custome_report.html'"></div>
+                            </div>
+                            <div class="text-note" ng-if="!note.customReport" ng-repeat="txtNote in note.textNote" ng-include="txtNote.templateUrl">
+                            </div>
+                            <div class="tree-note" ng-if="note.treeNote" ng-include="note.treeNoteTemplate" 
+                                 ngs-include="'default_fs_note_tree.html'"></div>
+                            
+                            <div class="disclosure-notes" ng-if="note.disclosureNotes.length">
+                                <div ng-repeat="dn in note.disclosureNotes" class="disclosure-note">
+                                    {{dn.disclosure_note}}
+                                </div>
+                            </div>
+                            <div class="editable" contenteditable="true">
+                                <br />
+                            </div>
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot class="b-ts">
+                <tr>
+                    <td class="page-gutter">&nbsp;</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</div>
+</script>
+<div  ng-include ="'app/audit/content/printables/fs/fs_designer_modal.html'" ngs-include-replace>
+        </div>

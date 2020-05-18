@@ -1,0 +1,90 @@
+<!--<div ng-controller="AuditDocumentsController" class="substantiv">-->
+<div ng-controller="AuditSubstantiveDocumentsController" class="substantiv">    
+    <div ngs-controller="AuditSubstantiveDocumentsController">
+    	{{activeTabWork}}
+        <div class="p-t p-r-sm" bm-ui-permission="app.audit.substative" login-user="app.loginUser">
+            
+            <div ng-if="dataImportManager.windowVisible">
+                <span  ng-include="dataImportManager.importOptions.templatePath" ></span>
+            </div>
+            <div class="box">
+                <div class="box-header dker {{audit_client_trialbalanceManager.formData.list.headerStyle}}">
+                    <h2 class="_300">Substantive Audit [{{auditManager.currentAudit.txnCount}}]</h2>
+                    <small>Follow the audit procedures</small>
+                </div>
+                <div class="box-tool">
+                    <div class="btn-group btn-group-sm " style="padding-top: 3px;">
+                	 <input id="chk_show_adjusted" type="checkbox" ng-model="filter.show_adjusted" ng-change="onBalanceTypeChange()"/>
+                    <label for="chk_show_adjusted">&nbsp; Show Adjusted </label>
+                    &nbsp;
+                    
+                    <input id="chk_hide_novalue" type="checkbox" ng-model="filter.hide_novalue" />
+                    <label for="chk_hide_novalue">&nbsp; Hide Zero Value</label>
+                    &nbsp;
+                    </div>
+                    <div class="b-a b-success white btn-group btn-group-sm " style="padding-top: 3px;">
+                        &nbsp;
+                    <input id="chk_Reconciled" type="checkbox" ng-disabled="filter.show_all" ng-model="filter.reconciled" />
+                    <label for="chk_Reconciled">&nbsp; Reconciled</label>
+                    &nbsp;
+                    
+                    <input id="chk_Sampled" type="checkbox" ng-model="filter.sampled"  ng-disabled="filter.show_all"/>
+                    <label for="chk_Sampled">&nbsp; Sampled</label>
+                    &nbsp;
+                    
+                    <input id="chk_Vouched" type="checkbox" ng-model="filter.vouched" ng-disabled="filter.show_all" />
+                    <label for="chk_Vouched">&nbsp; Vouched</label>
+                    &nbsp;
+                        
+                    
+                        
+                    </div>
+                    
+                    <div class="b-a b-success btn-group btn-group-sm " style="padding-top: 3px;margin-left:-4px">
+                        &nbsp;
+                        <input id="chk_show_all" type="checkbox" ng-model="filter.show_all" />
+                        <label for="chk_show_all">&nbsp; Show All</label>
+                        &nbsp;
+                        
+                    </div>
+                    
+                    <!--
+                    “Show Adjusted”, “Show Zero”, “Reconciled”, “Sampled”, “Vouched”
+                    -->
+                    <div class="btn-group btn-group-sm dropdown">
+                       <!-- <button uib-tooltip="Advanced Filter" ng-click="onAdvancedFilterClick()" data-template-url='app/Audit/content/blocks/popover_tree_filter.html' data-placement="left" 
+                	data-title="Advanced Filter"  data-animation="am-flip-x" bs-popover="" class="btn white"> <i class="fa fa-filter"></i> Advanced Filter</button>-->
+                        <button class="btn white" data-toggle="dropdown"><i class="fa  fa-filter"></i> &nbsp;{{accountViewNames[filter.treeView]}}</button>
+                        <div class="dropdown-menu pull-right">
+                            <a class="dropdown-item" href="" ng-click="setView('GK')">
+                                <i ng-show="filter.treeView=='GK'" class="fa fa-check"></i> Grouped TB
+                            </a> 
+                            <a class="dropdown-item" href="" ng-click="setView('acct')">
+                                    <i ng-show="filter.treeView=='acct'" class="fa fa-check"></i> All Ledgers
+                            </a> 
+                        </div>
+                    </div>
+                    &nbsp;
+                </div>
+                <div class="boxs-body">
+                    
+                    <div  ng-include ="'app/audit/content/blocks/tree_grid.html'" ngs-include-replace>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/audit_finding_modal.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/aside_procedures.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/adjustment_modal.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/modal_regroup.html'" ngs-include-replace>
+        </div>
+        <div ng-include="'app/Document/content/uploadList.php'">
+        </div>
+<div ng-include="'app/audit/content/blocks/aside_extra_data.html'">
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="modal fade" id="modalExtraData" data-backdrops="false">
+<div class="left w-xxl white b-r" style="width:550px;">
+    <div class="row-col ng-scope">
+    <a data-dismiss="modal" class="pull-right text-muted text-lg p-a-sm m-r-sm">×</a>
+    <div class="p-a b-b dker">
+      <span class="h5">{{extraDataManager.editedNode.extraDataType.label}}</span>
+    </div>
+    <div class="row-row">
+      <div class="row-body">
+        <div class="row-inner">
+        	<div style="display:none;">
+        	{{editedNode.label}}
+            <br/>
+            {{balanceType}}
+          
+          {{editedNode.extraDataType}}
+          	</div>
+        	<div class="p-a-sm">
+            	<div class="table-responsive">
+            	<table class="table table-sm grid-editor">
+                	<thead>
+                    	<tr>
+                        	<th style="width:50px;">Account</th><th>Lgr Bal.</th>
+                        	<th ng-repeat="fld in extraDataManager.editedNode.extraDataType.fields">
+                        		{{fld.label}}
+                        	</th>
+                            <th>Diff.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    	<tr ng-repeat="acc in extraDataManager.editedNode.children">
+                        	<td style="width:50px;" class="text-muted">
+                            
+                            <a class="text-ellipsis text-sm" target="acct_edit" ui-ssref="app.crud.audit_client_trialbalanceEdit({audit_client_trialbalance_id:acc.data.audit_client_trialbalance_id})">{{acc.label}}
+                            
+                            </a>
+                            
+                            </td><td class="text-muted">{{(acc.data.adjustedBalace.debit-acc.data.adjustedBalace.credit) | number:2}}</td>
+                            <td ng-repeat="fld in extraDataManager.editedNode.extraDataType.fields">
+                        		<input class="grid-input input-xs" ng-model="acc.data.extraData[fld.name]" />
+                        	</td>
+                            <td class="text-muted">
+                                &nbsp; {{(acc.data.adjustedBalace.debit-acc.data.adjustedBalace.credit-acc.data.extraData[extraDataManager.editedNode.extraDataType.comparative_figure]) | number:2}}
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+                	<div class="p-a-lg" ng-show="extraDataManager.message.text">
+                    	<div class="text-center alert alert-{{extraDataManager.message.type}}">{{extraDataManager.message.text}}</div>
+                    </div>
+                
+                </div>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+    <div class="p-a b-t dker text-right">
+    	   
+
+      <a href="" class="text-info" ng-click="extraDataManager.save(extraDataManager.editedNode)"><i class="fa fa-fw fa-save"></i> Save</a> &nbsp; &nbsp;
+      <a href="" data-dismiss="modal" class="text-muted m-h"><i class="fa fa-fw fa-times" ></i> Cancel</a>
+      <!---->
+    </div>
+  </div>
+  </div>
+    </div>

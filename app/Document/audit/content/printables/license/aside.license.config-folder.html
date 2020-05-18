@@ -1,0 +1,68 @@
+<style>
+    .config-window {
+        position: fixed;
+        top: 55px;
+        bottom: 60px;
+        right: 5px;
+        width: 490px;
+        backgrounds-color: aqua;
+    }
+
+    .config-section {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 50%;
+        overflow: scroll;
+        padding: 5px;
+        padding-left: 10px;
+        box-sizing: border-box;
+    }
+
+    .image-thumb-container {
+        width: 200px;
+        min-height: 50px;
+        height: auto;
+        text-align: center;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5), 0 -1px 0px rgba(0, 0, 0, 0.1);
+        position: relative;
+    }
+
+    .image-thumb-container img {
+        width: 100%;
+    }
+    .image-thumb-container .lbl {position: absolute;bottom: 0;max-height: 50px;left: 0;width: 100%; background-color: rgba(152, 99, 165,0.8);
+        backgrounds-color: rgba(0, 0, 0,0.5);
+        color: #FFF;font-size: 1.5em; line-height: 1.5em;}
+
+</style>
+<div class="modal fade" id="modalLicenseConfig">
+    <div class="right w-xxl white b-l" style="width:500px;">
+        <div class="row-col ng-scope">
+            <a data-dismiss="modal" class="pull-right text-muted text-lg p-a-sm m-r-sm">×</a>
+            <div class="p-a b-b dker">
+                <span class="h5">Config</span>
+            </div>
+            <div class="row-row">
+                <div class="row-body">
+                    <div class="row-inner p-t">
+                        
+                        <div ng-repeat="doc in officialDocs.available" ng-if="!doc.selected"  class="box m-x m-y-sm p-a {{officialDocs.selectedFolder==doc.name?'dker':''}}" ng-dblclick="selectLicenseFolder(doc.name)" >
+                                       {{doc.name}}
+                                    </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="p-x b-t dker">
+                <div class="md-form-group" ng-show="activeDocument.config.submission_purpose">
+                    <select class='md-input' ng-model="printableParams.submission_purpose" ng-change="setDocParam(activeDocument)" ng-options="opt for opt in ['Audit Engagement','Bid Submission']">
+                    </select>
+                    <label>Submitted For</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

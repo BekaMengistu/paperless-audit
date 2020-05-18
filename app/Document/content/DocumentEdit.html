@@ -1,0 +1,94 @@
+<form ng-show="documentManager.editedDocument.editing">
+                <div class="row row-sm">
+                    <div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtdocument_name' ng-model='documentManager.editedDocument.document_name' required>
+                            <label>Document Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtdescription' ng-model='documentManager.editedDocument.description' required>
+                            <label>Description</label>
+                        </div>                        
+                    </div>
+					<div class="col-md-3">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txttags' ng-model='documentManager.editedDocument.tags' required>
+                            <label>Tags</label>
+                        </div>
+                    </div>                                   
+                    
+                </div>
+				<div class="row" bm-ui-permission="app.document.editDocDetail" login-user="app.loginUser" >
+					<div class="col-md-3">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtpermission' ng-model='documentManager.editedDocument.permission' required>
+                            <label>Permission</label>
+                        </div>
+                    </div>  
+					<div class="col-md-3">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtsystem_name' ng-model='documentManager.editedDocument.system_name' required>
+                            <label>System Name</label>
+                        </div>
+                    </div>                                   
+					<div class="col-md-3">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtisTemplate' ng-model='documentManager.editedDocument.isTemplate' required>
+                            <label>Is Template</label>
+                        </div>
+                    </div> 
+					<div class="col-md-3">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtupload_type' ng-model='documentManager.editedDocument.upload_type' required>
+                            <label>Upload Type</label>
+                        </div>
+                    </div> 
+                                                      
+                </div>                        
+
+
+				<div class="row" bm-ui-permission="app.document.editDocDetail" login-user="app.loginUser" >
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtdocument_path' ng-model='documentManager.editedDocument.document_path' required>
+                            <label>Document Path</label>
+                        </div>
+                    </div>  
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtmime_type' ng-model='documentManager.editedDocument.mime_type' required>
+                            <label>Mime Type</label>
+                        </div>
+                    </div>                                   
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtarchived' ng-model='documentManager.editedDocument.archived' required>
+                            <label>Archived</label>
+                        </div>
+                    </div>                                   
+                </div>  
+                
+                                      
+				<div class="row" bm-ui-permission="app.document.editDocDetail" login-user="app.loginUser" >
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtparent_type' ng-model='documentManager.editedDocument.parent_type' required>
+                            <label>Parent Type</label>
+                        </div>
+                    </div>  
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtparent_id' ng-model='documentManager.editedDocument.parent_id' required>
+                            <label>Parent Id</label>
+                        </div>
+                    </div>                                   
+					<div class="col-md-4">
+                        <div class="md-form-group">
+                            <input class='md-input' id='txtfolder_id' ng-model='documentManager.editedDocument.folder_id' required>
+                            <label>Folder Id</label>
+                        </div>
+                    </div>                                   
+                </div>                        
+            </form>

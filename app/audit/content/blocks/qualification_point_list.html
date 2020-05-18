@@ -1,0 +1,41 @@
+<div class="box m-t" ng-controller="AuditQualificationController">
+    <div class="box-header dker">
+        <h2 class="_300">Qualification Points </h2>
+    </div>
+    <div class="box-tool"></div>
+    <div class="box-body">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>REF</td>
+                    <th>Display Order</th>
+                    <th>Qualification Points</th>
+                    <th style="width:20%">Audited Item</th>
+                    <th>Archived</th>
+                </tr>
+            </thead>
+            <tbody html-sortable="qualificationListDragOption" ng-model="auditManager.currentAudit.qualificationPoints" >
+                <tr ng-repeat="item in  auditManager.currentAudit.qualificationPoints track by $index" 
+                    ng-init="item.audited_item=relationshipManager.objHash[item.audited_item_type + item.audited_item_id]">
+                    <td id="QP{{item.audit_management_letter_id}}"><small>QP-{{item.audit_management_letter_id}}</small></td>
+                    <td>
+                    {{item.display_order}}
+                    </td>
+                    <td>
+                        <input class="md-input" ng-model="item.qualification_point" ng-change="item.modified=true" ng-blur="saveQualificationPoint(item)"/>
+                    </td>
+                    <td>{{item.audited_item.label}}</td>
+                    <td ng-init="item.archivedB=(item.archived==1)">
+                        <label class="ui-switch danger m-t-xs m-r">
+          <input type="checkbox" ng-model="item.archivedB" ng-change="onArchiveChange(item)">
+          <i></i>
+        </label> {{item.archived}}
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+                    
+                    

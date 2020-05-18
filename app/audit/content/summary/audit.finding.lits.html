@@ -1,0 +1,102 @@
+<div ng-controller="AuditDocumentsController">
+    <table class="table table-sm m-b-none table-striped">
+    <thead>
+        <tr>
+            <td class="none-print"></td>
+            <th>Ref</th>
+            <th>Audit Procedure</th>
+            <th>Audited Item</th>
+            <th>Notes</th>
+            <th>Work Done</th>
+            <th>Issues</th>
+            <th>Review Notes</th>
+            <th>Documents</th>
+						<th>Extra</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in  auditManager.currentAudit.findings track by $index" 
+					data-label="{{item.audited_item_label=(relationshipManager.objHash[item.audited_item_type + item.audited_item_id].label)}}"
+            class="hover-shadow hover-target">
+                <td class="none-print">
+                    <button class="hover-show btn btn-info btn-xs" uib-tooltip="Edit" class="btn btn-info  btn-xs" 
+                            ng-click="summaryEditor.editItem(summaryItem.summaryType,item)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                </td>
+            <td id="AF{{item.audit_finding_id}}"><small>AF-{{item.audit_finding_id}}</small></td>
+            <td>
+							<a class="none-print text-info" ng-click="scrollTo('AP' + item.audit_procedure_id)">
+								AP-{{item.audit_procedure_id}}
+							</a>
+							<a class="print-only" href="#AP{{item.audit_procedure_id}}">
+								AP-{{item.audit_procedure_id}}
+							</a>
+						</td>
+            <td>
+                <a class="none-print text-info" ng-click="scrollTo(item.audited_item_type + item.audited_item_id)">
+								{{item.audited_item_label}}
+							</a>
+							<a class="print-only" href="#{{item.audited_item_type}}{{item.audited_item_id}}">
+								{{item.audited_item_label}}
+							</a>
+						</td>
+            
+            <td>{{item.work_done}}</td>
+            <td>{{item.notes}}</td>
+            <td>{{item.issues}}</td>
+            <td>{{item.review_notes}}</td>
+            <td><div class="m-b-sm" ng-repeat="doc in documentManager.documentsList" ng-show="doc.parent_type==item.audited_item_type + '_' + item.audited_item_id">
+                <a class="text-info" target="_doc" href="files/uploads/{{doc.document_path}}">{{doc.document_name}}</a>
+                </div>
+            </td>
+						<td> 
+								<a class="none-print text-info" ng-click="scrollTo('AFD' + item.audit_finding_id)">
+								{{extraSubstantiveData[item.extra_data.data_type].label}}
+							</a>
+							<a class="print-only" href="#AFD{{item.audit_finding_id}}">
+								{{extraSubstantiveData[item.extra_data.data_type].label}}
+							</a>
+						</td>
+        </tr>
+    </tbody>
+</table>
+
+<div  class="box single-page" ng-repeat="auditFinding in  auditManager.currentAudit.findings track by $index" 
+	ng-if="extraSubstantiveData[auditFinding.extra_data.data_type].viewTemplate" data-node="{{auditFinding.account_id=auditFinding.audited_item_id}}">
+	
+	<div class="box-header" id="AFD{{auditFinding.audit_finding_id}}">
+		<h3>
+					<a class="none-print text-info" ng-click="scrollTo('AF' + auditFinding.audit_finding_id)">
+						AF-{{auditFinding.audit_finding_id}}
+					</a>
+					<a class="print-only" href="#AF{{item.audit_finding_id}}">
+						AF-{{auditFinding.audit_finding_id}}
+					</a>
+			{{extraSubstantiveData[auditFinding.extra_data.data_type].label}}
+		 <span class="_300">{{treeManager.treeHash['item'+auditFinding.account_id].label}}</span>
+		</h3>
+	</div>
+
+	<div  ng-include="extraSubstantiveData[auditFinding.extra_data.data_type].viewTemplate"></div> 
+</div>
+
+<script type="text/ng-template" id="summary.edit.audit_finding.html">
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.work_done'/>
+        <label>Work Done</label>
+    </div>
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.notes'/>
+        <label>Notes</label>
+    </div>
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.issues'/>
+        <label>Issues</label>
+    </div>
+    <div class="md-form-group">
+        <input class='md-input' ng-model='summaryEditor.item.review_notes'/>
+        <label>Review Notes</label>
+    </div>
+</script>
+ </div>

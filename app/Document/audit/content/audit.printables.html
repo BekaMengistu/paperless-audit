@@ -1,0 +1,42 @@
+<div bm-ui-permission="app.audit.printables" login-user="app.loginUser">
+	<div style="position:fixed;top:58px; height:45px;left:170px;right:0; z-index:1030; background-color:#f0f0f0" class="box-shadow none-print b-b">
+		<div class="nav-active-border b-info">
+			<div class="pull-right p-t p-r none-print">
+				<a uib-tooltip="Print"  class="btn primary btn-sm" href="javascript:window.print()"> <i class="fa fa-print"></i> </a> &nbsp;
+				<button uib-tooltip="Configure" class="btn btn-default btn-sm"  data-template-url="app/Audit/content/printables/popover.printable.config.html" data-placement="left" 
+                	ng-hide="activeDocument.configButton"  data-animation="am-flip-x" bs-popover=""> <i class="fa fa-cogs"></i> </button>
+                
+                <button ng-click="onLicenseConfigClick()" uib-tooltip="Configure" class="btn btn-default btn-sm"  ng-if="activeDocument.name=='license'" data-toggle="modal" data-target="#modalLicenseConfig" ui-toggle-class="modal-open-aside" ui-target="body"><i class="fa fa-cogs"></i> </button>
+				&nbsp; &nbsp; &nbsp;
+                <!--
+				<button class="btn btn-xs btn-default none-print" ng-click="resizePagesForPrint()">Fit</button>
+				&nbsp; &nbsp;  &nbsp;  &nbsp;
+                {{activeDocument.name}}
+-->
+			</div>
+			<ul class="nav nav-md p-l none-print">
+				<li bm-ui-permission="{{doc.permission}}" login-user="app.loginUser" class="nav-item inline"> <a class="nav-link" ui-sref="app.audit.detail.summary"> <span class="text-md">Summary</span> </a> </li>
+				<li ng-repeat="doc in printableDocs" bm-ui-permission="{{doc.permission}}" login-user="app.loginUser" class="nav-item inline"> <a class="nav-link {{activeDocument.name==doc.name?'active':''}}" ng-click="setActiveDoc(doc.name)"> <span class="text-md">{{doc.label}}</span> </a> </li>
+			</ul>
+		</div>
+	</div>
+	<div ng-if="auditDetailLoaded && activeDocument.contents" style="padding-top:70px;" class="b-t  bs-info clear tabs-contents print-container header-{{activeDocument.param.header}} footer-{{activeDocument.param.footer}}">
+		<div  ng-repeat="doc in activeDocument.contents" class="printable-doc {{doc.style}}">
+			<div   ng-include ="doc.docPath" >
+			</div>
+		</div>
+		<div ng-repeat="p in ['',1,2,3,4,5]" ng-show="printableParams.showPageNo && p" class="prints-only page-number p-a-sm" style="top:{{$index*297 + 250}}mm;" >
+			{{p}}
+		</div>
+	</div>
+	<div ng-if="auditDetailLoaded && activeDocument.page" style="padding-top:70px;" class="b-t  bs-info clear tabs-contents print-container header-{{activeDocument.param.header}} footer-{{activeDocument.param.footer}}">
+		<div ng-include ="activeDocument.page">
+		</div>
+		<div ng-repeat="p in [1,2,3,4,5,6,7,8,9,10,11,12]" ng-show="activeDocument.param.showPageNo && p" class="print-only page-number p-a-sm" style="top:{{$index*297 + 250}}mm;" >
+			{{p}}
+		</div>
+	</div>
+</div>
+<script type="text/ng-template" id="dynamic_letters_template.html">
+	<div ng-include ="'api/WebContentService/getContent/' + activeDocument.param.letter_template"></div>
+</script> 

@@ -1,0 +1,52 @@
+<div ng-controller="AuditDocumentsController">
+    <div ng-controller="AuditSubstantiveDocumentsController">
+    	{{activeTabWork}}
+        <div class="p-t p-r-sm" bm-ui-permission="app.audit.substative" login-user="app.loginUser">
+            
+            <div ng-if="dataImportManager.windowVisible">
+                <span  ng-include="dataImportManager.importOptions.templatePath" ></span>
+            </div>
+            <div class="box">
+                <div class="box-header dker {{audit_client_trialbalanceManager.formData.list.headerStyle}}">
+                    <h2 class="_300">Substantive Audit [{{auditManager.currentAudit.txnCount}}]</h2>
+                    <small>Follow the audit procedures</small>
+                </div>
+                <div class="box-tool">
+                	 <input id="chk_show_adjusted" type="checkbox" ng-model="filter.show_adjusted" ng-change="onBalanceTypeChange()"/>
+                    <label for="chk_show_adjusted">&nbsp; Show Adjusted Value</label>
+                    &nbsp;
+                    
+                    <input id="chk_hide_novalue" type="checkbox" ng-model="filter.hide_novalue" />
+                    <label for="chk_hide_novalue">&nbsp; Hide Zero Value</label>
+                    &nbsp;
+                    <div class="btn-group btn-group-sm dropdown">
+                        <button uib-tooltip="Advanced Filter" ng-click="onAdvancedFilterClick()" data-template-url='app/Audit/content/blocks/popover_tree_filter.html' data-placement="left" 
+                	data-title="Advanced Filter"  data-animation="am-flip-x" bs-popover="" class="btn white"> <i class="fa fa-filter"></i> Advanced Filter</button>
+                        <button class="btn white" data-toggle="dropdown"><i class="fa  fa-filter"></i></button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="" ng-click="setView('GK')">Grouped TB</a> <a class="dropdown-item" href="" ng-click="setView('acct')">All Ledgers</a> <a class="dropdown-item" href="">Sampled Txns</a>
+                        </div>
+                    </div>
+                    &nbsp;
+                </div>
+                <div class="boxs-body">
+                    <div  ng-include ="'app/audit/content/blocks/tree_grid.html'" ngs-include-replace>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/audit_finding_modal.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/aside_procedures.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/adjustment_modal.html'" ngs-include-replace>
+        </div>
+        <div  ng-include ="'app/audit/content/blocks/modal_regroup.html'" ngs-include-replace>
+        </div>
+        <div ng-include="'app/Document/content/uploadList.php'">
+        </div>
+<div ng-include="'app/audit/content/blocks/aside_extra_data.html'">
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,57 @@
+<div class="modal fade" id="modalProcedures">
+<div class="left w-xxl white b-r" style="width:450px;">
+    <div class="row-col ng-scope">
+    <a data-dismiss="modal" class="pull-right text-muted text-lg p-a-sm m-r-sm">×</a>
+    <div class="p-a b-b dker">
+      <span class="h5">Audit Procedures</span>
+    </div>
+    <div class="row-row">
+      <div class="row-body">
+        <div class="row-inner">
+          <div class="list-group no-radius no-borders">
+          	
+            <a  class="list-group-item p-x-md" href="documents/IFRSforSMEs.pdf" target="_documents">
+              <img src="documents/ifrsforsmes.jpeg" class="pull-left w-40 m-r img-circle">
+              <div class="clear">
+                <span class="font-bold block">IFRS for SMEs </span>
+                <span class="clear text-ellipsis text-xs">International Financial Reporting Standard (IFRS) for Small and Medium-sized Entities (SMEs)</span>
+              </div>
+            </a>
+            <a  href="documents/isa.pdf" target="_documents" class="list-group-item p-x-md">
+              <img src="documents/ifac.jpg" class="pull-left w-40 m-r img-circle">
+              <div class="clear">
+                <span class="font-bold block">ISA</span>
+                <span class="clear text-ellipsis text-xs">International Quality Control, Auditing, Review, Other Assurance</span>
+              </div>
+            </a>
+            <a  href="documents/codeofethics.pdf" target="_documents" class="list-group-item p-x-md">
+              <img src="documents/ethics.jpg" class="pull-left w-40 m-r img-circle">
+              <div class="clear">
+                <span class="font-bold block">Code of Ethics</span>
+                <span class="clear text-ellipsis text-xs">International Code of Ethics for Professional Accountants</span>
+              </div>
+            </a>
+            
+            <div class="p-x-md m-t p-v-xs">Work</div>
+            <a ng-repeat="ap in selectedAuditProcedures" ng-show="ap.priority>=procedure.importance" ng-click="$hide();auditProcedureClick(ap)" class="list-group-item p-x-md">
+                <i class="fa fa-circle text-xs m-r-xs text-{{ap.done?'success':'muted'}}"></i>
+                
+                
+                <span class="font-bold">{{ap.objectives}}</span>
+                <span class="clear text-ellipsis text-xs">{{ap.description}}</span>
+            </a>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="p-a b-t dker">
+    	   <div ng-if="procedureOpen"> <slider ng-model="procedure.importance" floor="1" ceiling="10"> </slider></div>
+
+      <!--<a href="" class="text-info"><i class="fa fa-fw fa-save"></i> Save</a>
+      <a href="" class="text-muted m-h"><i class="fa fa-fw fa-facebook"></i> Facebook</a>-->
+    </div>
+  </div>
+  </div>
+    </div>

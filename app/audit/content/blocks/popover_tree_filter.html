@@ -1,0 +1,31 @@
+<div class="popover left" style="max-width:420px;" tabindex="-1" ngs-show="content">
+<div class="arrow right b-white right">
+</div>
+<h3 class="popover-title" ngs-bind-html="title" ngs-show="title">Advanced Filter</h3>
+<div class="popover-content" style="min-width:400px;">
+    <div class="md-form-group">
+        <select class='md-input' ng-model="newFilterValues.reconsiled" 
+                        	ng-options="opt.value as opt.label for opt in filterCriteriaLookup">
+        </select>
+        <label>Reconsiled</label>
+    </div>
+    <div class="md-form-group">
+        <select class='md-input' ng-model="newFilterValues.sampled" 
+                        	ng-options="opt.value as opt.label for opt in filterCriteriaLookup">
+        </select>
+        <label>Sampled</label>
+    </div>
+    <div class="md-form-group">
+        <select class='md-input' ng-model="newFilterValues.vouched" 
+                        	ng-options="opt.value as opt.label for opt in filterCriteriaLookup">
+        </select>
+        <label>Vouched</label>
+    </div>
+
+                    
+        <div class="form-actions" style="text-align:right;">
+            <button type="button" class="btn btn-primary" ng-click="setAdvancedCriteria();$hide()"><i class="fa fa-check"></i></button>
+            <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+</div>

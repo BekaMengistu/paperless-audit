@@ -1,0 +1,50 @@
+<div class="dark bg-auto w-full"  style="position:fixed; top:0px; left:0;width:60%; bottom:0;opacity:0.85; z-index:1100">
+{{app.loginUser}}
+</div>
+<div class="w-full"  style="position:fixed; displays:none; top:100px; width:60%; left:0;bottom:0;opacity:1; z-index:1110">
+
+<br/>
+<br/>
+{{app.user}}
+    <div class=" center-block w-xxl w-auto-xs p-y-md">
+        <div class="navbar">
+            <div class="pull-center">
+                <div ui-include="'core/views/blocks/navbar.brand.html'">
+                </div>
+            </div>
+        </div>
+        <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+            <div class="m-b text-sm">
+                Sign in with your {{app.name}} Account
+            </div>
+<form name="form" ng-submit="signIn()">
+        <div class="md-form-group ">
+          <input type="text" required="required" class="md-input" ng-model="app.user.user_name">
+          <label>User Name or Email</label>
+        </div>
+        <div class="md-form-group l">
+          <input type="password" class="md-input" ng-model="app.user.password" required>
+          <label>Password</label>
+        </div>      
+        <div class="m-b-md">        
+          <label class="md-check">
+            <input type="checkbox"><i class="primary"></i> Keep me signed in
+          </label>
+        </div>
+        <div class="m-b text-sm">{{app.user.message}}</div>
+        <button type="submit" class="btn primary btn-block p-x-md">Sign in</button>
+        {{app.loginUser.user_type}}
+      </form>
+      
+      
+        </div>
+        <div class="p-a-md box-color  r box-shadow-z1 text-color m-a">
+            <div class="m-b">
+                <a ui-sref="access.forgot-password" href="forgot-password.html" class="text-primary _600">U Forgot password?</a>
+            </div>
+            <div>
+                Do not have an account? <a ui-sref="access.signup" href="signup.html" class="text-primary _600">Sign up</a>
+            </div>
+        </div>
+    </div>
+</div>

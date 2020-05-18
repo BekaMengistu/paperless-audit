@@ -1,0 +1,50 @@
+
+	<div class="box m-b-xs">
+		<!--
+		<div ng-repeat="lu in lookupManager.appLookupNames">
+			{{lu.name}} : {{lu}}
+		</div>
+		{{lookupManager}}
+		-->
+		<div class="box-header dker non-select">
+			<h3>
+			<a ng-click="toggleExpanded('custome_form_info______')" class="text-muted">
+				<i class="fa fa-angle-{{formBuilderSetting.expandedField=='custome_form_info______'?'down':'right'}}"> </i> &nbsp;
+			</a>
+			General Information</h3>
+		</div>
+		<div class="box-body" ng-show="formBuilderSetting.expandedField=='custome_form_info______'">
+			<form>
+				<div class="row row-sm">
+					<div class="col-sm-6">
+						<div class="md-form-group">
+							<input class='md-input' id='txtname' ng-model='formManager.FormTemplate.editedItem.name' required>
+							<label class='non-select'>Name</label>
+						</div>
+						<div class="md-form-group">
+							<input class='md-input' id='txtlabel' ng-model='formManager.FormTemplate.editedItem.label' required>
+							<label class='non-select'>Label</label>
+						</div>
+						<div class="md-form-group">
+							<input class='md-input' id='txtextra_content' ng-model='formManager.FormTemplate.editedItem.extra_content' required>
+							<label class='non-select'>Extra Content</label>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="md-form-group">
+							<input class='md-input' id='txtdescription' ng-model='formManager.FormTemplate.editedItem.description' required>
+							<label class='non-select'>Description</label>
+						</div>
+						<div class="md-form-group">
+							<input class='md-input' id='txttype' ng-model='formManager.FormTemplate.editedItem.type' required>
+							<label class='non-select'>Type</label>
+						</div>
+						<div class="md-form-group">
+							<input class='md-input' id='txtscript_path' ng-model='formManager.FormTemplate.editedItem.script_path' required>
+							<label class='non-select'>Script Path</label>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>

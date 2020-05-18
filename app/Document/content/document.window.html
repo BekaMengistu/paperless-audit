@@ -1,0 +1,51 @@
+<div class="app-body-inner doc-{{documentManager.viewType}}"  style="margin-top:57px;">
+    <div class="row-col row-col-xs b-b  debug-false">
+        
+        <!-- column -->
+        
+        <div class="col-sm-4 col-md-4 light bg b-r">
+            <div class="row-col">
+                <div class="p-a-xs b-b dker">
+                    <div class="input-group">
+                        <span class="input-group-addon no-border no-bg"><i class="fa fa-search"></i></span>
+                        <input type="text" class="form-control no-border no-bg" placeholder="Search Documents" ng-model="query">
+                        <span class="input-group-btn">
+                        <button ng-click="documentManager.addDocument()" class="btn btn-default">
+                        	<i class="fa fa-plus"></i>
+                        </button>
+                        </span>
+                    </div>
+                </div>
+                <div class="row-row">
+                    <div class="row-body scrollable hover">
+                        <div class="row-inner" ng-include="'app/Document/content/DocumentList.html'">
+							
+                        </div>
+                    </div>
+                </div>
+                <div style="display:none;" class="p-a b-t text-center">
+                    <a href class="btn btn-sm white btn-addon" ng-click="createItem()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Contact</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- /column -->
+        
+        <div class="col-sm-12 col-md-8 document-detail">
+            <div class="p-a pos-rlt">
+            	<!--
+            	<div>Template Id <input ng-model="createFromTemplateAttrib.templateId" /> &nbsp; &nbsp; Target Id <input ng-model="createFromTemplateAttrib.targetId" /><br/>
+                	Parent Type <input ng-model="createFromTemplateAttrib.parent_type" /> &nbsp; &nbsp; Parent Id <input ng-model="createFromTemplateAttrib.parent_id" />
+                    <br/><button class="btn btn-default" ng-click="createFromTemplate()" >Create From Template</button>
+                </div>
+                <div>
+                	<input ng-model="selectedName"/><button class="btn btn-default" ng-click="documentManager.selectNodeByName(selectedName)">Select</button>
+                </div>
+                -->
+                <div ng-include="documentTemplate.detail"></div>
+                <div  ng-include="'app/Document/content/document.detail.html'"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-include="'app/Document/content/uploadList.php'"></div>

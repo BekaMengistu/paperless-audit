@@ -1,0 +1,93 @@
+<div class="row no-gutter">
+    <div class="col-md-2">
+        <div class="nav-active-border b-success left right">
+            <ul class="nav nav-sm" style="text-align:right;">
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="selectedFindingData.activeTabWork='tab_work_done'" 
+                    	ng-class="{'active':(selectedFindingData.activeTabWork=='tab_work_done' || !selectedFindingData.activeTabWork)}" href>Work Done</a> 
+                </li>
+                <li class="nav-item" style="display:none;"> 
+                	<a class="nav-link block" ng-click="selectedFindingData.activeTabWork='tab_work_comment'" 
+                    	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_comment'}" href>Comment</a> 
+                </li>
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="selectedFindingData.activeTabWork='tab_work_issue'" 
+                    	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_issue'}" href>Audit Queries</a> 
+                </li>
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="selectedFindingData.activeTabWork='tab_work_review'" 
+                    	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_review'}" href>Review Notes</a> 
+                </li>
+                <li class="nav-item" ng-show="selectedFindingData.procedure.extra_data"> 
+                	<a class="nav-link block" ng-click="selectedFindingData.activeTabWork='tab_work_extra';extraSubstativeDataManager.doCalculation()" 
+                    	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_extra'}" href>
+                      {{extraSubstantiveData[selectedFindingData.procedure.extra_data].label}}
+                    </a> 
+                </li>
+                
+            </ul>
+            <div class="p-a" style="text-align:right;">
+            	<i ng-show="statusBusy" class="fa fa-spin  fa-circle-o-notch"></i>
+            	<button type="button" class="btn primary p-x-md" ng-disabled="statusBusy" ng-click="saveFinding(selectedFindingData.auditFinding)"><i class="fa fa-floppy-o"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+    	<div class="tab-content p-r">
+            <div class="tab-pane animated fadeIn text-muted" id="tab_work_done" 
+            	ng-class="{'active':(selectedFindingData.activeTabWork=='tab_work_done' || !selectedFindingData.activeTabWork)}">
+                <textarea class="b-a b-primary" bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.work_done" ng-model="selectedFindingData.auditFinding.work_done" placeholder="Type Here"></textarea>
+                 <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+                        
+                        <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.auditFinding.work_done" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.work_done"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+
+            </div>
+            <div class="tab-pane animated fadeIn text-muted" id="tab_work_comment" 
+            	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_comment'}">
+                <textarea class="b-a b-primary"  bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.comment" ng-model="selectedFindingData.auditFinding.notes"></textarea>
+                 <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+ 	                       <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.auditFinding.notes" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.comment"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+            </div>
+            <div class="tab-pane animated fadeIn text-muted" id="tab_work_issue" 
+            	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_issue'}">
+                <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.issues" bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.issues"></textarea>
+                <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+ 	                       <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.auditFinding.issues" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.issues"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+
+            </div>
+            <div class="tab-pane animated fadeIn text-muted" id="tab_work_review" 
+            	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_review'}">
+                <textarea class="b-a b-primary" ng-model="selectedFindingData.auditFinding.review_notes"></textarea>
+            </div>
+            <div class="tab-pane animated fadeIn  text-muted b-l b-success p-l-xs" 
+            	ng-class="{'active':selectedFindingData.activeTabWork=='tab_work_extra'}" id="tab_work_extra">
+            	<div ng-if="selectedFindingData.procedure.extra_data" ng-include="extraSubstantiveData[selectedFindingData.procedure.extra_data].template"></div>
+							<!--{{selectedFindingData.auditFinding.extra_data}}-->
+            </div>
+        </div>
+    </div>
+</div>

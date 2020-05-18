@@ -1,0 +1,71 @@
+<div class="navbar">
+    <!-- Open side - Naviation on mobile -->
+    <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up">
+      <i class="fa fa-bars"></i>
+    </a>
+    <!-- / -->
+
+    <!-- Page title - Bind to $state's title -->
+    <div class="navbar-item pull-left h5" id="pageTitle">{{app.name}}</div>
+
+    <div class="navbar-item pull-left h7" ng-bind="$state.current.data.title" id="pageTitle">Page Title</div>
+
+    <!-- navbar right -->
+    <ul class="nav navbar-nav pull-right">
+    	<li class="nav-item dropdown pos-stc-xs">
+            <a class="nav-link" href ng-click="messaging.showMessages()">
+              <i class="fa fa-comments"></i>
+              <span class="label label-sm up info">4</span>
+            </a>
+		</li>
+
+    	<li class="nav-item dropdown pos-stc-xs">
+            <a class="nav-link" href ng-click="documentManager.showDocuments()">
+              <i class="fa fa-briefcase"></i>
+              <span class="label label-sm up info">2</span>
+            </a>
+		</li>
+      	
+      <li class="nav-item dropdown pos-stc-xs">
+        <a class="nav-link" href data-toggle="dropdown">
+          <i class="material-icons">&#xe7f5;</i>
+          <span class="label label-sm up warn">3</span>
+        </a>
+        <div ui-include="'apps/bootstrap/views/blocks/dropdown.notification.html'"></div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link clear" href data-toggle="dropdown">
+          <span class="avatar w-32">
+            <img ng-src="assets/images/users/user{{app.loginUser.user_id}}.jpg" alt="...">
+            <i class="on b-white bottom"></i>
+          </span>
+        </a>
+        <div ui-include="'apps/bootstrap/views/blocks/dropdown.user.html'"></div>
+      </li>
+      <li class="nav-item hidden-md-up">
+        <a class="nav-link" data-toggle="collapse" data-target="#collapse">
+          <i class="material-icons">&#xe5d4;</i>
+        </a>
+      </li>
+    </ul>
+    <!-- / navbar right -->
+
+    <!-- navbar collapse -->
+    <div class="collapse navbar-toggleable-sm" id="collapse" style="display:none !important;">
+      <div ui-include="'apps/bootstrap/views/blocks/navbar.form.right.html'"></div>
+      <!-- link and dropdown -->
+      <ul class="nav navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link" href data-toggle="dropdown">
+            <i class="fa fa-fw fa-plus text-muted"></i>
+            <span>New Items</span>
+          </a>
+          <div ui-include="'apps/bootstrap/views/blocks/dropdown.new.html'"></div>
+        </li>
+      </ul>
+      <!-- / -->
+    </div>
+    <!-- / navbar collapse -->
+</div>
+
+

@@ -1,0 +1,29 @@
+
+<div class="row-col">
+	<div class="p-y-sm  p-x-md white b-b" style="z-index:1200; overflow:visible;" ng-if="template.detail_header" ng-include="template.detail_header">
+	</div>
+		<div class="p-y-sm  p-x-md light b-b" style="z-index:1200; overflow:visible;" ng-if="!template.detail_header">
+		<div>
+			<div class="pull-right" >
+				<div class="btn-group ">
+					<span ng-include="'transaction_detail_menu.html'" ng-include-replace> </span>
+
+				</div>
+			</div>
+			<div class="text-md _300">
+				{{transaction_title}} &nbsp;
+			</div>
+		</div>
+	</div>
+
+	<div class="row-row">
+		<div class="row-body">
+			<div class="row-inner">
+				<div class="" ng-include="template.detail">
+	
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

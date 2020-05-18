@@ -1,0 +1,30 @@
+<div class="popover left" style="max-width:420px;" tabindex="-1" ngs-show="content">
+    <div class="arrow right b-white right">
+    </div>
+    
+    <h3 class="popover-title" ngs-bind-html="title" ngs-show="title">Assignment</h3>
+    <div class="popover-content" style="min-width:400px;">
+        <ui-select multiple theme="bootstrap" 
+        	ng-model="selectedAudit.assigned_users_detail"  
+            on-remove="onRoleRemoveCallback($item,$model)" 
+            on-select="onRoleAddCallback($item, $model)">
+            
+        	<ui-select-match class="ui-select-match" placeholder="Select User...">
+            	<img ng-src="files/uploads/{{$item.image}}" class="w-32 rounded"/> {{$item.name}} 
+            </ui-select-match>
+            <ui-select-choices class="ui-select-choices"  repeat="user in lookups.array.User">
+                <div ng-bind-html="user.name | highlight: $select.search">
+                </div>
+            </ui-select-choices>
+        </ui-select>
+    	<br/><br/><br/>
+        <div class="form-actions" style="text-align:right;">
+            <button type="button" class="btn btn-primary" ng-click="saveAuditAssignee(selectedAudit);$hide()"><i class="fa fa-check"></i></button>
+            <button type="button" class="btn btn-danger" ng-click="$hide()"><i class="fa fa-times"></i></button>
+        </div>      
+    </div>
+
+</div>
+
+
+

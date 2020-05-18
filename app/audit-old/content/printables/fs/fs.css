@@ -1,0 +1,191 @@
+
+     .financial-statement {
+        font-size: 11px;
+        font-family: "arial";
+    }
+    .financial-statement .disclosure-note {opacity: 0.8, padding:3em; margin-bottom: 2em;color:red;}
+    
+    .financial-statement .text-note {color:blueviolet;}
+    .no-number .number {
+        
+        display:none;
+    }
+    .no-number .number {
+        
+        display:none;
+    }
+
+    .financial-statement .fs-content .table {
+        border-bottom: none;
+    }
+
+    .financial-statement .fs-content table tr td {
+        border-top: none;
+    }
+
+    .financial-statement .title {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 1.2em;
+    }
+
+    .financial-statement .sub-title {
+        text-decoration: underline;
+       /* padding-top:12px;*/
+    }
+    .financial-statement .total .acct-label::before {content: "Total "}
+    .financial-statement .acct-level-1,
+    .financial-statement .acct-level-2 {
+        font-weight: bold;
+    }
+
+    .financial-statement .acct-level-1 {
+        /*text-transform: uppercase;*/
+        
+    }
+    
+    .financial-statement .b-b .number {
+        border-bottom: solid 1px #999;
+    }
+.financial-statement .b-t .number {
+        border-top: solid 1px #999;
+    }
+
+    .financial-statement .acct-level-1 td {
+        padding-top: 1em;
+    }
+
+    .financial-statement .acct-level-2 .acct-label {
+        padding-left: 1em;
+    }
+
+    .financial-statement .acct-level-3 .acct-label {
+        padding-left: 2em;
+    }
+
+    .financial-statement .acct-level-4 .acct-label {
+        padding-left: 2.5em;
+    }
+
+    .financial-statement .acct-level-5 .acct-label {
+        padding-left: 3em;
+    }
+
+    .financial-statement .acct-level-6 .acct-label {
+        padding-left: 3.5em;
+    }
+    .financial-statement .acct-level-7 .acct-label {
+        padding-left: 4em;
+    }
+    .financial-statement .acct-level-8 .acct-label {
+        padding-left: 4.5em;
+    }
+    .financial-statement .acct-level-9 .acct-label {
+        padding-left: 5em;
+    }
+    .financial-statement .acct-level-10 .acct-label {
+        padding-left: 5.5em;
+    }
+/**/
+    .financial-statement .acct-total .acct-label {
+        paddings-bottom: 1em;
+    }
+
+    .financial-statement .acct-total .number {
+        border-bottom: solid 1px #999;
+    }
+
+    .financial-statement .acct-level-1.acct-total .number,.financial-statement .acct-level-1.total .number {
+        border-bottom: double #333;
+    }
+    .financial-statement .acct-total .number
+    {
+          border-top: solid 1px #666;  
+    }
+    .resizable-div {
+        background-color: #FF0;
+    }
+
+    .printable .page-container {
+        width: 100%;
+    }
+
+
+    .page-spacer {
+        border-left: solid 1px #FFE;
+    }
+
+    .page-content {
+        backgrounds-color: #FEFEFE;
+    }
+
+.fs-designer {font-size: 12px; color: blueviolet;}
+.custom-report {color: blueviolet;}
+    @media screen {
+        .page {
+            padding-left: 20mm;
+            padding-right: 20mm;
+            margin-bottom: 10mm;
+            box-shadow: 0px 0px 2px 2px #888;
+            box-sizing: border-box;
+            background-color: #FFF;
+            padding-top: 10mm;
+            width: 212mm;
+        }
+        
+        .page.portrait {
+            width: 212mm;
+        }
+
+        .page.landscape {
+            width: 297mm;
+        }
+
+        .printable {
+            margin-top: 70px;
+        }
+        .fixed-header {display: none;}
+    }
+
+    @media print {
+        @page {
+            /*size: a4;*/
+            margin-top: 1mm;
+            margin-bottom: 1mm;
+            background-image: url("files/company_files/ht-letterhead.png");
+        }
+
+        @page :first {
+            margins-top: 50mm;
+            
+        }
+
+        @page :right {
+            margins-top: 50mm;
+            margin-left: 10mm;
+            margin-right: 0mm;
+            
+        }
+
+        @page :left {
+            margin-right: 10mm;
+            margin-left: 0mm;
+        }
+        .fixed-header {position: fixed; top:0; left:0; width: 100%;height: 25mm;}
+        .page-container .page-header2 {border-bottom:solid 1px #908; borders-top:solid 1px #908; height: 35mm;}
+        .page-container .page-header2 .page-gutter {vertical-align: bottom;}
+        .page-container .page-content,.page-container .page-gutter {padding-left:15mm; padding-right: 15mm;}
+        .printable .page {
+            page-break-after: always;
+        }
+
+        .printable .no-page-break,
+        .printable p {
+            page-break-inside: avoid;
+        }
+
+        .printable .new-page {
+            page-break-before: always !important;
+        }
+    }
+

@@ -1,0 +1,110 @@
+<div class="padding data-load-{{app.dataLoaded}}" bm-ui-permission="app.audit.list" login-user="app.loginUser" bm-app="app">
+	<div class="row p-y-sm">
+		<div class="col-md-6">
+			<h4 classs="padding">Engagements</h4>
+		</div>
+		<div class="col-md-6">
+			<div class="row" ng-if="auditManager.showAction">
+				<div class="col-md-4" style="text-align:right;">
+					<select class='md-input' style="display:inline;" ng-model="auditManager.auditListFilter.criteria" 
+            	ng-options = "opt for opt in ['Only','Upto']">
+					</select>
+				</div>
+				<div class="col-md-4" style="text-align:right;">
+					<select class='md-input' style="display:inline;" ng-model="auditManager.auditListFilter.status" ng-options="opt.value as opt.label for opt in auditStatusLookup">
+					</select>
+				</div>
+				<div class="col-md-4" style="text-align:right;">
+					<div class="btn-group">
+						<button class="btn btn-primary btn-sm" bm-ui-permission="app.audit.create" login-user="app.loginUser" bm-app="app" ng-click="onCreateAudit()"> <i class="fa fa-plus"></i> </button>
+						<div class="btn-group dropdown">
+							<button type="button" class="btn white btn-sm" data-toggle="dropdown" > <i class="fa fa-bars"></i> <span class="caret"></span> </button>
+							<div class="dropdown-menu animated pull-right">
+								<div class="dropdown-item dropdown-submenu" bm-ui-permission="app.audit.export" login-user="app.loginUser">
+									<a tabindex="-1" href="" ><i class="fa fa-cloud-download"></i> Export</a>
+									<div class="dropdown-menu pull-left" role="menu">
+										<a class="dropdown-item" ng-click="exportToExcel()"><i class="fa  fa-file-excel-o"></i> Excel</a> 
+										<!--	<a class="dropdown-item" href=""><i class="fa  fa-file-word-o"></i> Word</a> 
+																<a class="dropdown-item" href=""><i class="fa  fa-file-pdf-o"></i> PDF</a>-->
+									</div>
+								</div>
+								<div class="dropdown-item dropdown-submenu" bm-ui-permission="app.audit.import" login-user="app.loginUser">
+									<a tabindex="-1" href="" ><i class="fa fa-cloud-upload"></i> Import</a>
+									<div class="dropdown-menu pull-left" role="menu">
+										<a class="dropdown-item" href="" ng-click="dataImportManager.showImportWindow('Excel')" disabled><i class="fa  fa-file-excel-o"></i> Excel</a> 
+										<!--<a class="dropdown-item" href=""><i class="fa  fa-file-word-o"></i> Word</a> 
+																<a class="dropdown-item" href=""><i class="fa  fa-file-pdf-o"></i> PDF</a>-->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div classs="p-t" >
+		<div class="list box " ng-if="viewInitialized">
+			<div class="list-item hover-shadow" style="padding:6px 16px;" ng-repeat="item in auditManager.auditsList track by $index" 
+        	bm-ui-permission="app.audit.list.{{item.audit_status}}" login-user="app.loginUser"
+        	ng-if="auditManager.auditListFilter.criteria=='Only'?(item.audit_status/1== auditManager.auditListFilter.status/1):(item.audit_status/1<= auditManager.auditListFilter.status/1)"
+        	ng-show="app.loginUser.permissions['app.audit.accessUnasigned']==1 || item.assigned_usersHash['item'+app.loginUser.user_id]"
+					ng-init="item.customer=companysHash['item'+item.customer_id]"
+        	data-cust="{{auditCustomer=companysHash['item'+item.customer_id]}}">
+				<div class="list-left">
+					<img ng-src="files/uploads/{{auditCustomer.logo}}" style="border:solid 1px #CCC;" class="w-40 circle ">
+				</div>
+				<div class="list-body">
+					<div class="col-sm-6">
+						<a ui-sref="app.audit.detail.edit.basic({audit_engagement_id:item.audit_engagement_id})" class="_500"> 
+						{{item.customer.customer_name}} -  {{item.closing_date | date : "dd MMM, yyyy"}}
+						<div class=" text-muted">
+							<small ng-show="auditCustomer.telephone_no" >
+                                <i class="fa fa-phone"></i> {{item.client_contact_phone}} </small> 
+                            <small ng-show="auditCustomer.email"> &nbsp; <i class="fa fa-at"></i> {{auditCustomer.email}}</small> 
+                            <small ng-show="auditCustomer.tin"> &nbsp; TIN {{auditCustomer.tin}}</small>
+						</div>
+						</a>
+					</div>
+					<div class="col-sm-3">
+						<div ui-jp="easyPieChart" ng-if="item.audit_status/1<11" class="easyPieChart" ui-refresh="app.setting.color" data-redraw="true" data-percent="{{item.progress.percent}}" ui-options="{
+                          lineWidth: 3,
+                          
+                          trackColor: 'rgba(0,0,0,0.05)',
+                      		barColor: '{{item.progress.color}}',
+                      		scaleColor: 'transparent',
+                          size: 40,
+                          scaleLength: 0,
+                          animate:{
+                            duration:1000,
+                            enabled:true
+                          }
+                        }">
+							<div style="font-size:0.8em;">
+								{{item.progress.percent}}%
+							</div>
+							<canvas height="40" width="40"></canvas>
+						</div>
+					</div>
+					<div class="col-sm-3" style="text-align:right">
+						<!--{{item.assignee}}--> 
+						<a ng-repeat="user_id in item.assigned_users" href=""><img ng-src="files/uploads/{{lookups.hash.User['User'+user_id].image}}" class="w-32 rounded"></a> &nbsp; <span bm-ui-permission="app.audit.assign" login-user="app.loginUser" ng-if="auditManager.showAction">
+                        <!--
+						<button uib-tooltip="Assign" ng-click="onAuditAsignClick(item)" data-template-url="app/audit/content/blocks/popoverAuditAssignment.html" data-placement="left" 
+                	data-title="Assignment"  data-animation="am-flip-x" bs-popover="" class="md-btn md-btn-circle md-raised m-b-sm white"> <i class="material-icons md-16">&#xe7ef;</i></button>-->
+                        
+                        <button uib-tooltip="Assign" ng-click="onAuditAsignClick(item)" data-template-url="app/audit/content/blocks/popoverAuditAssignment.html" data-placement="left" 
+                	data-title="Assignment"  data-animation="am-flip-x" bs-popover="" class="md-btn md-btn-circle md-raised m-b-sm white"> <i class="material-icons md-16">&#xe7ef;</i>
+                        </button>
+                        
+						&nbsp; </span>
+						<button class="btn btn-danger btn-xs" ng-click="archiveAudit(item)" bm-ui-permission="app.audit.archive" login-user="app.loginUser"><i class="fa fa-trash-o" ></i></button>
+						<button class="btn btn-default btn-xs" ng-if="auditManager.showActions"><i class="fa fa-bars" ></i></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-include ="'app/audit/content/blocks/create_audit_modal.html'" ngs-include-replace>
+	</div>
+</div>

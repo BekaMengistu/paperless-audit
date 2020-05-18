@@ -1,0 +1,23 @@
+<style>
+	.account-tree {font-size:1.3em;}
+	.account-tree .level-1 {font-size:.9em;}
+	.account-tree .level-1 .first-col {padding-left:10px;}
+	
+	.account-tree .level-2 {font-size:.8em;}
+	.account-tree .level-2 .first-col {padding-left:20px;}
+
+	.account-tree .level-3 {font-size:.75em;}
+	.account-tree .level-3 .first-col {padding-left:30px;}
+	
+	.editor-table .viewer {display:none;}
+	.viewer-table .editor,.viewer-table input {display:none;}
+	
+</style>
+<div class="row">
+	<div class="col-md-1">
+    	<div ng-include="'app/audit/content/audit.sidemenu-2.html'"></div>
+    </div>
+    <div class="col-md-11">
+    	<div  ui-view></div>
+    </div>
+</div>

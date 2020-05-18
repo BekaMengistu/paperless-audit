@@ -1,0 +1,66 @@
+
+<table style="width:100%; display: none;" classs="print-table" class="table table-condensed table-striped table-hover m-b-none"  datas-filter="#filter_AuditClientTrialbalance" datas-page-size="5">
+	<thead>
+		<tr>
+			<th rowspan="2">REF</th>
+			<th  class="print-w-500">Account</th>
+			<th>&nbsp;</th>
+			<th  class="number">Unadjusted (cr/dr)</th>
+			<th class="number">Adjusted (cr/dr)</th>
+			<th class="number">LFP (cr/dr)</th>
+			<th class="dker text-center">Adj</th>
+			<th class="text-center">Adj-Prior</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in heirarchyTable track by $index" 
+			class="{{item.data.objType=='acct'?'_300':''}}" ng-if="item.data.adjustedBalace.debit-item.data.adjustedBalace.credit">
+				<td id="{{item.data.full_id}}"><small style="font-size:0.6em;">{{item.data.full_id}}</small></td>
+				<td style="width:500px !important;"><span class="indent-level-{{item.indent}}"></span> {{item.label}} </td>
+				<td><span ng-show="(item.data.adjustedBalace.debit-item.data.adjustedBalace.credit)==item.data.adjustedBalace.balance">ALY</span></td>
+				<td class="number">{{(item.data.debit - item.data.credit)| number:2}}</td>
+				<td class="number">{{(item.data.adjustedBalace.debit-item.data.adjustedBalace.credit) | number:2}}</td>
+				<td class="number">{{item.data.adjustedBalace.balance|number:2}}</td>
+				<td  class="number dker">{{(item.data.adjDebit-item.data.adjCredit) | number:2}}</td>
+				<td  class="number">{{(item.data.adjPDebit-item.data.adjPCredit) | number:2}}</td>
+		</tr>
+	</tbody>
+</table>
+
+<table style="width:100%;" classs="print-table" class="table table-condensed table-striped table-hover m-b-none"  datas-filter="#filter_AuditClientTrialbalance" datas-page-size="5">
+	<thead>
+		<tr>
+			<th rowspan="2">REF</th>
+			<th  rowspan="2" class="print-w-500">Account</th>
+			<th rowspan="2" >&nbsp;</th>
+			<th colspan="3">Adjusted Balance</th>
+			<th colspan="3">Un Adjusted Balance</th>
+		</tr>
+        <tr>
+            <th class="number deep-purple-100">{{auditManager.currentAudit.engagementInfo.year0Label}}</th>
+            <th class="number deep-purple-200">{{auditManager.currentAudit.engagementInfo.year1Label}}</th>
+            <th class="number deep-purple-300">{{auditManager.currentAudit.engagementInfo.year2Label}}</th>
+            
+            <th class="number brown-100">{{auditManager.currentAudit.engagementInfo.year0Label}}</th>
+            <th class="number brown-200">{{auditManager.currentAudit.engagementInfo.year1Label}}</th>
+            <th class="number brown-300">{{auditManager.currentAudit.engagementInfo.year2Label}}</th>
+        </tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="item in heirarchyTable track by $index" 
+			class="{{item.data.objType=='acct'?'_300':''}}" ng-if="item.data.adjustedBalace.debit-item.data.adjustedBalace.credit">
+				<td id="{{item.data.full_id}}"><small style="font-size:0.6em;">{{item.data.full_id}}</small></td>
+				<td style="width:500px !important;"><span class="indent-level-{{item.indent}}"></span> {{item.label}} </td>
+				<td>
+                    <span ng-show="(item.data.adjustedBalace.debit-item.data.adjustedBalace.credit)==item.data.adjustedBalace.balance">ALY</span>
+                </td>
+				<td class="number deep-purple-50">{{item.data.adjustedBalance.year0_balance| number:2}}</td>
+				<td class="number deep-purple-100">{{item.data.adjustedBalance.year1_balance| number:2}}</td>
+				<td class="number deep-purple-200">{{item.data.adjustedBalance.year2_balance| number:2}}</td>
+
+                <td class="number brown-50">{{item.data.balance.year0_balance| number:2}}</td>
+				<td class="number brown-100">{{item.data.balance.year1_balance| number:2}}</td>
+				<td class="number brown-200">{{item.data.balance.year2_balance| number:2}}</td>
+		</tr>
+	</tbody>
+</table>

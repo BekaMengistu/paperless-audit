@@ -1,0 +1,42 @@
+<div class="row _300">
+	<div class="col-md-4" style="font-size:1.25em">
+        <div class="account-tree" ng-repeat="node in treeManager.tree" data-level={{acctLevel=1}}  ng-include ="'accounts_tree.html'">{{node.label}}
+        </div>
+    </div>
+	<div class="col-md-8">
+    <!--
+    Detail
+    <br/>
+    {{formData}}
+    {{editedNode.data}}-->
+    <div ng-show="editedNode.data" ng-include="'app/Audit/content/setup/AuditAccountGroupingEdit.php'"></div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="accounts_tree.html">
+	<div style="clear:both;">
+	<div class="node-label hover-target {{editedNode.id==node.id?'edited-node':''}} {{regroupInfo.started?'hover-shadow':''}}">
+		<div class="pull-right  {{!regroupInfo.started?'hover-show':''}}"> 
+			<button class="btn btn-danger btn-xs" uib-tooltip="Delete" ng-hide="node.children.length || regroupInfo.started" ng-click="deleteItem(node);" ><i class="fa fa-trash-o"></i></button>
+			
+			<button class="btn accent btn-xs" uib-tooltip="Regroup" ng-click="startRegroup(node)" ng-show="!regroupInfo.started"><i class="fa fa-mail-forward"></i></button>
+			<button class="btn btn-success btn-xs" uib-tooltip="Add Child" ng-click="addChild(node)" ng-show="!regroupInfo.started"><i class="fa fa-plus"></i></button>
+			<button class="btn warn btn-xs" title="Cancel Regroup" ng-click="cancelRegroup(node)" ng-show="regroupInfo.started && regroupInfo.node.id==node.id"><i class="fa fa-times"></i></button>
+			<button class="btn accent btn-xs" title="Move Here" ng-click="RegroupHere(node)" ng-show="regroupInfo.started && regroupInfo.node.id!=node.id"><i class="fa fa-check"></i></button>
+		</div>
+		
+		<div>
+		<a ng-show="node.children.length" href ng-click="formData.expanded[node.id]=!formData.expanded[node.id]">&nbsp; 
+		<i class="fa fa-angle-{{formData.expanded[node.id]?'down':'right'}}"></i>&nbsp; </a>
+	<span ng-hide="node.children.length">&nbsp; &nbsp; &nbsp;</span>
+	<a href="" ng-click="onItemSelect(node)">{{node.label}}</a>
+		</div>
+		
+	</div>
+	<div classs="b-a" ng-if="formData.expanded[node.id]" style="font-size:0.96em;padding-left:1em;">
+        <div  ng-repeat="node in node.children"  ng-include ="'accounts_tree.html'" ngs-include-replace>
+        </div>
+	</div>
+	</div>
+</script>
+

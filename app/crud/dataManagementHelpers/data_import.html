@@ -1,0 +1,38 @@
+<div class="box">
+	<div style="display:none">
+		<input id="{{dataImportManager.importOptions.fileButtonId}}" type="file" class="btn btn-primary detail-viewer" nvs-file-select="" uploaderss="dataImportManager.uploader">
+	</div>
+    <div class="box-body">
+    <button type="button" class="close" ng-click="dataImportManager.windowVisible=false" aria-label="Close"> <span aria-hidden="true">×</span> </button>
+        <div class="pull-right" ng-show="dataImportManager.canImport">
+    	<label for="chkeraseExisting">Erase Existing Data</label>
+        <input type="checkbox" id="chkeraseExisting" ng-model="dataImportManager.importOptions.eraseExisting" />
+    	<button class="btn btn-default" ng-click="dataImportManager.importFile()">Import</button>
+        &nbsp; &nbsp;
+    </div>
+
+    <div>
+    <span class="w-40 circle blue"><i class="fa fa-cloud-upload"></i></span>
+    <span class="w-40 circle transparent" style="margin-left:-44px;">
+    	<input type="file" style="width:40px;height:40px;cursor:pointer !important;opacity:0.0; border:solid 1px #C30;border-radius:50%;" 
+        	nv-file-select="" uploader="dataImportManager.uploader"/></span>
+    
+     &nbsp; {{dataImportManager.importOptions.filePath }}
+		 <span ng-show="!dataImportManager.importOptions.filePath">Please upload your file</span>
+    </div>
+		<div class="p-t" >
+			<strong>Note</strong><br/>
+			Your Excel file should contain a single worksheet.
+			<div ng-show="dataImportManager.importOptions.fieldsList.length">
+			The first row of the worksheet should contain the following columns (column orders may vary)   
+			<table class="table table-bordered"><tr><td ng-repeat="fld in dataImportManager.importOptions.fieldsList track by $index">{{fld}}</td></tr></table>
+			</div>
+		</div>
+    <!--
+    <button class="btn {{app.setting.theme.primary}}" uib-tooltip="Upload Document" ng-click="dataImportManager.uploadButtonClick()"><i class="fa fa-cloud-upload"></i></button>
+    -->
+    
+    
+    <!--<br/>{{dataImportManager.importOptions}}-->
+    </div>
+</div>

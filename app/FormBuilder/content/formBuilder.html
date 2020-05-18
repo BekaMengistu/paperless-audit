@@ -1,0 +1,116 @@
+<style>
+.grid-layout {
+}
+.child-field-container {padding:5px;}
+.grid-layout [class*="col-"] {
+	background-color: #FFF;
+	line-height: 50px;
+	border: solid 1px #DDD;
+	margin-top:5px;
+	border-radius:3px;
+}
+.handle {cursor:pointer;}
+.resizer {cursor:ew-resize;}
+
+</style>
+<script type="text/ng-template" id="default_fld.html">
+	<div>
+		<span class="pull-left handle m-r text-muted"><i class="fa fa-arrows"></i></span>
+        {{fld.label}}
+	</div>
+</script>
+
+<script type="text/ng-template" id="label2.html">
+		<div class="pulls-left text-muted">
+			
+			<span  class="handle m-r text-muted"><i class="fa fa-arrows"></i>&nbsp; </span>
+			
+			<span class="resizer" ng-click="fld.width=fld.width-1"><i class="fa fa-step-backward"></i>&nbsp;</span>
+			<span class="resizer" ng-click="fld.width=fld.width/1+1">&nbsp;<i class="fa fa-step-forward"></i>&nbsp;</span>
+			
+			<span ng-if="fld.fields.length" ng-click="fld.expanded=!fld.expanded" class="text-muted">
+				<i class="fa fa-angle-{{fld.expanded?'down':'right'}}"> </i> &nbsp;
+			</span>
+		<div class="pull-right">
+			<button ng-if="fld.data_type=='object' || fld.data_type=='grid'" class="btn btn-primary btn-xs" ng-click="addField(fld)"><i class="fa fa-plus"></i></button> 
+			
+			<button ng-if="fld.data_type=='object' || fld.data_type=='grid'" class="btn btn-primary btn-xs" title="Drill Down" ng-click="formManager.drillDownOnObj(fld)"><i class="fa fa-arrow-down"></i></button> 
+			
+			<button class="btn btn-default btn-xs" ng-click="editField(fld)"><i class="fa fa-edit"></i></button> 
+
+			<button class="btn btn-danger btn-xs" ng-click="deleteField(fld)"><i class="fa fa-times"></i></button> 
+			
+		</div>
+			{{fld.label}} <!-- {{fld.parent_id}} / {{fld.form_field_template_id}}-->
+		</div>
+</script>
+
+<script type="text/ng-template" id="label.html">
+		<div class="pulls-left text-muted">
+			<span class="resizer" ng-click="fld.width=fld.width-1"><i class="fa fa-step-backward"></i>&nbsp;</span>
+			<span class="resizer" ng-click="fld.width=fld.width/1+1">&nbsp;<i class="fa fa-step-forward"></i>&nbsp;</span>
+			
+			<span ng-if="fld.fields.length" ng-click="fld.expanded=!fld.expanded" class="text-muted">
+				<i class="fa fa-angle-{{fld.expanded?'down':'right'}}"> </i> &nbsp;
+			</span>
+		<div class="pull-right">
+			<button ng-if="fld.data_type=='object' || fld.data_type=='grid'" class="btn btn-primary btn-xs" ng-click="addField(fld)"><i class="fa fa-plus"></i></button> 
+			
+			<button ng-if="fld.data_type=='object' || fld.data_type=='grid'" class="btn btn-primary btn-xs" title="Drill Down" ng-click="formManager.drillDownOnObj(fld)"><i class="fa fa-arrow-down"></i></button> 
+			
+			<button class="btn btn-default btn-xs" ng-click="editField(fld)"><i class="fa fa-edit"></i></button> 
+
+			<button class="btn btn-danger btn-xs" ng-click="deleteField(fld)"><i class="fa fa-times"></i></button> 
+			
+		</div>
+			{{fld.label}} <!--{{fld.template}}  {{fld.parent_id}} / {{fld.form_field_template_id}}-->
+		</div>
+</script>
+
+<script type="text/ng-template" id="box.html">
+	<div>
+		<div ng-include ="'label.html'" ngs-include-replace></div>
+		<div class="child-field-container row" ng-if="fld.fields.length"   ng-show="fld.expanded">
+			<div ng-repeat="fld in fld.fields" class="col-md-{{fld.width}}">
+				<div  ng-include ="'label.html'"></div>
+			</div>
+		</div>
+	</div>
+</script>
+
+<div class="padding">
+    <div class="row">
+        <div class="pull-right">
+        	
+            <span ng-show="formManager.currentObject.data_type">You are editing {{formManager.currentObject.label}}
+            <button class="btn btn-default btn-xs" ng-click="formManager.exitDrillDown()"> Back </button>
+            <button class="btn btn-primary btn-xs" ng-click="addField(formManager.currentObject)"><i class="fa fa-plus"></i></button> 
+            </span>
+            <div class="btn-group dropdown" ng-hide="formManager.currentObject.data_type">
+                <button class="btn white" ng-click="addField()"><i class="fa fa-plus"></i></button>
+                <button class="btn white dropdown-toggle" data-toggle="dropdown"></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="" ng-click="addField('','object')">Object</a>
+                  <a class="dropdown-item" href="" ng-click="addField('','grid')">Table Grid</a>
+                  
+                </div>
+            </div>
+            <!--
+            <button class="btn btn-default" ng-click="startMoving()"> <i class="fa fa-arrows"></i> </button>
+            <button class="btn btn-default" ng-click="formManager.saveFieldTemplates(formManager.fields)"> <i class="fa fa-floppy-o"></i> </button>-->
+            <button class="btn btn-primary" ng-click="formManager.saveMultipleFieldTemplates(formManager.fields)"> <i class="fa fa-floppy-o"></i> </button>
+            
+        </div>
+        <h4>{{formManager.formTemplate.label}}</h4>
+    </div>
+	
+        
+            <div class="row grid-layout" html-sortable="field_sortable_option" ng-model="formManager.currentObject.fields" >
+                <div ng-repeat="fld in formManager.currentObject.fields  track by $index"  class="col-md-{{fld.width}}">
+                    <div  ng-include="'box.html'"></div>
+                </div>
+            </div>
+        
+
+	<div  ng-include ="'app/FormBuilder/content/aside_field_edit.html'"></div>
+</div>

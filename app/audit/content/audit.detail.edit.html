@@ -1,0 +1,17 @@
+<div class="p-a-sm" bm-ui-permission="app.audit.form.{{app.activeSectionId}}" login-user="app.loginUser">
+    <div class="row p-r p-b-sm">
+        <div class="pull-right">
+            <div class="btn-group">
+            <a class="btn btn-default" uib-tooltip="To List" ui-sref="app.audit.list"> <i class="fa fa-arrow-left"></i></a>
+            <button class="btn primary info-save" uib-tooltip="Save Info" bm-ui-permission="app.audit.save" login-user="app.loginUser" ng-click="onSaveClick()"> <i class="fa fa-floppy-o"></i> </button>
+            <button class="btn dark form-save" uib-tooltip="Save Form" bm-ui-permission="app.audit.save" login-user="app.loginUser" ng-click="onSaveClick('form')"> <i class="fa fa-floppy-o"></i> </button>
+                
+            <button class="btn accent"  uib-tooltip="Export" ng-click="exportInfoForm()" > <i class="fa fa-file-excel-o"></i> </button>
+            </div>
+        </div>
+    </div>
+    <!--{{auditFormManager}}-->
+    <div  ui-view>
+        
+    </div>
+</div>

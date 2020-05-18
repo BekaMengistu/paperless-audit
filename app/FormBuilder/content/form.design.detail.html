@@ -1,0 +1,73 @@
+<div bm-ui-permission="app.form.design" login-user="app.loginUser">
+    <div bm-ui-permission="app.form.{{formManager.FormTemplate.editedItem.name}}" login-user="app.loginUser">
+<style>
+	.sortable-topFieldss .topFields {cursor:move;}
+	
+	.sortableFields,.form-fields .tools {cursor:move; border:solid 1px transparent; border-top:dashed 1px transparent !important; border-left:dashed 1px transparent !important; 
+				border-right:dashed 1px transparent !important; border-bottom:dashed 1px transparent !important;}
+				
+	.sortableFields:hover,.form-fields .tools:hover {border-top:dashed 1px #F90 !important; border-left:dashed 1px #F90 !important; 
+				border-right:dashed 1px #F90 !important; border-bottom:dashed 1px #F90 !important; }
+	
+	.sortableFields:hover { background:#FFC;}
+				
+	.form-fields {position:relative; overflow:visible;}
+	.form-fields .tools {position:absolute;left:0;top:0;width:100%;z-index:10; height:100%;transition: 0.2s linear;transition-property: opacity; opacity:0.8;backgrounds:#FFF; overflow:visible;}
+	.form-fields .tools:hover {opacity:1;} 
+	.form-fields .tools .mover-buttons {position:absolute;top:-30px;left:0;width:46px;height:30px;line-height:30px;background:#FFF;
+			border-top-left-radius:10px; border-top-right-radius:10px; text-align:center;
+			border-left:dashed 1px #F90;border-right:dashed 1px #F90;border-top:dashed 1px #F90; opacity:0;}
+	
+	.form-fields .tools:hover .mover-buttons {opacity:1;}		
+</style>
+
+
+<div ng-include="'app/FormBuilder/content/design.fields.html'">
+	
+</div>
+
+				
+
+		<div class="sortable-{{sortableFields}} p-a-sm" 
+             bm-ui-permission="app.form.{{formManager.FormTemplate.editedItem.name}}.design" login-user="app.loginUser">
+				<div ng-include="'app/FormBuilder/content/form.template.edit.html'">
+			</div>
+			<div class="text-md p-l-md m-y-sm _300">
+				Fields &nbsp; 
+				<div class="btn-group dropdown">
+                <button class="btn btn-xs white" data-toggle="dropdown"><i class="fa fa-plus"></i></button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','object')">Object</a>
+                  <a class="dropdown-item" href="" ng-click="formManager.FormTemplate.addFieldTemplate('','grid')">Table Grid</a>
+                  
+                </div>
+            </div>
+			</div>
+			
+			<div class="row p-l-md" ng-if="formManager.FormTemplate.formDataLoaded && sortableFields=='topFields'" 
+					html-sortable="field_sortable_option" ng-model="formManager.FormTemplate.fields">
+				<div ng-repeat="fld in formManager.FormTemplate.fields" ng-init="containerClass='sortableFields'"  
+                     class="col-md-{{fld.data.width}} "
+                     bm-ui-permission="app.form.{{formManager.FormTemplate.editedItem.name}}.{{fld.data.name}}" login-user="app.loginUser">
+                    <div ng-include="fld.data.template.container">
+					</div>
+				</div>
+			</div>
+			
+			<div class="row p-l-md" ng-if="formManager.FormTemplate.formDataLoaded  && sortableFields!='topFields'">
+				<div ng-repeat=" fld in formManager.FormTemplate.fields "  class="col-md-{{fld.data.width}}" 
+                     bm-ui-permission="app.form.{{formManager.FormTemplate.editedItem.name}}.{{fld.name}}" login-user="app.loginUser">
+					<div ng-include="fld.data.template.container">
+					</div>
+				</div>
+			</div>
+
+			
+		</div>
+	
+	<div class="p-x debug">	
+	Lookups<br/>
+		{{formManager.FormTemplate.requiredLookups}}
+	</div>
+</div>
+    </div>

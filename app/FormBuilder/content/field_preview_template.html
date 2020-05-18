@@ -1,0 +1,122 @@
+<style>
+    .value-grid .col-index,.value-grid .col-readonly {background-color: rgba(0,0,0,0.02);}
+    .label-value {borders-left:solid 1px #999;margin:0.2em;border-bottom:dotted 1px #999;}
+    .label-value .fld-label {border-left:solid 4px #AAA; padding-left:0.3em; font-weight: bold;}
+    .label-value .fld-value {padding-left:1em; font-style: italic;}
+    .label-value-bool {margin:0.2em;}
+    .label-value-bool .fld-label {border-left:solid 4px #AAA; padding-left:2px; font-weight: bold;}
+    .transparent {opacity: 0;}
+</style>
+<script type="text/ng-template" id="box.html">
+	<div class="box m-b-xs b-grey b-a r">
+		<div class="box-header dker b-grey b-b">
+			
+			<h3>{{fld.label}}</h3>
+		</div>
+		
+		<div class="box-body p-t-xs">
+			<div class="row" ng-include="fld.data.template.field"></div>
+		</div>
+	</div>
+</script>
+<script type="text/ng-template" id="object-grid.html">
+    <div ng-repeat="val in fld.children[0].data.value  track by $index" class="p-a-sm b-grey {{$index>0?'b-t':''}}" ng-init="rowIndex=$index">
+        <div class="row">
+						<div ng-repeat="fld in fld.children track by $index" class="col-md-{{fld.data.width}}" ng-include ="fld.data.template.container"></div>
+					</div>
+    </div>    
+	
+</script>
+<script type="text/ng-template" id="object.html">
+	
+	<div ng-repeat="fld in fld.children" class="col-md-{{fld.data.width}}" ng-init="rowIndex=0" ng-include ="fld.data.template.container">
+	</div>
+</script>
+
+<script type="text/ng-template" id="grid.html">
+	<table class='table table-sm value-grid'> 
+		<thead>
+			<tr class="dker">
+				<th class="col-index">#</th>
+				<th ng-repeat="fld in fld.children  track by $index" ng-init="field_name=fld.data.name" class="col-{{fld.data.data_type}}"
+                    style="width:{{(fld.data.width/12*100)|number}}%;">{{fld.label}} 
+</th>
+				<th ng-if="fld.data.repeating/1" style="width:95px;">
+					
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="val in fld.children[0].data.value  track by $index" ng-init=" rowIndex=$index">
+				<td class="col-index">{{$index+1}}</td>
+				<td ng-repeat="fld in fld.children  track by $index" class="col-{{fld.data.data_type}}">
+					<div ng-include ="fld.data.template.field" data-index="{{fld.index=val.index}}"></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</script>
+
+<script type="text/ng-template" id="default_fld.html">
+    
+		<div class="label-value">
+            <div class="fld-label">{{fld.label}}</div>
+		    <div class="fld-value" ng-include ="fld.data.template.field"></div>
+	</div>
+</script>
+
+<script type="text/ng-template" id="spacer.html">
+	<div class="md-form-group">&nbsp;<br/><br/></div>
+</script>
+
+
+<script type="text/ng-template" id="readonly_fld.html">
+    <div class="md-form-group">
+
+        <div class='md-input text-bold'>{{fld.data.value[rowIndex].value}}</div>
+        <label>{{fld.label}}</label>
+</script>
+<script type="text/ng-template" id="readonly_value.html">
+        <div class='mds-input'>{{fld.data.value[rowIndex].value}}</div>
+</script>
+
+<script type="text/ng-template" id="boolean_fld.html">
+		<div class="label-value-bool">
+            
+            <span class="fld-label"><span class="b-a p-x-sm ">
+                <i class="fa fa-check {{fld.data.value[rowIndex].value*1==1?'':'transparent'}}"></i></span> {{fld.label}}</span>
+		    
+	   </div>
+</script>
+
+
+
+<script type="text/ng-template" id="default_text.html">
+	<div>&nbsp; {{fld.data.value[rowIndex].value}}</div>
+</script>
+
+<script type="text/ng-template" id="lookup.html">
+	<select  ng-change="onFormValueChange(fld,rowIndex,container,field_name)"  class='md-input' data-index="{{value_index=fld.index/1}}" ng-model="fld.data.value[rowIndex].value" 
+                        	ng-options="opt.value as opt.label for opt in app.Manager.LookupManager.lookups[fld.data.lookup_id]"></select>
+</script>
+
+
+
+<script type="text/ng-template" id="checkbox.html">
+	<span class="b-a p-x-sm "><i class="fa fa-check {{fld.data.value[rowIndex].value*1==1?'':'transparent'}}"></i> </span>
+</script>
+										
+
+<script type="text/ng-template" id="textarea.html">
+	{{fld.data.value[rowIndex].value}}
+</script>
+<script type="text/ng-template" id="date.html">
+    <div>{{fld.data.value[rowIndex].value|date}}</div>
+</script>
+
+
+<div ng-if="formManager.showPreview" ng-repeat=" fld in formManager.FormTemplate.fields" class="col-md-{{fld.data.width}}">
+			<div ng-include="fld.data.template.container">
+			</div>
+		</div>
+

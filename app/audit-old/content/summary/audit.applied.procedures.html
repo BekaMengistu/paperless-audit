@@ -1,0 +1,20 @@
+<table class="table table-sms m-b-none table-striped">
+    <thead>
+        <tr>
+            <td>Ref</td>
+            <th>Objective</th>
+            <th>Description</th>
+            <th>Priority</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="item in  auditManager.currentAudit.appliedProcedures track by $index" data-obj="{{item.procedure=relationshipManager.objHash['AP' + item.audit_procedure_id]}}">
+            <td id="AP{{item.audit_procedure_id}}"><small>AP-{{item.audit_procedure_id}}</small></td>
+						<td>{{item.procedure.objectives}}</td>
+						<td>{{item.procedure.label}}</td>
+            <td>{{item.procedure.priority}}
+						{{item.procedures}}
+						</td>
+        </tr>
+    </tbody>
+</table>

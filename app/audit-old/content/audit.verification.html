@@ -1,0 +1,11 @@
+<div class="padding" bm-ui-permission="app.audit.fs" login-user="app.loginUser" >
+	<h3>Verification</h3>
+    Verification Site: {{auditAppSettings.verification_site.setting_value}}
+    <br/>
+    Verification Code: {{auditManager.currentAudit.engagementInfo.verification_code}}
+    <br/>
+    
+    <img ng-src="barcode/qrcode-png.php?url={{auditAppSettings.verification_site.setting_value}}
+    	&requestCode={{auditManager.currentAudit.engagementInfo.verification_code}}
+        &outputFile=../files/uploads/{{auditManager.currentAudit.engagementInfo.verification_code}}.png"/>
+</div>

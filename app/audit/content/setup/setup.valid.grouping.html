@@ -1,0 +1,64 @@
+<style>
+	.company-type-header {-webkit-transform:rotate(90deg);position:absolute;top:100px; border:solid 1px #0C3;width:200px;text-align:right;}
+	.scol {float:left;}
+	.h-30 {height:30px;}
+	.w-150 {width:150px;}
+	.c-30 {width:30px;}
+	.c-60 {width:60px;}
+	.c-90 {width:90px;}
+	.c-70 {width:70px;}
+	
+	.c-300 {width:300px;}
+	.c-400 {width:400px;}
+	.c-500 {width:500px;}
+	
+	.c-r {-webkit-transform:rotate(90deg);}
+	.h-150 {height:150px;}
+	
+	.allowed-check {padding:5px;border:solid 4px #F8F8F8;cursor:pointer;margin:2px;padding-top:10px;}
+	.allowed-1 {background-color:#0C0;}
+</style>
+<!--
+<div style="position:relative;">  
+    <div ng-repeat="ct in companyTypesLookup" class="company-type-header" style="left:{{$index*30}}px;">
+        {{ct.name}}
+    </div>
+</div>
+-->
+<div class="padding">
+<div class="box white" styles="display:none;">
+	<div class="boxs-header white" style="height:170px;">
+    	<div class="scol c-500 h-150 b-r">&nbsp;</div>
+        <div ng-repeat="ct in companyTypesLookup" class="scol c-70 h-170 b-r" style="text-aligns:right; overflows:hidden; width:70px;">
+        	<div style="position:relative; height:170px;width:70px;">
+        	<div class="c-r w-150 " style="position:absolute;top:65px;left:-50px; text-align:right;"> {{ct.name}}</div>
+            </div>
+        </div>
+    </div>
+    <div style="min-height:100px;max-height:400px;width:100%;borders:solid 1px #069; overflow:scroll;" class="b-t">
+    	<div class="b-b" ng-repeat="ag in accountGrouping">
+        	<div class="p-l scol c-500 h-30 b-r">
+        		{{ag.grouping_code}} - {{ag.grouping_name}}
+            </div>
+            <div class="scol c-70 h-30 b-r" ng-repeat="ct in companyTypesLookup" data-allowed='{{ctgk=allowedGrid["a"+ag.grouping_code+"_"+ct.audit_company_type_id]}}' >
+            <div class="allowed-check allowed-{{ctgk.allowed}}" ng-click="toggleAllowed(ctgk)"></div> 
+            </div>
+            
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+</div>
+<!--
+<table class="table">
+	<thead style="position:relative">
+    	<tr><th>Grouping</th></tr>
+    </thead>
+    <tbody style="height:100px; overflow:scroll; border:solid 1px #06F;">
+    	<tr ng-repeat="ag in accountGrouping">
+        	<td>{{ag.grouping_code}} - {{ag.grouping_name}}</td>
+            
+        </tr>
+    </tbody>
+</table>
+-->
+</div>

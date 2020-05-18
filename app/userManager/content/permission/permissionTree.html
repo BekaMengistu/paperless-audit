@@ -1,0 +1,49 @@
+<style>
+.permission-line {
+	lines-height: 30px;
+	padding-top:5px;
+	padding-bottom:5px;
+	
+	
+}
+.permission-line:hover {background-color:rgba(0,0,0,0.1);
+.permission-tree {
+	font-size:1.2em;
+}
+</style>
+<script type="text/ng-template" id="permissionsTree.html">
+<div classs="row no-gutter" style="padding-left:0;padding-right:0;">
+	<div class="row no-gutter  b-b permission-line">
+		<div class="pull-right">
+			<a href="" class="list-left" ng-click="toggleRolePermission(selectedRole.permissions[node.data.name],node.data.name)">
+				<span class="w-24 circle purple"><i ng-show="selectedRole.permissions[node.data.name].allowed=='1'" class="fa fa-check"></i></span>
+			</a>
+			<button class="btn btn-default btn-xs"   ng-click="onEditPermission(node.data)" data-template-url="app/UserManager/content/permission/popoverEditPermission.html" 
+				datass-placement="popover-right" data-animation="am-flip-y"  bs-popover="" title="Edit"> 
+				<i class="fa fa-pencil"></i> 
+			</button>
+			<button class="btn btn-default btn-xs"   ng-click="onAddChildPermission(node)" data-template-url="app/UserManager/content/permission/popoverEditPermission.html" 
+				datasss-placement="popover-right" data-animation="am-flip-y"  bs-popover="" title="Add Child"> 
+				<i class="fa fa-plus"></i> 
+			</button>
+			
+			<button class="btn btn-xs btn-danger" ng-disabled="node.children.length" ng-click="onDeletePermission(node,$index)" ><i class='fa fa-trash-o'></i></button>
+			
+		</div>
+		
+		<a ng-show="node.children.length" href ng-click="toggleChildView(node)" style="width:50px !important; text-align:center;"> 
+			<i class="fa fa-angle-{{node.expanded?'down':'right'}}"></i>
+		</a>
+		
+		{{node.label}} <!--[{{selectedRole.permissions[node.data.name].role_permission_id}} {{selectedRole.permissions[node.data.name].allowed}} ]-->
+	</div>
+    <div ng-show="node.expanded" classs="col-md-12" style="padding-left:20px;padding-right:0;">
+        <div  ng-repeat="node in node.children" styles="font-size:0.95em" ng-include ="'permissionsTree.html'" ngs-include-replace>
+        </div>
+    </div>
+</div>
+</script>
+
+<div class="permission-tree" ng-repeat="node in treeManager.tree" data-level={{acctLevel=1}}  ng-include ="'permissionsTree.html'">
+</div>
+

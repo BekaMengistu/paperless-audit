@@ -1,0 +1,182 @@
+<div class="modal fade" id="modalFieldEdit">
+    <div class="left w-xxl white b-r" style="width:550px;">
+        <div class="row-col ng-scope">
+            <a data-dismiss="modal" class="pull-right text-muted text-lg p-a-sm m-r-sm">×</a>
+            <div class="p-a b-b dker">
+                <span class="h5">Edit Form Field </span>
+            </div>
+            <div class="row-row">
+                <div class="row-body">
+                    <div class="row-inner p-x">
+                        <form>
+                            <div class="row row-sm p-b">
+                                <!--Label-->
+                                <div class="col-sm-6 p-x">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtlabel' ng-model='editedFormFieldTemplate.label' required>
+                                        <label>Label</label>
+                                    </div>
+                                </div>
+                                <!--name-->
+                                <div class="col-sm-6 p-x">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtname' ng-model='editedFormFieldTemplate.name' required>
+                                        <label>Name</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row light p-b">
+                                <!-- Data Type -->
+                                <div class="col-md-6 p-x">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtdata_type' ng-model='editedFormFieldTemplate.data_type' style="width:40%; display:inline;" bs-typeahead bs-options="opt.name as opt.name for opt in formManager.customLookups.lookupValues['Input Types']" required>
+                                        <select class='md-input' placeholder="Select Work" style="width:49%; display:inline;" ng-model="editedFormFieldTemplate.data_type" ng-change="onFieldTypeChange(editedFormFieldTemplate)" ng-options="opt.label as opt.value  for opt in app.Manager.LookupManager.lookups.input_type">
+                                        </select>
+                                        <label>Data Type</label>
+                                    </div>
+                                </div>
+
+                                <!-- default_value -->
+                                <div class="col-sm-6 p-x" ng-hide="editedFormFieldTemplate.isObject">
+                                    <div class="md-form-group" ng-include="editedFormFieldTemplate.designValueEditor">
+                                        <input ngs-hide="editedFormFieldTemplate.lookup_id" class='md-input' id='txtdefault_value' ng-model='editedFormFieldTemplate.default_value' required>
+                                        <select ng-show="editedFormFieldTemplate.lookup_id" class='md-input' ng-model="editedFormFieldTemplate.default_value" ng-options="opt.value as opt.label for opt in app.Manager.LookupManager.lookups[editedFormFieldTemplate.lookup_id]"></select>
+
+                                        <label>Default Value</label>
+                                    </div>
+                                </div>
+                                <!-- Section -->
+                                <div class="col-sm-6" ng-show="editedFormFieldTemplate.isObject">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtsection_id' ng-model='editedFormFieldTemplate.section_id'>
+                                        <label>Section</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div ng-hide="editedFormFieldTemplate.isObject">
+                                <div class="row" style="display:none;">
+                                    <!-- placeholder -->
+                                    <div class="col-sm-6">
+                                        <div class="md-form-group">
+                                            <input class='md-input' id='txtplaceholder' ng-model='editedFormFieldTemplate.placeholder' required>
+                                            <label>Placeholder</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- Lookup -->
+                                    <div class="col-md-12 p-x">
+                                        <div class="md-form-group">
+                                            <input class='md-input' id='txtlookup_id' ng-model='editedFormFieldTemplate.lookup_id' style="width:49%; display:inline;" required>
+                                            <select class='md-input' style="width:49%; display:inline;" ng-model="editedFormFieldTemplate.lookup_id" ng-options="opt.name as opt.name for opt in app.Manager.LookupManager.appLookupNames">
+                                            </select>
+                                            <label>Lookup</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row p-y-sm">
+                                <!-- Required -->
+                                <div class="col-sm-4">
+                                    <label class="md-switch">
+                                        <input type="checkbox" ng-model="editedFormFieldTemplate.requiredBool" ng-click="editedFormFieldTemplate.required=editedFormFieldTemplate.requiredBool?1:0">
+                                        <i class="primary"></i>
+                                        Required
+                                    </label>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="md-switch">
+                                        <input type="checkbox" ng-model="editedFormFieldTemplate.repeatingBool" ng-click="editedFormFieldTemplate.repeating=editedFormFieldTemplate.repeatingBool?1:0">
+                                        <i class="primary"></i> Repeating</label>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="md-switch">
+                                        <input type="checkbox" ng-model="editedFormFieldTemplate.archivedBool" ng-change="editedFormFieldTemplate.archived=editedFormFieldTemplate.archivedBool?1:0">
+                                        <i class="danger"></i> Archived</label>
+                                </div>
+                            </div>
+                            <div ng-show="editedFormFieldTemplate.isObject">
+                                <div class="md-form-group">
+                                    <textarea class='md-input' style="height:300px; line-height:1.8em; background-color:#F8F8F8; colors:#FFF;" id='txtcustome_script' ng-model='editedFormFieldTemplate.custom_script'></textarea>
+                                    <label class="b-b b-b-2x b-primary">Calculations</label>
+                                </div>
+
+                            </div>
+
+                            
+                            
+                            <div class="row light p-x" style="display: none;">
+                                
+
+                                <!-- Width -->
+                                <div class="col-sm-4">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtwidth' ng-model='editedFormFieldTemplate.width' required>
+                                        <label>Width</label>
+                                    </div>
+                                </div>
+
+                                <!-- display_order -->
+                                <div class="col-sm-4">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtdisplay_order' ng-model='editedFormFieldTemplate.display_order' required>
+                                        <label>Display Order</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: none;">
+                            <div class="row light">
+                                <!-- container_template -->
+                                <div class="col-sm-6">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtcontainer_template' ng-model='editedFormFieldTemplate.container_template' required>
+                                        <label>Container Template</label>
+                                    </div>
+                                </div>
+
+                                <!-- field_template -->
+                                <div class="col-sm-6">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtfield_template' ng-model='editedFormFieldTemplate.field_template' required>
+                                        <label>Field Template</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <!-- parent_type -->
+                                <div class="col-sm-6">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtparent_type' ng-model='editedFormFieldTemplate.parent_type' required>
+                                        <label>Parent Type</label>
+                                    </div>
+                                </div>
+
+                                <!-- parent_id -->
+                                <div class="col-sm-6">
+                                    <div class="md-form-group">
+                                        <input class='md-input' id='txtparent_id' ng-model='editedFormFieldTemplate.parent_id' required>
+                                        <label>Parent Id</label>
+                                    </div>
+                                </div>
+                            </div>
+                                </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="p-a b-t dker text-right">
+                <span class="text-primary-hover">
+                    <a class="" href="" ng-click="saveField(editedFormFieldTemplate)">
+                        <i class="fa fa-check"></i> Ok &nbsp;</a> &nbsp;
+                </span>
+                <span class="text-warning-hover">
+                    <a href="" data-dismiss="modal" class="m-h texts-warning"><i class="fa fa-fw fa-times"></i> Cancel</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+
+	<div ng-include="'app/FormBuilder/content/field_preview_template.html'">
+	</div>
+
+<div class="p-a" ngs-show="form_value_id">
+	
+    <h4 class="m-b">{{valueManager.editedItem.description}}</h4>
+	
+    
+	<div class="row">
+		<div ng-repeat=" fld in customForm.manager.FormTemplate.fields" class="col-md-{{fld.data.width}}">
+			<div ng-include="fld.data.template.container">
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,47 @@
+<script type="text/ng-template" id="forms.list.big.html">
+<div class="padding">
+	<div class="row">
+		<div class="col-sm-6 col-md-4" ng-repeat="item in customForm.manager.FormTemplate.items"
+             bm-ui-permission="app.form.{{item.name}}" login-user="app.loginUser"
+             >
+			<div class="boxs dashboard-box m-b light"  >
+				<div class="box-header info">
+          <h3>{{item.label}}</h3>
+          <div class="box-tool">
+            <ul class="nav">
+              <li class="nav-item inline">
+                <a class="nav-link" ui-sref="app.tools.form.design.detail({form_template_id:item.form_template_id})" uib-tooltip="Design"
+                   bm-ui-permission="app.form.{{item.name}}.design" login-user="app.loginUser">
+                  <i class="fa fa-wrench"></i> &nbsp;
+                </a>
+              </li>
+							<li class="nav-item inline">
+                <a class="nav-link" uib-tooltip="Fill" ui-sref="{{valueManager.listEditor.url}}({form_template_id:item.form_template_id})">
+                  <i class="fa fa-list-alt"></i> &nbsp;
+                </a>
+              </li>
+							
+							
+              <li class="nav-item inline dropdown" bm-ui-permission="app.form.{{item.name}}.design" login-user="app.loginUser">
+                <a class="nav-link" data-toggle="dropdown">
+                  <i class="fa fa-ellipsis-v"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-scale pull-right">
+                  <a class="dropdown-item" href="">Publish</a>
+                  <a class="dropdown-item" href="">Archive</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item">Stat</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+				<div class="box-body">{{item.description}}</div>
+                {{item.name}}
+			</div>
+		</div>
+		
+	</div>
+</div>
+</script>
+<div ng-include="'app/core/templates/page.multi.col.html'"></div>

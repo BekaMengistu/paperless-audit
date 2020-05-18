@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <form name="form" ng-submit="registerApp()" class="p-a-md">
+            
+        <div class="modal-content box-shadow-md ">
+  			<div class="modal-header purple-500">
+  			    <h5 class="modal-title">App Activation Required!</h5>
+  			</div>
+  			<div class="modal-body p-x-lg">
+  			   <div class="md-form-group"> 
+                    <input class="md-input" ng-model="app.authentication.requestKey" readonly required="">
+                    <label class="non-select">Request Code</label>
+                </div>
+  			   <div class="md-form-group"> 
+                    <input class="md-input" ng-model="app.authentication.licenceKey" required="">
+                    <label class="non-select">License Key</label>
+                </div>
+                <div class="p-a text-sm">{{app.authentication.message}}</div>
+  		    </div>
+  			<div class="modal-footer dker">                  
+  			    <button type="submit" class="btn purple-700">Register</button>
+  			</div>
+  		</div>
+        </form>
+    </div>
+    <div class="col-md-3"></div>
+    
+</div>

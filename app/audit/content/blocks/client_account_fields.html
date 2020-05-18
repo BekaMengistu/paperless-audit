@@ -1,0 +1,37 @@
+
+            <form>
+								<div class="row row-sm">
+                    <div class="col-sm-4">
+										<div class="md-form-group">
+                            <input class='md-input' id='txtaccount_id' ng-model='editedAccount.account_id' required>
+                            <label>Account Id {{editedAccount.audit_client_trialbalance_id}}</label>
+                        </div>
+										</div>
+                    <div class="col-sm-4">
+											<div class="md-form-group">
+                            <input class='md-input' id='txtaccount_description' ng-model='editedAccount.account_description' required>
+                            <label>Account Description</label>
+                        </div>
+										</div>
+										<div class="col-sm-4">
+											<div class="md-form-group">
+                            <input class='md-input' id='txtaccount_type' ng-model='editedAccount.account_type' required>
+                            <label>Account Type</label>
+                        </div>
+										</div>
+								</div>
+																					<div class="p-t">
+														Grouping {{editedAccount.parent_code}}
+															<ui-select ng-model="editedAccount.parentGrouping" theme="bootstrap" ng-change="editedAccount.parent_code=editedAccount.parentGrouping.grouping_code">
+                                        <ui-select-match class="ui-select-match" placeholder="Grouping...">{{$select.selected.grouping_name}}
+																					<small class="text-muted"> [{{$select.selected.grouping_code}}]</small>
+																				</ui-select-match>
+                                        <ui-select-choices class="ui-select-choices" repeat="gp in auditManager.currentAudit.validMappingKeys | filter: $select.search"> 
+																					<div ng-bind-html="gp.grouping_name | highlight: $select.search"></div> 
+																					[<small ng-bind-html="gp.grouping_code | highlight: $select.search"></small>] </ui-select-choices>
+                                    </ui-select>
+													</div>
+
+																										
+            </form>
+        

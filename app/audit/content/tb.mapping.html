@@ -1,0 +1,111 @@
+<style>
+.tb-suggested {
+	color: #090;
+}
+.tb-unmapped {
+	color: #C30;
+}
+    .default_tb_1 {opacity: 0.5}
+</style>
+<div class="padding" bm-ui-permission="app.crud.audit_client_trialbalance" login-user="app.loginUser">
+    <div ng-if="audit_client_trialbalanceManager.dataImportManager.windowVisible">
+        <span  ng-include="audit_client_trialbalanceManager.dataImportManager.importOptions.templatePath" ></span>
+    </div>
+    <div class="box">
+        <div class="box-header {{audit_client_trialbalanceManager.formData.list.headerStyle}}">
+            <h2>Account Mapping [{{auditManager.currentAudit.clientTB.length}}]</h2>
+            <small></small>
+        </div>
+        <div class="box-tool">
+            <ul class="nav" >
+                <li class="nav-item inline">
+                    <input id="filter_AuditClientTrialbalance" type="text" placeholder="Search" class="form-control input-sm w-auto inline m-r"/>
+                </li>
+                <li class="nav-item inline">
+                    <button class="btn btn-default btn-sm" ng-click="showCreateAccountModal()"><i class="fa fa-plus"></i></button>
+                </li>
+								<li class="nav-item inline">
+									<button class="btn btn-default btn-sm" ng-click="exportClientTb()"><i class="fa fa-cloud-download"></i></button>
+								</li>
+                <li style="display:none;" class="nav-item inline dropdown"> 
+									<a class="nav-link" data-toggle="dropdown"> <i class="fa fa-bars"></i> </a>
+                    <div class="dropdown-menu pull-right">
+                        <a class="dropdown-item" href="" ng-click="reloaMappingdData()"><i class="fa fa-refresh"></i> Refresh</a>
+                        <div class="dropdown-divider">
+                        </div>
+                        <div class="dropdown-item dropdown-submenu">
+                            <a tabindex="-1" href=""><i class="fa fa-cloud-download"></i> Export</a>
+                            <div class="dropdown-menu pull-left" role="menu">
+                                <a class="dropdown-item" href=""><i class="fa  fa-file-excel-o"></i> Excel</a> <a class="dropdown-item" href=""><i class="fa  fa-file-word-o"></i> Word</a> <a class="dropdown-item" href=""><i class="fa  fa-file-pdf-o"></i> PDF</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item dropdown-submenu">
+                            <a tabindex="-1" href=""><i class="fa fa-cloud-upload"></i> Import</a>
+                            <div class="dropdown-menu pull-left" role="menu">
+                                <a class="dropdown-item" href="" ng-click="dataImportManager.showImportWindow('Excel')"><i class="fa  fa-file-excel-o"></i> Excel</a> <a class="dropdown-item" href=""><i class="fa  fa-file-word-o"></i> Word</a> <a class="dropdown-item" href=""><i class="fa  fa-file-pdf-o"></i> PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            &nbsp;
+        </div>
+        <div class="boxs-body">
+            <button style="display:none;" class="btn btn-default" ng-click="saveAll(0)">Save</button>
+            <div class="table-responsive">
+                <table class="table table-sm table-hover m-b-none" ui-jp="footable"  data-filter="#filter_AuditClientTrialbalance" datas-page-size="20">
+                    <thead>
+                        <tr>
+                            <th style="width:30px;" data-sortable="false"></th>
+                            <th style="width:250px;">Grouping</th>
+                            <th>Account</th>
+                            <th>Acct Type</th>
+                            <th  class="number">Debit</th>
+                            <th  class="number">Credit</th>
+                            <th class="number deep-purple-100 year1_balance">Bal-{{auditManager.currentAudit.engagementOutput.year1Label}}</th>
+                            <th class="number deep-purple-200 year2_balance">Bal-{{auditManager.currentAudit.engagementOutput.year2Label}}</th>
+                            <th ></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="item in auditManager.currentAudit.clientTB track by $index" ng-if="item.is_default*1<1" class="tb-{{item.status}} default_tb_{{item.is_default}}">
+                            <td>
+														<button style="display:none;" class="btn btn-info btn-xs" ng-click="editClientAccount(item)"><i class="fa fa-edit"></i></button>
+														 <i ng-show="item.busy" class="fa fa-spin  fa-circle-o-notch"></i></td>
+                            <td><div class="input-group input-group-sm select-small" >
+                                    <ui-select ng-model="item.parentGrouping" theme="bootstrap" style="width:250px;" ng-change="groupingMapChanged(item)">
+                                        <ui-select-match class="ui-select-match" placeholder="Select from the list...">{{$select.selected.grouping_name}}</ui-select-match>
+                                        <ui-select-choices class="ui-select-choices" repeat="gp in auditManager.currentAudit.validMappingKeys | filter: $select.search"> <span ng-bind-html="gp.grouping_name | highlight: $select.search"></span> <small ng-bind-html="item.email | highlight: $select.search"></small> </ui-select-choices>
+                                    </ui-select>
+                                    <span class="input-group-btn">
+																		
+																		<button ng-show="auditManager.currentAudit.clientTB[$index-1].status=='mapped'" ng-click="item.parentGrouping = auditManager.currentAudit.clientTB[$index-1].parentGrouping;groupingMapChanged(item,$index);" class="btn "> 
+																				<span class="fa fa-level-up"></span> 
+																		</button>                                    <button ng-show="item.status=='mapped'" ng-click="item.parentGrouping = undefined;groupingMapChanged(item,$index);" class="btn btn-danger"> 
+																				<span class="fa fa-remove"></span> </button>
+                                    <button ng-show="item.status=='suggested'" ng-click="groupingMapChanged(item,$index);" class="btn white"> <span class="fa fa-check"></span> </button>
+                                    </span>
+                                </div></td>
+                            <td><small>[{{item.account_id}}]&nbsp;</small>{{item.account_description}}</td>
+                            <td>{{item.account_type}}</td>
+                            <td class="number">{{item.debit | number : 2}}</td>
+                            <td class="number">{{item.credit | number : 2}}</td>
+                            <td class="number deep-purple-50 year1_balance">{{item.last_fye_balance | number : 2}}</td>
+                            <td class="number deep-purple-100 year2_balance">{{item.year2_balance | number : 2}}</td>
+                            
+                            <td><span class="{{(item.mapping_checked/1)?'text-primary':'text-warn'}}"> <i class="fa fa-{{(item.mapping_checked/1)?'check':'times'}}"></i>
+                            <span style="display:none;">{{item.mapping_checked}}</span>
+                            </span></td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="hide-if-no-paging">
+                        <tr>
+                            <td colspan="8" class="text-center"><ul class="pagination">
+                                </ul></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

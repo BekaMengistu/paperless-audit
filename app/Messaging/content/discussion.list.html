@@ -1,0 +1,12 @@
+    <div class="list box">
+        <a ng-repeat="item in discussionManager.discussionsList track by $index" class="list-item {{item.discussion_id==activeDiscussionId?'dker':''}}" 
+        	uis-sref='app.messaging.detail({discussion_id:item.discussion_id})' ng-click="onDiscussionClick(item.discussion_id)">
+          <div class="list-left">
+            <img ng-src="files/uploads/{{userHash['user'+item.user_id].profile_picture}}" class="w-40 circle">
+          </div>
+          <div class="list-body">
+            <span href="" class="_500">{{item.discussion_name}}</span>
+            <small class="block text-muted">{{item.post_time|date}}</small>
+          </div>
+        </a>
+      </div>

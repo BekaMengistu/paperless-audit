@@ -1,0 +1,37 @@
+<style>
+    .info-save {display: none;}
+</style>
+<div ng-if="formInitialized">
+
+<div class="pull-left">
+    <button class="btn accent btn-sm" uib-tooltip="Download {{activeSectionId}}" 
+        ng-click="formManager.exportSectionToExcel(activeSectionId)"> <i class="fa fa-file-excel-o"></i> </button> &nbsp;
+</div>
+<h4 style="margin-top:-30px; margin-bottom: 20px;">{{activeForm.label}} Form Data <small class="text-muted">{{activeSectionId}}</small></h4>
+<script type="text/ng-template" id="auditform.value.editor-2col.html">
+    <div class="row">
+        <div ng-repeat=" fld in formManager.FormTemplate.fields" class="col-md-6">
+            <div class="row">
+                <div class="col-md-{{fld.data.width}}">
+                    <div ng-include="fld.data.template.container"></div>
+                </div>
+            </div>
+        </div> 
+        <div ng-repeat=" fld in formManager.FormTemplate.fields" class="col-md-{{fld.data.width}}">
+            
+        </div>
+    </div>
+</script>
+<script type="text/ng-template" id="auditform.value.editor.html">
+    <div class="row">
+        
+        <div ng-repeat=" fld in formManager.FormTemplate.fields" 
+             bm-ui-permission="app.form.{{formManager.FormTemplate.editedItem.name}}.{{fld.data.name}}" login-user="app.loginUser"
+             ng-show="activeSectionId==fld.data.section_id" class="col-md-{{fld.data.width}}">
+            <div ng-include="fld.data.template.container"></div>
+        </div>
+    </div>
+</script>
+    
+<div ng-include="'app/FormBuilder/content/field_templates2.html'"></div>
+</div>

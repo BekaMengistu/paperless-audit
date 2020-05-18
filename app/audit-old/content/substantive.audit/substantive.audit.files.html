@@ -1,0 +1,36 @@
+<script type="text/ng-template" id="auditDocumentTree">
+<div bm-ui-permission="{{node.data.permission}}" login-user="app.loginUser" 
+	ng-show="node.data.system_name=='substantive_audit' || ((selectedFindingData.account.entity_type + '_' + selectedFindingData.account.id)==node.data.parent_type)">
+	<div class="tree-line b-b" ng-class="{'dker': node.data.document_id== documentManager.editedDocument.document_id}">&nbsp;
+	
+		<div class="pull-right p-r-sm tool">
+			<button class="btn editor btn-danger btn-xs" ng-hide="node.children.length" ng-click="documentManager.deleteDocument(node)"><i class="fa fa-trash"></i></button>
+			<button class="btn editor btn-default btn-xs" ng-click="documentManager.addDocument(node)"><i class="fa fa-plus"></i></button>
+    		
+			<span ng-if="documentManager.uploaderBuilt && node.data.upload_type!='none'" class="btn btn-primary btn-xs file-btn-xs"  style="padding:0;">&nbsp;<i class="fa fa-cloud-upload"></i>
+				<input ng-show="node.data.upload_type=='multiple'" type="file" multiple  nv-file-select="xlsx,xls,png" uploader="documentManager.uploader" ng-click="documentManager.onUploadClick(node.data)"/>
+				<input ng-hide="node.data.upload_type=='multiple'" type="file"  nv-file-select="xlsx,xls,png" uploader="documentManager.uploader" ng-click="documentManager.onUploadClick(node.data)"/>
+			</span>
+			
+		</div>
+		
+		<a ng-show="node.children.length" href ng-click="documentManager.treeManager.toggleChildView(node)" class="toggle-btn"> 
+			<i class="fa fa-angle-{{node.expanded?'down':'right'}}"></i>
+		</a>
+		<a ng-hide="node.children.length" href class="toggle-btn"> </a>
+		<a href ng-click="documentManager.onDocumentSelect(node.data)"><span class="doc-template-{{node.data.isTemplate}}">{{node.label}}</span></a>
+	</div>
+	<div ng-show="node.expanded" class="p-l">
+		<div  ng-repeat="node in node.children" styles="font-size:0.95em" ng-include ="'auditDocumentTree'" ngs-include-replace>
+		</div>
+	</div>
+</div>
+</script>
+
+
+<div class="list inset">
+	
+    <div class="tree" ng-repeat="node in documentManager.treeManager.tree" ng-include ="'auditDocumentTree'">
+    </div>
+  
+</div>

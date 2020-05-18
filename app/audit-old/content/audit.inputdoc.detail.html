@@ -1,0 +1,22 @@
+<div class="p-a-xs">
+	<h3>Input Documents</h3>
+    
+    <div ng-repeat="doc in inputDocsList" class="box">
+    	<div class="box-body">
+            <div class="pull-right" ng-if="doc.docNode.data.document_path && doc.importParam">
+							<span ng-show="doc.message">{{doc.message}} : </span>
+                {{audit_engagement_id}}
+            	<button ng-click="importFile(doc)" class="btn btn-sm btn-{{!doc.recordLen?'primary':'default'}}">Import</button>
+            </div>
+
+    		<strong>{{doc.docNode.label}}: </strong>
+            <span ng-if="!doc.docNode.data.document_path">no file uploaded. Please upload on the list.</span>
+            
+            <span ng-if="doc.importParam"> &nbsp; Database contains {{doc.recordLen}} records
+            	
+            </span>
+            
+             <!--{{doc.docNode.data.document_path}}-->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<div class="padding">
+	<div class="row">
+		<div class="col-sm-6 col-md-4">
+			<div class="boxs dashboard-box m-b dark"  >
+				<a ui-sref="{{valueManager.detailEditor.url}}({form_template_id:form_template_id,form_value_id:0})">
+					<div class="box-body text-md"><i class="fa fa-plus"></i> Add New</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-sm-6 col-md-4" ng-repeat="item in templateManager.editedItem.formValues">
+			<div class="boxs dashboard-box m-b light"  >
+				<a ui-sref="{{valueManager.detailEditor.url}}({form_template_id:item.form_template_id,form_value_id:item.form_value_id})">
+					<div class="box-body text-md"><i class="fa fa-edit"></i> {{item.description}}</div>
+				</a>
+			</div>
+		</div>
+		
+	</div>
+</div>

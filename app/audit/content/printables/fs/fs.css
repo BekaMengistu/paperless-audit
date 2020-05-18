@@ -1,0 +1,334 @@
+.fs-page-footer {height: 35mm; border-top: solid 1px darkviolet; margin-left:-20mm;}
+.footer-no-qr {}
+.page-container .page-header2 {border-bottom:solid 1px darkviolet;}
+.printable-fs {
+        font-size: 14px;
+        font-family: "arial";
+        color:#333 !important; 
+        line-height: 1.5; 
+    }
+
+
+.print-watermark {position: fixed;top:0;left:0;bottom:0;right:0;}
+
+.print-watermark .md-text {font-size:50px;}
+
+.page .page-header-container {padding-bottom:5mm;}
+
+.page .page-footer-container,.printable-fs .fixed-footer-container {padding-bottom:3mm; padding-top:10mm;font-style: italic;background-color: white; font-size:11px;}
+
+.printable-fs .page-footer2 {padding-top:1px;  border-top: solid 1px darkviolet;}
+
+.fixed-footer-container {position: fixed; bottom:0; left:0mm; right:0mm; z-index: 1000;}
+
+
+.page-with-letterhead .page-header-container {vertical-align: top; padding-top: 0;}
+
+.page-with-letterhead .page-content {}
+
+.printable-fs .page-header-container .title {padding-top:5mm; padding-bottom:5mm;padding-left:20mm;}
+
+.printable-fs .letterhead,.printable-fs .page-header-container  .title {border-bottom: solid 1px darkviolet; padding-bottoms: 2mm;}
+
+.printable-fs .toc .page-header-container,.printable-fs .about-firm .page-header-container {padding-top:2em;}
+
+.printable-fs h1,.printable-fs h2 ,.printable-fs h3, .printable-fs h4 
+    {
+    font-weight: bold; font-size:1em;    letter-spacing: 0.1em; word-spacing: 0.4em; margin-top:0.5em;
+    }
+.printable-fs  .title {
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 1em;
+        line-height: 1.5em; 
+        text-align: left;
+    }
+.printable-fs  .fs-title .title1, .printable-fs  .fs-title .title2 {
+        letter-spacing: 0.15em; word-spacing: 0.4em;
+    }
+
+    .printable-fs  .fs-title .title3 {
+        opacity: 0.8;
+        /* text-decoration: underline;
+       padding-top:12px;*/
+    }
+.printable-fs .cover .qr-code {visibility: hidden;}
+.printable-fs .cover .qr-hider {position: absolute;right:0;bottom:0;width:100px;height: 100px;background-color: rgba(0,0,100,0.5);}
+.printable-fs .cover .middle-title 
+    {position:absolute;top:50%; margin-top:-60px; left:0;width:100%;min-height:110px; padding-top:5px;padding-bottom:5px; border-bottom:solid 1px #4C2B51;border-top:solid 1px #4C2B51; font-size:1em; text-transform: uppercase;}
+.printable-fs .full-page .page-content {height: 220mm;position: relative; background-color: #FFF;}
+
+.printable-fs .toc {}
+
+.printable-fs .fs-page-number {position: absolute;background-color:#FFF;color:darkviolet;font-size: 1.4em;width:60px; height: 30px; 
+     line-height: 30px; text-align: center; borders: solid 1px darkviolet;}    
+
+.printable-fs .page-number-position {position: absolute;top:0px; right: 20mm; width:60px;height: 36px; border-bottom: solid 4px darkviolet; }
+/*
+.printable-fs .hidden-year2_balance .year2_balance 
+    ,.printable-fs .hidden-year1_balance  .year1_balance 
+    ,.printable-fs .hidden-difference0  .difference0 
+    ,.printable-fs .hidden-difference1  .difference1  {display:none; width: 0;}*/
+
+.year1-hidden-true .printable-fs  .year1_balance,
+ .year2-hidden-true .printable-fs .year2_balance,
+  .year3-hidden-true   .printable-fs .year3_balance {display: none;}
+
+.printable-fs p {margin-top:0.5em; margin-bottom: 0.5em;}
+
+.hide-row-true ,.financial-statement .hidden-row.row-0 {opacity:0.5; display: none;}
+
+.financial-statement .fs-note {margin-top:5mm;}
+ .financial-statement .fs-content
+{
+   /* border: solid 1px #ff0;*/
+}
+.financial-statement .fs-content table tr th ,.financial-statement .fs-content table .report-header
+{
+        border-bottom: solid 1px #666;
+        font-weight: bold;
+        border-top:none;
+}
+
+.financial-statement .fs-content table tbody tr:first-child td {padding-top:24px;}
+
+.financial-statement .fs-content table tr td {
+        border-top: none;
+        border-bottom: none;
+    }
+    
+    .financial-statement .fs-content table tr td {
+        border-top: none;
+        border-bottom: none;
+    }
+    .financial-statement .disclosure-note {margin-top:0.5em;margin-bottom: 0.5em; colors: red;}
+     .financial-statement .sub-note .note-index {font-weight: bold;}
+
+    .financial-statement .web-text-report {colors:cadetblue;}
+    .no-number .number {
+        
+        display:none;
+    }
+    
+    
+    
+
+    
+    .financial-statement .total .acct-label::before {content: "Total "}
+    
+    .number-only  .acct-label *{
+        
+        display:none;
+    }
+.financial-statement .number-only.total .acct-label::before {content: ""}
+
+    .financial-statement .acct-level-1,
+    .financial-statement .acct-level-2 {
+        font-weight: bold;
+    }
+
+    .financial-statement .acct-level-1 {
+        /*text-transform: uppercase;*/
+        
+    }
+    
+    .financial-statement .b-b .number {
+        border-bottom: solid 1px #999;
+    }
+.financial-statement .b-t .number {
+        border-top: solid 1px #999;
+    }
+/*
+    .financial-statement .acct-level-1 td {
+        padding-top: 1em;
+    }
+
+    .financial-statement .acct-level-2 .acct-label {
+        padding-left: 1em;
+    }
+
+    .financial-statement .acct-level-3 .acct-label {
+        padding-left: 2em;
+    }
+
+    .financial-statement .acct-level-4 .acct-label {
+        padding-left: 2.5em;
+    }
+
+    .financial-statement .acct-level-5 .acct-label {
+        padding-left: 3em;
+    }
+
+    .financial-statement .acct-level-6 .acct-label {
+        padding-left: 3.5em;
+    }
+    .financial-statement .acct-level-7 .acct-label {
+        padding-left: 4em;
+    }
+    .financial-statement .acct-level-8 .acct-label {
+        padding-left: 4.5em;
+    }
+    .financial-statement .acct-level-9 .acct-label {
+        padding-left: 5em;
+    }
+    .financial-statement .acct-level-10 .acct-label {
+        padding-left: 5.5em;
+    }
+*/
+    .financial-statement .acct-total .acct-label {
+        paddings-bottom: 1em;
+    }
+    
+    .financial-statement .total,.financial-statement .total-label
+    {
+        font-weight: bold;
+    }
+
+    .financial-statement .total .number {
+        border-top:solid 1px #999; 
+        border-bottom: solid 1px #999;
+    }
+    
+    
+    .financial-statement .acct-level-1.acct-total .number,.financial-statement .acct-level-1.total .number {
+        border-bottom: double #333;
+    }
+    .financial-statement .acct-total .number
+    {
+          border-top: solid 1px #666;  
+    }
+    .resizable-div {
+        background-color: #FF0;
+    }
+
+    .printable .page-container {
+        width: 100%;
+        
+        background-color: #FCFCFC;
+    }
+
+
+    .page-spacer {
+        border-left: solid 1px #FFE;
+    }
+
+    .page-content {
+        backgrounds-color: #FEFEFE;
+    }
+
+.fs-designer {font-size: 12px; color: blueviolet;}
+.printable-fs .web-content {text-align: justify;}
+.custom-report {colors: blueviolet;}
+
+.page .landscape .page-content
+{
+    height:220mm;
+    vertical-align:top;
+    position: relative;
+}
+.page .landscape .content {
+    position: absolute;top:0;left:10mm;width:220mm;
+    height: auto;
+    transform: rotate(270deg) translate(-220mm, 0);
+    transform-origin: 0 0;
+  }
+page .landscape .content2 {
+    transform: rotate(270deg) translate(-276mm, 0);
+    transform-origin: 0 0;
+  }
+
+    @media screen {
+        .print-watermark  {display: none;}
+        .page {
+            margin-bottom: 10mm;
+            box-shadow: 0px 0px 2px 2px #888;
+            box-sizing: border-box;
+            background-color: #FFF;
+            
+            width: 212mm;
+        }
+        .page-content {            
+            padding-left: 25mm;
+            padding-right: 15mm;
+            padding-tops: 10mm;
+            }
+        .page.portrait {
+            width: 212mm;
+        }
+        
+        .page.landscape {
+            width: 297mm;
+        }
+
+        .printable {
+            margin-top: 70px;
+        }
+        .fixed-header {display: none;}
+        .fixed-footer {display: none;}
+        .fixed-footer-container {display: none;}
+    }
+
+    @media print {
+        body {background-color: white;}
+        .fs-page-footer {border-top:none;}
+        
+        .qr-hider2 {position: absolute;left:0;width:100px;top:0;height: 140px; border: solid 1px #F00; background: #FFF;}
+        
+        @page {
+            /*size: a4;*/
+            margin-left: 20mm;
+            margin-top: 1mm;
+            margin-bottom: 1mm;
+        }
+
+        @page :first {
+            opacity:0 !important;
+            background-color: blue;
+            
+        }
+        
+        
+        
+        
+        
+        .page .page-footer2 {visibility: hidden;}
+        /*
+        @page :right {
+            margin-left: 10mm;
+            margin-right: 0mm;
+            
+        }
+
+        @page :left {
+            margin-right: 10mm;
+            margin-left: 0mm;
+        }
+        */
+        
+        /*.fs-page-footer  {opacity: 0; border-top: none;}*/
+        .printable-fs {margin-top: -15mm;}
+        .fixed-header {position: fixed; top:2.5mm; left:0mm;right:0mm; rights:17mm;height: 25mm; border-bottom: solid 1px darkviolet}
+        .fixed-footer {}
+        
+        .page-container .page-header2 {borders-bottom:solid 1px #908; borders-top:solid 1px #908; }
+        .page-container .page-header2 tr td {height: 35mm;}
+        
+        
+        .page-container .page-content {padding-left:25mm; padding-right: 15mm;paddings-top:10mm;}
+        .printable .page {
+            page-break-after: always;
+        }
+
+        .printable .no-page-break,
+        .printable p {
+            page-break-inside: avoid;
+        }
+
+        .printable .new-page {
+            page-break-before: always !important;
+        }
+        .printable-fs .full-page .page {height: 297mm;}
+        .printable-fs .full-page .page-gutter {width:100%;borders: solid 1px #000;background-color: #FFF;}
+
+    }
+

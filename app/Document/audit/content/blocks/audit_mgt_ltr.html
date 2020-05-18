@@ -1,0 +1,74 @@
+<div class="row no-gutter">
+    <div class="col-md-3">
+        <div class="nav-active-border b-warn left right">
+            <ul class="nav nav-sm" style="text-align:right;">
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="activeTabLtr='tab_ltr_qp'" ng-class="{'active':activeTabLtr=='tab_ltr_qp'}" href>Qualification Points</a> 
+                </li>
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="activeTabLtr='tab_ltr_dn'" ng-class="{'active':(activeTabLtr=='tab_ltr_dn')}" href>Disclosure Notes</a> 
+                </li>
+
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="activeTabLtr='tab_ltr_ltr'" ng-class="{'active':(activeTabLtr=='tab_ltr_ltr' || !activeTabLtr)}" href>Management Letter</a> 
+                </li>
+                <li class="nav-item"> 
+                	<a class="nav-link block" ng-click="activeTabLtr='tab_ltr_resp'" ng-class="{'active':activeTabLtr=='tab_ltr_resp'}" href>Management Response</a> 
+                </li>
+            </ul>
+            <div class="p-a" style="text-align:right;">
+            	<i ng-show="statusBusy" class="fa fa-spin  fa-circle-o-notch"></i>
+            	<button type="button" class="btn warn p-x-md" ng-disabled="statusBusy" ng-click="saveLetter(selectedFindingData.managementLetter)"><i class="fa fa-floppy-o"></i></button>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+    	<div class="tab-content p-r">
+        
+            <div class="tab-pane animated fadeIn text-muted" id="tab_ltr_ltr" ng-class="{'active':(activeTabLtr=='tab_ltr_ltr' || !activeTabLtr)}">
+                <textarea class="b-a b-warn"  ng-model="selectedFindingData.managementLetter.content" bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.management_letter">
+								</textarea>
+                <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+ 	                       <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.managementLetter.content" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.management_letter"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+            </div>
+            <div class="tab-pane animated fadeIn text-muted" id="tab_ltr_qp" ng-class="{'active':activeTabLtr=='tab_ltr_qp'}">
+                <textarea class="b-a b-warn"  ng-model="selectedFindingData.managementLetter.qualification_point" bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.qualification_point"></textarea>
+                <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+ 	                       <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.managementLetter.qualification_point" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.qualification_point"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+            </div>
+            <div class="tab-pane animated fadeIn text-muted" id="tab_ltr_dn" ng-class="{'active':activeTabLtr=='tab_ltr_dn'}">
+                <textarea class="b-a b-warn"  ng-model="selectedFindingData.managementLetter.disclosure_note" bs-typeahead bs-options="opt.description as opt.description for opt in customLookups.disclosure_note"></textarea>
+                <div class="row">
+                 	<div class="col-md-4" style="text-align:right;">Select DN From List</div>
+                	<div class="col-md-8 p-l">
+                		<div class="mds-form-group">
+ 	                       <select class='md-input' placeholder="Select Work" ng-model="selectedFindingData.managementLetter.disclosure_note" 
+                        	ng-options="opt.description as opt.name for opt in customLookups.disclosure_note"></select>
+                    	</div>
+                        
+                    </div>
+                 </div>
+            </div>
+            
+            <div class="tab-pane animated fadeIn text-muted" id="tab_ltr_resp" ng-class="{'active':activeTabLtr=='tab_ltr_resp'}">
+                <textarea class="b-a b-warn"  ng-model="selectedFindingData.managementLetter.response"></textarea>
+            </div>
+        </div>
+    </div>
+</div>

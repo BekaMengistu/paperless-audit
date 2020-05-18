@@ -1,0 +1,49 @@
+<div class="col-sm-12" ng-show="discussionManager.editedDiscussion.discussion_id">
+    <div class="box row-col" style="min-height:550px">
+        <div class="box-header b-b">
+            <strong><i class="fa fa-comments-o"></i> Discussion: </strong>{{discussionManager.editedDiscussion.discussion_name}}
+        </div>
+        <div class="row-row dker">
+            <div class="row-body">
+                <div class="row-inner">
+                    <div class="p-a-md">
+                        <div class="m-b" style="display:none">
+                            <a href class="pull-right w-40 m-r-sm"> <img ng-src="files/uploads/CROPPED-IMG_58772.jpg" class="w-full img-circle"> </a>
+                            <div class="box clear">
+                                
+                                <div class="box-body">
+                                    pull-top
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-b" ng-repeat="item in discussionManager.editedDiscussion.messages track by $index" 
+                                	ngs-show="item.discussion_id==activeDiscussionId">
+                            <a href class="pull-{{item.user_id==app.loginUser.user_id?'left':'right'}} w-40 m-r-sm m-l-sm"> <img ng-src="files/uploads/{{userHash['user'+item.user_id].profile_picture}}" class="w-full img-circle"> </a>
+                            <div class="clear text-{{item.user_id==app.loginUser.user_id?'left':'right'}}">
+                                <div>
+                                    <div class="p-a p-y-sm {{item.user_id==app.loginUser.user_id?'light-blue-50':'dark-white'}}   inline r" ng-bind-html="item.message_body">
+                                    </div>
+                                </div>
+                                <div class="text-muted text-xs m-t-xs">
+                                    <i class="fa fa-fw fa-clock-o"> </i> {{item.message_time|date:"dd MMM, yyyy"}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer b-t">
+            <form>
+                <div class="input-group">
+                    <div class="box m-b-xs" style="height:auto;" ngs-show="htmlEditorDisplayed">
+                        <summernote airsMode config="editorOptions" ng-model="newMessage.message_body"> </summernote>
+                    </div>
+                    <span class="input-group-btn" style="vertical-align:top;">
+                    <button ng-disabled="!newMessage.message_body" class="btn primary b-a no-shadow" type="button" ng-click="sendMessage(newMessage);"> <i class="fa fa-send-o"></i></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
